@@ -374,6 +374,7 @@
               step="0.01"
               required
               oninput="updateBalancePreview()"
+              onkeydown="return event.key !== 'e' && event.key !== 'E' && event.key !== '+' && event.key !== '-'"
             />
           </div>
 
