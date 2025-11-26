@@ -1,0 +1,916 @@
+openapi: 3.0.3
+info:
+  title: PiggyBank Family Banking API
+  description: |
+    RESTful API for managing family virtual banking accounts, allowing parents to track children's allowances, deposits, deductions, and spending requests.
+
+    **Authentication**: JWT Bearer tokens in `Authorization` header
+    **Base URL**: `/api/v1`
+    **Database**: SQLite with pessimistic locking (BEGIN IMMEDIATE transactions)
+    **Concurrency**: Database-level locking ensures transaction serialization
+  version: 1.0.0
+  contact:
+    name: PiggyBank Development Team
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+  - url: https://piggybank.fly.dev/api/v1
+    description: Production server (Fly.io)
+
+tags:
+  - name: Authentication
+    description: Login and token management
+  - name: Families
+    description: Family account management
+  - name: Parents
+    description: Parent admin operations
+  - name: Children
+    description: Child account management
+  - name: Transactions
+    description: Deposits and deductions
+  - name: Requests
+    description: Child-initiated credit/expenditure requests
+  - name: Invitations
+    description: Multi-parent admin invitations
+  - name: Notifications
+    description: In-app notifications
+
+security:
+  - BearerAuth: []
+
+paths:
+  # Authentication Endpoints
+  /auth/register-family:
+    post:
+      tags: [Authentication]
+      summary: Create new family account with founding parent admin
+      description: |
+        Creates a new family account and the first parent admin user. Returns JWT token for immediate login.
+        Implements FR-001 (username/password authentication, no email required).
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 50
+                  pattern: '^[a-zA-Z0-9_]+$'
+                  example: john_doe
+                password:
+                  type: string
+                  minLength: 8
+                  maxLength: 128
+                  example: SecurePassword123
+      responses:
+        '201':
+          description: Family and parent admin created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  token_type:
+                    type: string
+                    example: bearer
+                  family_id:
+                    type: string
+                    format: uuid
+                  parent_admin_id:
+                    type: string
+                    format: uuid
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Username already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Parent admin login
+      description: Authenticate parent admin with username and password. Returns JWT token.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                  example: john_doe
+                password:
+                  type: string
+                  example: SecurePassword123
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: bearer
+                  family_id:
+                    type: string
+                    format: uuid
+                  parent_admin_id:
+                    type: string
+                    format: uuid
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/child-login:
+    post:
+      tags: [Authentication]
+      summary: Child login
+      description: Authenticate child with child ID and PIN code (FR-032). Returns JWT token with child role.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [child_id, pin]
+              properties:
+                child_id:
+                  type: string
+                  format: uuid
+                  example: 550e8400-e29b-41d4-a716-446655440000
+                pin:
+                  type: string
+                  minLength: 4
+                  maxLength: 6
+                  pattern: '^\d{4,6}$'
+                  example: "1234"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: bearer
+                  child_id:
+                    type: string
+                    format: uuid
+                  family_id:
+                    type: string
+                    format: uuid
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # Children Endpoints
+  /children:
+    get:
+      tags: [Children]
+      summary: List all children in family
+      description: Returns all children for the authenticated parent's family (FR-006). Children can only see themselves.
+      responses:
+        '200':
+          description: List of children
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Child'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags: [Children]
+      summary: Add new child account
+      description: |
+        Create a new child account in the family. Parent admins only (FR-002).
+        Sets name, avatar, PIN, and initializes balance to $0.00.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChildRequest'
+      responses:
+        '201':
+          description: Child account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Child'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /children/{child_id}:
+    get:
+      tags: [Children]
+      summary: Get child account details
+      description: Returns child account information. Parents see all children, children see only themselves (FR-007).
+      parameters:
+        - $ref: '#/components/parameters/ChildId'
+      responses:
+        '200':
+          description: Child account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Child'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # Transactions Endpoints
+  /transactions:
+    post:
+      tags: [Transactions]
+      summary: Create new transaction (deposit or deduction)
+      description: |
+        Parent admins create deposits or deductions on child accounts (FR-008, FR-009).
+        Uses pessimistic locking (BEGIN IMMEDIATE) to serialize concurrent transactions (FR-036, FR-037).
+        Second concurrent transaction waits for first to complete (~10-50ms typical wait time).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+      responses:
+        '201':
+          description: Transaction created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /transactions/{child_id}:
+    get:
+      tags: [Transactions]
+      summary: Get transaction history for child
+      description: |
+        Returns all transactions for a child account (FR-021, FR-022).
+        Parents can view any child's history, children can only view their own.
+      parameters:
+        - $ref: '#/components/parameters/ChildId'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 50
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Transaction history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+                  total_count:
+                    type: integer
+                    example: 247
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # Requests Endpoints
+  /requests:
+    post:
+      tags: [Requests]
+      summary: Create new credit or expenditure request
+      description: |
+        Children submit credit or expenditure requests (FR-014, FR-015).
+        Notifies all parent admins via in-app notification (FR-016).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequestRequest'
+      responses:
+        '201':
+          description: Request created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Only children can create requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /requests/pending:
+    get:
+      tags: [Requests]
+      summary: Get all pending requests for family
+      description: Parent admins view all pending requests from children in their family.
+      responses:
+        '200':
+          description: List of pending requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Only parent admins can view pending requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /requests/{request_id}/approve:
+    post:
+      tags: [Requests]
+      summary: Approve pending request
+      description: |
+        Parent admin approves request, updates child balance, creates transaction record (FR-017, FR-018).
+        Notifies child via in-app notification (FR-019).
+      parameters:
+        - name: request_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Request approved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  request:
+                    $ref: '#/components/schemas/Request'
+                  transaction:
+                    $ref: '#/components/schemas/Transaction'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Request already processed (prevents duplicate processing per FR-020)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /requests/{request_id}/deny:
+    post:
+      tags: [Requests]
+      summary: Deny pending request
+      description: |
+        Parent admin denies request, no balance change occurs (FR-017).
+        Notifies child via in-app notification (FR-019).
+      parameters:
+        - name: request_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Request denied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Request already processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Invitations Endpoints
+  /invitations:
+    post:
+      tags: [Invitations]
+      summary: Create invitation link for new parent admin
+      description: |
+        Founding or existing parent admin creates invitation link for new co-admin (FR-003).
+        Link remains valid until accepted or manually revoked (no time-based expiration).
+      responses:
+        '201':
+          description: Invitation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Only parent admins can create invitations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /invitations/{invitation_code}/accept:
+    post:
+      tags: [Invitations]
+      summary: Accept invitation and become parent admin
+      description: |
+        New user accepts invitation link, becomes co-admin with full permissions (FR-003, FR-004).
+        Invitation expires immediately after acceptance.
+      security: []
+      parameters:
+        - name: invitation_code
+          in: path
+          required: true
+          schema:
+            type: string
+            example: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [username, password]
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 50
+                password:
+                  type: string
+                  minLength: 8
+      responses:
+        '200':
+          description: Invitation accepted, new parent admin created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: bearer
+                  family_id:
+                    type: string
+                    format: uuid
+                  parent_admin_id:
+                    type: string
+                    format: uuid
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: Invalid or expired invitation code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /invitations/{invitation_id}/revoke:
+    post:
+      tags: [Invitations]
+      summary: Revoke unused invitation
+      description: Creator revokes invitation link, making it invalid (FR-035).
+      parameters:
+        - name: invitation_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Invitation revoked successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invitation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Only invitation creator can revoke
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # Notifications Endpoints
+  /notifications/unread:
+    get:
+      tags: [Notifications]
+      summary: Get unread notifications
+      description: Returns unread in-app notifications for authenticated user (FR-034). Frontend polls every 30 seconds.
+      responses:
+        '200':
+          description: List of unread notifications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Notification'
+                  unread_count:
+                    type: integer
+                    example: 3
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /notifications/{notification_id}/mark-read:
+    post:
+      tags: [Notifications]
+      summary: Mark notification as read
+      description: User marks notification as read (updates is_read flag).
+      parameters:
+        - name: notification_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Notification marked as read
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Cannot mark other users' notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+# Components
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token obtained from `/auth/login` or `/auth/child-login`.
+        Token contains: user_id, role (parent_admin/child), family_id.
+
+  parameters:
+    ChildId:
+      name: child_id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: UUID of the child account
+
+  schemas:
+    # Core Entities
+    Child:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        family_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Emma
+        avatar:
+          type: string
+          example: unicorn
+        balance:
+          type: number
+          format: decimal
+          example: 125.50
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        child_id:
+          type: string
+          format: uuid
+        parent_admin_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [deposit, deduction]
+          example: deposit
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          maximum: 1000.00
+          example: 25.00
+        reason:
+          type: string
+          example: Weekly allowance
+        balance_after:
+          type: number
+          format: decimal
+          example: 150.50
+        created_at:
+          type: string
+          format: date-time
+
+    Request:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        child_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [credit, expenditure]
+          example: expenditure
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          maximum: 1000.00
+          example: 15.00
+        reasoning:
+          type: string
+          example: Want to buy a new book about dinosaurs
+        status:
+          type: string
+          enum: [pending, approved, denied]
+          example: pending
+        approved_by_id:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        processed_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    Invitation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        family_id:
+          type: string
+          format: uuid
+        created_by_id:
+          type: string
+          format: uuid
+        invitation_code:
+          type: string
+          example: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6
+        invitation_link:
+          type: string
+          format: uri
+          example: https://piggybank.app/invite/a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6
+        status:
+          type: string
+          enum: [pending, accepted, revoked]
+          example: pending
+        created_at:
+          type: string
+          format: date-time
+        accepted_at:
+          type: string
+          format: date-time
+          nullable: true
+        revoked_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        user_type:
+          type: string
+          enum: [parent_admin, child]
+        type:
+          type: string
+          enum: [request_created, request_approved, request_denied]
+          example: request_created
+        content:
+          type: object
+          properties:
+            request_id:
+              type: string
+              format: uuid
+            child_name:
+              type: string
+              example: Emma
+            amount:
+              type: number
+              format: decimal
+              example: 15.00
+            reasoning:
+              type: string
+              example: Want to buy a new book
+        is_read:
+          type: boolean
+          example: false
+        created_at:
+          type: string
+          format: date-time
+
+    # Request Bodies
+    CreateChildRequest:
+      type: object
+      required: [name, avatar, pin]
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: Emma
+        avatar:
+          type: string
+          example: unicorn
+          description: Must be from predefined avatar set
+        pin:
+          type: string
+          minLength: 4
+          maxLength: 6
+          pattern: '^\d{4,6}$'
+          example: "1234"
+
+    CreateTransactionRequest:
+      type: object
+      required: [child_id, type, amount, reason]
+      properties:
+        child_id:
+          type: string
+          format: uuid
+        type:
+          type: string
+          enum: [deposit, deduction]
+          example: deposit
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          maximum: 1000.00
+          example: 25.00
+        reason:
+          type: string
+          minLength: 1
+          maxLength: 500
+          example: Weekly allowance
+
+    CreateRequestRequest:
+      type: object
+      required: [type, amount, reasoning]
+      properties:
+        type:
+          type: string
+          enum: [credit, expenditure]
+          example: expenditure
+        amount:
+          type: number
+          format: decimal
+          minimum: 0.01
+          maximum: 1000.00
+          example: 15.00
+        reasoning:
+          type: string
+          minLength: 1
+          maxLength: 500
+          example: Want to buy a new book about dinosaurs
+
+    # Error Response
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid request
+        detail:
+          type: string
+          example: Amount must be between $0.01 and $1,000.00
+
+  responses:
+    BadRequest:
+      description: Invalid request data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Unauthorized:
+      description: Missing or invalid authentication token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Insufficient permissions for this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
