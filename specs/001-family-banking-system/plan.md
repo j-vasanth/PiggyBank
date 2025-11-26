@@ -69,11 +69,11 @@ PiggyBank is a family banking system that allows parents to manage virtual allow
 - User stories prioritized by independent value delivery:
   - P1: Parent creates account, creates family, and adds first child (core value)
   - P2: Parent manages transactions (daily operations)
-  - P3: Child requests transactions (enhanced engagement)
-  - P4: Multi-parent administration via one-time invitation links (family dynamics)
-  - P5: Progress visualization (engagement feature)
+  - P3: Multi-parent administration via one-time invitation links (family dynamics)
+  - P4: Progress visualization (engagement feature)
+  - P6: Child requests transactions (DEPRIORITIZED - future consideration)
 - Each story is independently testable per acceptance scenarios
-- Feature can be deployed incrementally (P1 delivers value without P2-P5)
+- Feature can be deployed incrementally (P1 delivers value without P2-P4)
 
 **Overall**: Constitution compliance APPROVED for Phase 0 research
 

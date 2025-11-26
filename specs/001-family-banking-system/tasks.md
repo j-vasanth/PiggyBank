@@ -144,13 +144,15 @@ This is a Web + Mobile app with backend and frontend:
 
 ---
 
-## Phase 5: User Story 3 - Child Requests Transactions (Priority: P3)
+## Phase 5: User Story 3 - Child Requests Transactions (Priority: P6 - DEFERRED)
+
+**STATUS**: ⚠️ **DEPRIORITIZED** - This feature has been moved to future consideration. The MVP will focus on parent-initiated transactions only. UI mockups remain in the codebase but navigation has been removed from child balance page.
 
 **Goal**: A child can request a credit or expenditure with reasoning, parents receive in-app notifications, and can approve or deny requests which update balances accordingly.
 
 **Independent Test**: With existing family and child accounts, child submits requests, parent reviews and approves/denies them, and balances update correctly upon approval.
 
-### Implementation for User Story 3
+### Implementation for User Story 3 (DEFERRED)
 
 - [ ] T076 [P] [US3] Create Pydantic schemas for requests in backend/src/api/v1/schemas/request.py (CreateRequestRequest, RequestResponse)
 - [ ] T077 [P] [US3] Create Pydantic schemas for notifications in backend/src/api/v1/schemas/notification.py (NotificationResponse)
@@ -280,9 +282,9 @@ This is a Web + Mobile app with backend and frontend:
 
 - **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
 - **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Builds on US1 transaction functionality but is independently testable
-- **User Story 3 (P3)**: Can start after Foundational (Phase 2) - Adds request system on top of US1 transactions, independently testable
-- **User Story 4 (P4)**: Can start after Foundational (Phase 2) - Extends authentication system, independently testable
-- **User Story 5 (P5)**: Can start after Foundational (Phase 2) - Adds visualizations on top of US1 transaction data, independently testable
+- **User Story 3 (P6 - DEFERRED)**: Can start after Foundational (Phase 2) - Adds request system on top of US1 transactions, independently testable [DEPRIORITIZED]
+- **User Story 4 (P3)**: Can start after Foundational (Phase 2) - Extends authentication system, independently testable
+- **User Story 5 (P4)**: Can start after Foundational (Phase 2) - Adds visualizations on top of US1 transaction data, independently testable
 
 ### Within Each User Story
 
@@ -345,10 +347,10 @@ Task T055: "Create TransactionList component"
 1. Complete Setup + Foundational (T001-T031) � Foundation ready
 2. Add User Story 1 (T032-T065) � Test independently � Deploy/Demo (**MVP!**)
 3. Add User Story 2 (T066-T075) � Test independently � Deploy/Demo (Enhanced transaction management)
-4. Add User Story 3 (T076-T100) � Test independently � Deploy/Demo (Request system with notifications)
-5. Add User Story 4 (T101-T115) � Test independently � Deploy/Demo (Multi-parent support)
-6. Add User Story 5 (T116-T131) � Test independently � Deploy/Demo (Progress visualizations)
-7. Polish (T132-T150) � Final production-ready release
+4. Add User Story 4 (T101-T115) � Test independently � Deploy/Demo (Multi-parent support) [formerly P4, now P3]
+5. Add User Story 5 (T116-T131) � Test independently � Deploy/Demo (Progress visualizations) [formerly P5, now P4]
+6. Polish (T132-T150) � Final production-ready release
+7. **DEFERRED**: User Story 3 (T076-T100) - Request system (moved to P6 for future consideration)
 
 Each story adds value without breaking previous stories.
 
@@ -359,10 +361,11 @@ With multiple developers:
 1. Team completes Setup + Foundational together (T001-T031)
 2. Once Foundational is done:
    - **Developer A**: User Story 1 (T032-T065) - Highest priority MVP
-   - **Developer B**: User Story 3 (T076-T100) - Can work in parallel (different endpoints)
-   - **Developer C**: User Story 4 (T101-T115) - Can work in parallel (different endpoints)
+   - **Developer B**: User Story 4 (T101-T115) - Can work in parallel (different endpoints) [Multi-parent, now P3]
+   - **Developer C**: User Story 2 (T066-T075) - Can work in parallel (enhances US1)
 3. Stories complete and integrate independently
-4. Team proceeds to US2 and US5 after MVP validation
+4. Team proceeds to US5 after initial features validated
+5. **DEFERRED**: US3 (T076-T100) moved to future consideration
 
 ---
 
@@ -372,19 +375,20 @@ With multiple developers:
 - **Foundational (Phase 2)**: 20 tasks (blocking all stories)
 - **User Story 1 (Phase 3)**: 34 tasks (MVP)
 - **User Story 2 (Phase 4)**: 10 tasks
-- **User Story 3 (Phase 5)**: 25 tasks
-- **User Story 4 (Phase 6)**: 15 tasks
-- **User Story 5 (Phase 7)**: 16 tasks
+- **User Story 3 (Phase 5)**: 25 tasks **[DEFERRED - P6]**
+- **User Story 4 (Phase 6)**: 15 tasks [now P3]
+- **User Story 5 (Phase 7)**: 16 tasks [now P4]
 - **Polish (Phase 8)**: 19 tasks
-- **Total**: 150 tasks
+- **Total Active**: 125 tasks (excluding deferred US3)
+- **Total Including Deferred**: 150 tasks
 
 ### Tasks per User Story
 
-- US1: 34 tasks (foundation of the entire app)
-- US2: 10 tasks (enhances US1 transaction experience)
-- US3: 25 tasks (adds request system and notifications)
-- US4: 15 tasks (multi-parent administration)
-- US5: 16 tasks (progress visualizations)
+- US1 (P1): 34 tasks (foundation of the entire app)
+- US2 (P2): 10 tasks (enhances US1 transaction experience)
+- US3 (P6 - DEFERRED): 25 tasks (adds request system and notifications) **[Future consideration]**
+- US4 (P3): 15 tasks (multi-parent administration)
+- US5 (P4): 16 tasks (progress visualizations)
 
 ### Parallel Opportunities Identified
 

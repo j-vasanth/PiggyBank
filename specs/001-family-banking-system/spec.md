@@ -42,11 +42,11 @@ A parent manages their child's piggy bank by adding deposits (allowance, birthda
 
 ---
 
-### User Story 3 - Child Requests Transactions (Priority: P3)
+### User Story 3 - Child Requests Transactions (Priority: P6 - Future/Deferred)
 
 A child can request a credit (asking for allowance or reporting cash received) or request an expenditure (asking permission to spend money). Parents receive notifications and can approve or deny these requests.
 
-**Why this priority**: This adds child agency and teaches financial responsibility, but the system works without it (parents can manually enter all transactions). It enhances the experience but isn't blocking for basic functionality.
+**Why this priority**: This adds child agency and teaches financial responsibility, but the system works without it (parents can manually enter all transactions). **DEPRIORITIZED**: This feature has been moved to future consideration. The MVP will focus on parent-initiated transactions only. UI mockups remain in the codebase but navigation to request pages has been removed.
 
 **Independent Test**: Can be tested with existing family and child accounts. Child submits requests, parent reviews and approves/denies them, and balances update accordingly upon approval.
 
@@ -60,7 +60,7 @@ A child can request a credit (asking for allowance or reporting cash received) o
 
 ---
 
-### User Story 4 - Multi-Parent Administration (Priority: P4)
+### User Story 4 - Multi-Parent Administration (Priority: P3)
 
 The founding parent can invite other parents (e.g., other parent, grandparent, guardian) as co-admins by generating a one-time invitation link. The invited person can either use an existing parent account to join the family, or create a new parent account and automatically join the family. Once the link is used once, it expires and cannot be reused. All admins have equal permissions to manage children and transactions within the family account.
 
@@ -80,7 +80,7 @@ The founding parent can invite other parents (e.g., other parent, grandparent, g
 
 ---
 
-### User Story 5 - Progress Visualization for Children (Priority: P5)
+### User Story 5 - Progress Visualization for Children (Priority: P4)
 
 Children can view their balance history through engaging visualizations that show progress over time, including charts, achievement milestones, and aggregated statistics (total earned, total spent, savings rate).
 
