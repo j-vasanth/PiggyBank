@@ -6,7 +6,8 @@
       "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
       "Bash(.specify/scripts/bash/setup-plan.sh:*)",
       "Bash(.specify/scripts/bash/update-agent-context.sh:*)",
-      "SlashCommand(/speckit.plan)"
+      "SlashCommand(/speckit.plan)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
