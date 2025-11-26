@@ -7,20 +7,21 @@
 
 ## User Scenarios & Testing *(mandatory)*
 
-### User Story 1 - Parent Creates Family Account & Adds First Child (Priority: P1)
+### User Story 1 - Parent Creates Account, Creates Family & Adds First Child (Priority: P1)
 
-A parent opens the PiggyBank app for the first time and creates a family account. They set up their first child's account with a name and avatar, then make the first deposit to initialize the child's virtual piggy bank.
+A parent opens the PiggyBank app for the first time and creates their individual parent account with username and password. After account creation, they create a family (becoming its first admin), set up their first child's account with a name and avatar, then make the first deposit to initialize the child's virtual piggy bank.
 
-**Why this priority**: This is the absolute foundation of the system. Without the ability to create a family and add a child with an initial balance, no other features can function. This represents the minimum viable product that delivers immediate value.
+**Why this priority**: This is the absolute foundation of the system. Without the ability to create a parent account, establish a family, and add a child with an initial balance, no other features can function. This represents the minimum viable product that delivers immediate value.
 
-**Independent Test**: Can be fully tested by having a parent sign up, create a family, add one child profile, and make one deposit. Success means the child has a visible balance that can be viewed.
+**Independent Test**: Can be fully tested by having a parent sign up for their account, create a family, add one child profile, and make one deposit. Success means the child has a visible balance that can be viewed.
 
 **Acceptance Scenarios**:
 
-1. **Given** a new parent user, **When** they complete the family account creation process, **Then** they should have a unique family account with their admin credentials
-2. **Given** a parent has created a family account, **When** they add a child with name and avatar, **Then** the child profile should be created with a zero balance
-3. **Given** a child profile exists, **When** the parent adds a deposit with an amount, **Then** the child's balance should increase by that amount
-4. **Given** a child has a balance, **When** the child logs in, **Then** they should see their current balance displayed
+1. **Given** a new user, **When** they complete the parent account registration process, **Then** they should have a unique parent account with username and password credentials
+2. **Given** a parent has created their account, **When** they create a family with a family name, **Then** a unique family account should be created with the parent as the first admin
+3. **Given** a parent has created a family, **When** they add a child with name and avatar, **Then** the child profile should be created with a zero balance within that family
+4. **Given** a child profile exists, **When** the parent adds a deposit with an amount, **Then** the child's balance should increase by that amount
+5. **Given** a child has a balance, **When** the child logs in, **Then** they should see their current balance displayed
 
 ---
 
@@ -61,19 +62,21 @@ A child can request a credit (asking for allowance or reporting cash received) o
 
 ### User Story 4 - Multi-Parent Administration (Priority: P4)
 
-The founding parent can invite other parents (e.g., other parent, grandparent, guardian) as co-admins. All admins have equal permissions to manage children and transactions within the family account.
+The founding parent can invite other parents (e.g., other parent, grandparent, guardian) as co-admins by generating a one-time invitation link. The invited person can either use an existing parent account to join the family, or create a new parent account and automatically join the family. Once the link is used once, it expires and cannot be reused. All admins have equal permissions to manage children and transactions within the family account.
 
 **Why this priority**: This is important for real-world family dynamics but not essential for launch. A single-parent household or families comfortable with one admin can use the system fully without this feature.
 
-**Independent Test**: Can be tested with an existing family account. First parent invites second parent via invitation mechanism, second parent accepts and gains full admin access to all children and transactions.
+**Independent Test**: Can be tested with an existing family account. First parent invites second parent via invitation mechanism, second parent either joins with existing account or creates new account, becomes co-admin, and the invitation link expires immediately after use.
 
 **Acceptance Scenarios**:
 
-1. **Given** a parent admin exists, **When** they generate an invitation link, **Then** a unique invitation link is created that remains valid until used or revoked
-2. **Given** an invitation link exists, **When** the invited parent uses the link to accept, **Then** they become a co-admin with full permissions and the invitation link expires
-3. **Given** an unused invitation link exists, **When** the inviting parent revokes it, **Then** the link becomes invalid and cannot be used
-4. **Given** multiple parent admins exist, **When** any admin adds a transaction, **Then** all admins can see the transaction in the history
-5. **Given** multiple parent admins exist, **When** any admin adds or modifies a child account, **Then** the changes are visible to all admins
+1. **Given** a parent admin exists, **When** they generate an invitation link, **Then** a unique one-time invitation link is created that remains valid until used or revoked
+2. **Given** an invitation link exists, **When** an existing parent uses the link to join, **Then** they become a co-admin with full permissions to that family and the invitation link expires immediately
+3. **Given** an invitation link exists, **When** a new user uses the link to create an account, **Then** they create a parent account and automatically become a co-admin to that family, and the invitation link expires immediately
+4. **Given** an invitation link has been used once, **When** another user tries to use the same link, **Then** the system rejects it with an "invitation already used" error
+5. **Given** an unused invitation link exists, **When** the inviting parent revokes it, **Then** the link becomes invalid and cannot be used
+6. **Given** multiple parent admins exist, **When** any admin adds a transaction, **Then** all admins can see the transaction in the history
+7. **Given** multiple parent admins exist, **When** any admin adds or modifies a child account, **Then** the changes are visible to all admins
 
 ---
 
@@ -99,8 +102,11 @@ Children can view their balance history through engaging visualizations that sho
 - What happens when a parent tries to deduct more than the child's current balance? System prevents the transaction and displays an error message showing current balance and attempted deduction amount.
 - What happens when multiple admins try to modify the same child's balance simultaneously? System uses pessimistic locking (row-level locks) to serialize concurrent access; the second admin's transaction waits for the first to complete, then proceeds with the current balance.
 - What happens when a child submits multiple expenditure requests that would exceed their balance if all approved? System should flag this to parents during approval.
-- What happens when an invited parent never accepts the invitation? The invitation remains valid indefinitely until the inviting parent manually revokes it; no automatic time-based expiration.
-- What happens when all parent admins lose access to the account? System needs a recovery mechanism.
+- What happens when an invited parent never accepts the invitation? The invitation remains valid indefinitely until the inviting parent manually revokes it or another user consumes it; no automatic time-based expiration.
+- What happens when someone tries to use an invitation link that has already been used? System displays "invitation already used" error and does not grant access.
+- What happens when an existing parent uses an invitation link while already logged in? System adds their existing parent account as a co-admin to the inviting family.
+- What happens when a new user uses an invitation link? System guides them through parent account creation, then automatically adds them as co-admin to the inviting family.
+- What happens when all parent admins lose access to their accounts? System needs a recovery mechanism (account recovery out of scope for MVP).
 - What happens if a child or parent tries to enter an invalid amount (negative, zero, or exceeding $1,000)? System validates and rejects invalid inputs with clear error message indicating the allowed range ($0.01 - $1,000.00).
 - What happens when a parent removes a child account? System should archive rather than delete to preserve history, or require explicit confirmation for permanent deletion.
 
@@ -110,13 +116,18 @@ Children can view their balance history through engaging visualizations that sho
 
 **Account Management**
 
-- **FR-001**: System MUST allow parents to create a unique family account with username and password (no email required); authentication system MUST be designed to support future OAuth integration
-- **FR-002**: System MUST allow parents to add child accounts with name, avatar, and 4-6 digit PIN code for child authentication
-- **FR-003**: System MUST allow the founding parent to generate a unique invitation link with embedded code; link remains valid until accepted or manually revoked by inviting parent; link expires immediately after acceptance
+- **FR-001**: System MUST allow users to create a parent account with unique username and password (no email required); authentication system MUST be designed to support future OAuth integration
+- **FR-038**: System MUST allow a parent to create a family with a family name after creating their parent account; parent becomes the first admin of that family
+- **FR-039**: System MUST support a parent belonging to multiple families as an admin
+- **FR-002**: System MUST allow parent admins to add child accounts with name, avatar, and 4-6 digit PIN code for child authentication within their family
+- **FR-003**: System MUST allow any parent admin to generate a unique one-time invitation link with embedded code; link remains valid until used once or manually revoked by inviting parent; link expires immediately after first use
+- **FR-040**: System MUST allow an existing parent to join a family using an invitation link, adding them as a co-admin to that family
+- **FR-041**: System MUST allow a new user to use an invitation link during account creation, automatically creating their parent account and adding them as co-admin to the inviting family
+- **FR-042**: System MUST prevent reuse of invitation links; once a link is used, any subsequent attempts must be rejected with clear error message
 - **FR-035**: System MUST allow the inviting parent to revoke/cancel an unused invitation link at any time
-- **FR-004**: System MUST grant all parent admins equal permissions to manage children and transactions
+- **FR-004**: System MUST grant all parent admins equal permissions to manage children and transactions within their family
 - **FR-005**: System MUST support multiple child accounts within a single family account
-- **FR-006**: System MUST allow parents to view all children's accounts within their family
+- **FR-006**: System MUST allow parent admins to view all children's accounts within their family
 - **FR-007**: System MUST allow children to access only their own account information
 
 **Transaction Management**
@@ -162,12 +173,13 @@ Children can view their balance history through engaging visualizations that sho
 
 ### Key Entities
 
-- **Family Account**: Represents a household unit; contains multiple parent admins and child accounts; unique identifier; creation timestamp
-- **Parent Admin**: User with full permissions; linked to family account; can manage children and transactions; can invite other admins; has unique username and password credentials (future OAuth token support)
-- **Child Account**: Belongs to one family account; has name, avatar, 4-6 digit PIN code, current balance; read-only access for the child user
+- **Parent Account**: Individual user account for a parent/guardian; has unique username and password credentials (future OAuth token support); can be admin of multiple families; independent of any specific family
+- **Family**: Represents a household unit; has family name, unique identifier, creation timestamp; contains multiple parent admins and child accounts; created by a parent after they create their account
+- **Family Membership**: Junction entity linking parent accounts to families as admins; a parent can be admin of multiple families; all admins have equal permissions within that family
+- **Child Account**: Belongs to one family; has name, avatar, 4-6 digit PIN code, current balance; read-only access for the child user
 - **Transaction**: Represents a balance change; has type (deposit/deduction), amount, reason, timestamp, performing admin, target child account; immutable once recorded
 - **Request**: Submitted by child; has type (credit/expenditure), amount, reasoning, timestamp, status (pending/approved/denied), approving admin (if processed)
-- **Invitation**: Sent by existing parent admin to invite new co-admin; has unique code/link, creation timestamp, status (pending/accepted/revoked); no time-based expiration; can be manually revoked by creator
+- **Invitation**: Sent by existing parent admin to invite co-admin to their family; has unique one-time code/link, target family, creation timestamp, status (pending/accepted/revoked/used); no time-based expiration; can be manually revoked by creator; expires immediately after first use
 
 ## Clarifications
 
@@ -178,6 +190,12 @@ Children can view their balance history through engaging visualizations that sho
 - Q: How long should invitation links remain valid if not accepted? → A: No expiration unless manually revoked (link valid indefinitely until used or canceled by inviting parent)
 - Q: How should the system handle concurrent transaction attempts by multiple admins on the same child account? → A: Pessimistic locking (row-level database locks) to serialize transactions; second admin waits for first to complete
 - Q: What is the maximum transaction amount allowed to prevent "extremely large" input errors? → A: $1,000 per transaction
+
+### Session 2025-11-26
+
+- Q: Should parents create a "family account" first or a personal parent account first? → A: Parent creates their individual parent account first, then creates a family (becoming its first admin). This allows parents to potentially be admins of multiple families.
+- Q: How should invitation links work when inviting other parents? → A: Invitation links are one-time use only. An invited person can either (1) use an existing parent account to join the family as co-admin, or (2) create a new parent account and automatically join as co-admin. Once used once, the link expires and cannot be reused.
+- Q: What happens if someone tries to use an already-used invitation link? → A: System displays clear "invitation already used" error and denies access.
 
 ## Success Criteria *(mandatory)*
 

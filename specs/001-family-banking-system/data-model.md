@@ -14,17 +14,19 @@ This document defines the database schema for PiggyBank's family banking system.
 ## Entity Relationship Diagram
 
 ```
-Family (1) ----< (N) ParentAdmin
+ParentAccount (1) ----< (N) FamilyMembership >---- (N) Family
+(A parent can be admin of multiple families via FamilyMembership junction table)
+
 Family (1) ----< (N) Child
 Family (1) ----< (N) Invitation
 
 Child (1) ----< (N) Transaction
 Child (1) ----< (N) Request
 
-ParentAdmin (1) ----< (N) Transaction (as performer)
-ParentAdmin (1) ----< (N) Request (as approver)
-ParentAdmin (1) ----< (N) Invitation (as creator)
-ParentAdmin (1) ----< (N) Notification
+ParentAccount (1) ----< (N) Transaction (as performer)
+ParentAccount (1) ----< (N) Request (as approver)
+ParentAccount (1) ----< (N) Invitation (as creator)
+ParentAccount (1) ----< (N) Notification
 Child (1) ----< (N) Notification
 
 (All entities inherit from User base type for polymorphic auth)
@@ -32,36 +34,15 @@ Child (1) ----< (N) Notification
 
 ## Core Entities
 
-### Family
+### ParentAccount
 
-Represents a household unit containing parent admins and children.
+Individual user account for a parent/guardian, independent of any specific family. A parent can be admin of multiple families.
 
-**Table**: `families`
-
-| Field | Type | Constraints | Description |
-|-------|------|-------------|-------------|
-| id | UUID | PRIMARY KEY | Unique family identifier |
-| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Family creation timestamp |
-| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Last modification timestamp |
-
-**Validation Rules**:
-- None (minimal data by design)
-
-**Indexes**:
-- PRIMARY KEY on `id`
-
----
-
-### ParentAdmin
-
-User with full permissions to manage family, children, and transactions.
-
-**Table**: `parent_admins`
+**Table**: `parent_accounts`
 
 | Field | Type | Constraints | Description |
 |-------|------|-------------|-------------|
 | id | UUID | PRIMARY KEY | Unique parent identifier |
-| family_id | UUID | FOREIGN KEY (families.id), NOT NULL | Associated family |
 | username | VARCHAR(50) | UNIQUE, NOT NULL | Login username (no email required per FR-001) |
 | password_hash | VARCHAR(255) | NOT NULL | bcrypt hashed password |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Account creation timestamp |
@@ -74,11 +55,64 @@ User with full permissions to manage family, children, and transactions.
 **Indexes**:
 - PRIMARY KEY on `id`
 - UNIQUE INDEX on `username` (case-insensitive: `LOWER(username)`)
-- INDEX on `family_id` (foreign key lookup)
 
 **Notes**:
 - Future OAuth support: Add nullable `oauth_provider` and `oauth_token_encrypted` columns without schema migration
-- First parent admin to create family becomes founder (tracked implicitly by creation timestamp)
+- Parent accounts are created first, then families are created and linked via FamilyMembership (FR-038)
+- A parent can be admin of multiple families (FR-039)
+
+---
+
+### Family
+
+Represents a household unit containing children and linked to parent admins via FamilyMembership.
+
+**Table**: `families`
+
+| Field | Type | Constraints | Description |
+|-------|------|-------------|-------------|
+| id | UUID | PRIMARY KEY | Unique family identifier |
+| name | VARCHAR(100) | NOT NULL | Family display name (FR-038) |
+| created_by_id | UUID | FOREIGN KEY (parent_accounts.id), NOT NULL | Parent who created this family |
+| created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Family creation timestamp |
+| updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Last modification timestamp |
+
+**Validation Rules**:
+- `name`: 1-100 characters, Unicode support
+
+**Indexes**:
+- PRIMARY KEY on `id`
+- INDEX on `created_by_id` (audit trail)
+
+---
+
+### FamilyMembership
+
+Junction table linking parent accounts to families as admins. Enables many-to-many relationship (parent can admin multiple families).
+
+**Table**: `family_memberships`
+
+| Field | Type | Constraints | Description |
+|-------|------|-------------|-------------|
+| id | UUID | PRIMARY KEY | Unique membership identifier |
+| parent_account_id | UUID | FOREIGN KEY (parent_accounts.id), NOT NULL | Parent account |
+| family_id | UUID | FOREIGN KEY (families.id), NOT NULL | Family |
+| role | VARCHAR(20) | NOT NULL, DEFAULT 'admin', CHECK (role = 'admin') | Role in family (admin only for MVP) |
+| joined_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Membership creation timestamp |
+
+**Validation Rules**:
+- UNIQUE constraint on `(parent_account_id, family_id)` to prevent duplicate memberships
+- `role`: Currently only 'admin' supported (future: add 'view-only' or other roles)
+
+**Indexes**:
+- PRIMARY KEY on `id`
+- UNIQUE INDEX on `(parent_account_id, family_id)`
+- INDEX on `parent_account_id` (lookup parent's families)
+- INDEX on `family_id` (lookup family's admins)
+
+**Notes**:
+- Created when parent creates a family (they become first admin) or when invitation is accepted
+- All admins have equal permissions (FR-004)
 
 ---
 
@@ -127,7 +161,7 @@ Immutable record of balance changes (deposits or deductions).
 |-------|------|-------------|-------------|
 | id | UUID | PRIMARY KEY | Unique transaction identifier |
 | child_id | UUID | FOREIGN KEY (children.id), NOT NULL | Target child account |
-| parent_admin_id | UUID | FOREIGN KEY (parent_admins.id), NOT NULL | Parent who performed transaction |
+| parent_account_id | UUID | FOREIGN KEY (parent_accounts.id), NOT NULL | Parent who performed transaction |
 | type | VARCHAR(20) | NOT NULL, CHECK (type IN ('deposit', 'deduction')) | Transaction type |
 | amount | NUMERIC(10, 2) | NOT NULL, CHECK (amount > 0 AND amount <= 1000) | Transaction amount (FR-027) |
 | reason | TEXT | NOT NULL | Description/justification (FR-028) |
@@ -143,7 +177,7 @@ Immutable record of balance changes (deposits or deductions).
 - PRIMARY KEY on `id`
 - INDEX on `child_id` (transaction history queries)
 - INDEX on `(child_id, created_at DESC)` (ordered history)
-- INDEX on `parent_admin_id` (audit trail)
+- INDEX on `parent_account_id` (audit trail)
 
 **Notes**:
 - Immutable: no UPDATE or DELETE operations allowed (FR-013)
@@ -165,7 +199,7 @@ Child-initiated credit or expenditure request pending parent approval.
 | amount | NUMERIC(10, 2) | NOT NULL, CHECK (amount > 0 AND amount <= 1000) | Requested amount |
 | reasoning | TEXT | NOT NULL | Child's justification (FR-014, FR-015) |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'pending', CHECK (status IN ('pending', 'approved', 'denied')) | Request status |
-| approved_by_id | UUID | FOREIGN KEY (parent_admins.id), NULLABLE | Parent who processed request (NULL if pending) |
+| approved_by_id | UUID | FOREIGN KEY (parent_accounts.id), NULLABLE | Parent who processed request (NULL if pending) |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Request submission timestamp |
 | processed_at | TIMESTAMP | NULLABLE | Approval/denial timestamp (NULL if pending) |
 
@@ -194,7 +228,7 @@ pending -> denied (no balance change)
 
 ### Invitation
 
-Invitation link for adding co-admin parents to family.
+One-time invitation link for adding co-admin parents to family. Can be used by existing parent account or during new account creation.
 
 **Table**: `invitations`
 
@@ -202,32 +236,36 @@ Invitation link for adding co-admin parents to family.
 |-------|------|-------------|-------------|
 | id | UUID | PRIMARY KEY | Unique invitation identifier |
 | family_id | UUID | FOREIGN KEY (families.id), NOT NULL | Target family |
-| created_by_id | UUID | FOREIGN KEY (parent_admins.id), NOT NULL | Parent who created invitation |
+| created_by_id | UUID | FOREIGN KEY (parent_accounts.id), NOT NULL | Parent who created invitation |
 | invitation_code | VARCHAR(32) | UNIQUE, NOT NULL | Unique code embedded in invitation link |
-| status | VARCHAR(20) | NOT NULL, DEFAULT 'pending', CHECK (status IN ('pending', 'accepted', 'revoked')) | Invitation status |
+| status | VARCHAR(20) | NOT NULL, DEFAULT 'pending', CHECK (status IN ('pending', 'used', 'revoked')) | Invitation status |
+| used_by_id | UUID | FOREIGN KEY (parent_accounts.id), NULLABLE | Parent who used invitation (NULL if not used) |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Invitation creation timestamp |
-| accepted_at | TIMESTAMP | NULLABLE | Acceptance timestamp (NULL if not accepted) |
+| used_at | TIMESTAMP | NULLABLE | Usage timestamp (NULL if not used) |
 | revoked_at | TIMESTAMP | NULLABLE | Revocation timestamp (NULL if not revoked) |
 
 **Validation Rules**:
 - `invitation_code`: 32-character random string (cryptographically secure)
-- `status`: Must transition pending -> (accepted | revoked), no reversals
+- `status`: Must transition pending -> (used | revoked), no reversals
+- Only ONE use allowed per invitation (FR-042)
 
 **Indexes**:
 - PRIMARY KEY on `id`
 - UNIQUE INDEX on `invitation_code`
 - INDEX on `(family_id, status)` (active invitations lookup)
 - INDEX on `created_by_id` (audit trail)
+- INDEX on `used_by_id` (audit trail)
 
 **State Transitions**:
 ```
-pending -> accepted (creates ParentAdmin, expires invitation immediately per FR-003)
+pending -> used (creates FamilyMembership, expires invitation immediately per FR-003, FR-040, FR-041)
 pending -> revoked (by creator per FR-035)
 ```
 
 **Notes**:
-- No time-based expiration (valid indefinitely until accepted or revoked per clarification)
-- Only one invitation can be accepted per code (uniqueness constraint)
+- No time-based expiration (valid indefinitely until used or revoked per clarification)
+- One-time use only: status transitions to 'used' after first use, subsequent attempts rejected (FR-042)
+- Can be used by existing parent (joins family) or new user (creates account + joins family) (FR-040, FR-041)
 
 ---
 
@@ -241,7 +279,7 @@ In-app notification for request status updates.
 |-------|------|-------------|-------------|
 | id | UUID | PRIMARY KEY | Unique notification identifier |
 | user_id | UUID | NOT NULL | Recipient (ParentAdmin or Child UUID) |
-| user_type | VARCHAR(20) | NOT NULL, CHECK (user_type IN ('parent_admin', 'child')) | Recipient type for polymorphic FK |
+| user_type | VARCHAR(20) | NOT NULL, CHECK (user_type IN ('parent_account', 'child')) | Recipient type for polymorphic FK |
 | type | VARCHAR(50) | NOT NULL | Notification type (see below) |
 | content | JSONB | NOT NULL | Type-specific notification data |
 | is_read | BOOLEAN | NOT NULL, DEFAULT FALSE | Read status (FR-034) |

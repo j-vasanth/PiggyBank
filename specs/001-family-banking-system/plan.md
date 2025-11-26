@@ -7,9 +7,12 @@
 
 ## Summary
 
-PiggyBank is a family banking system that allows parents to manage virtual allowance accounts for their children. The system enables parents to create a family account, add children with avatars and balances, perform deposits and deductions, while children can view their balance history and request transactions. The application prioritizes simplicity and engaging user experience with minimal steps for common operations.
+PiggyBank is a family banking system that allows parents to manage virtual allowance accounts for their children. The system enables parents to first create their individual parent account, then create a family (becoming its first admin), add children with avatars and balances, perform deposits and deductions, while children can view their balance history and request transactions. Parents can invite other parents to join their family as co-admins using one-time invitation links. The application prioritizes simplicity and engaging user experience with minimal steps for common operations.
 
-**Key Architecture Change**: Using SQLite with pessimistic locking instead of PostgreSQL with optimistic locking for simpler concurrency handling and cost-effective single-tenant deployment on Fly.io persistent volumes.
+**Key Architecture Changes**:
+- Using SQLite with pessimistic locking instead of PostgreSQL with optimistic locking for simpler concurrency handling and cost-effective single-tenant deployment on Fly.io persistent volumes
+- Parent accounts are independent entities that can be admins of multiple families via FamilyMembership junction table
+- Invitation links are one-time use only and expire immediately after first use
 
 ## Technical Context
 
@@ -51,7 +54,7 @@ PiggyBank is a family banking system that allows parents to manage virtual allow
 
 **Assessment**: ✅ PASS with ACTION REQUIRED
 
-- Feature spec defines clear entities (Family, Parent, Child, Transaction, Request, Invitation)
+- Feature spec defines clear entities (ParentAccount, Family, FamilyMembership, Child, Transaction, Request, Invitation)
 - RESTful API pattern mandated in constitution (`/api/v1/*` endpoints)
 - Functional requirements specify data contracts (amounts, reasons, timestamps)
 - Pessimistic locking simplifies API contracts (no version field in requests, no 409 Conflict responses)
@@ -63,10 +66,10 @@ PiggyBank is a family banking system that allows parents to manage virtual allow
 **Assessment**: ✅ PASS
 
 - User stories prioritized by independent value delivery:
-  - P1: Parent creates family and adds first child (core value)
+  - P1: Parent creates account, creates family, and adds first child (core value)
   - P2: Parent manages transactions (daily operations)
   - P3: Child requests transactions (enhanced engagement)
-  - P4: Multi-parent administration (family dynamics)
+  - P4: Multi-parent administration via one-time invitation links (family dynamics)
   - P5: Progress visualization (engagement feature)
 - Each story is independently testable per acceptance scenarios
 - Feature can be deployed incrementally (P1 delivers value without P2-P5)
