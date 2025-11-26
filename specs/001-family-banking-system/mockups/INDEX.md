@@ -1,7 +1,7 @@
-# PiggyBank Design Mockups Index
+# Kash Design Mockups Index
 
 ## Overview
-This directory contains interactive HTML/CSS mockups for all screens in the PiggyBank family banking application.
+This directory contains interactive HTML/CSS mockups for all screens in the Kash family banking application.
 
 ## Mockup Structure
 
