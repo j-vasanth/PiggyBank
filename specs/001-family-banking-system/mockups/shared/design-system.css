@@ -12,49 +12,49 @@
    ============================================ */
 
 :root {
-  /* Parent Theme - Dark & Professional */
-  --parent-primary: #3B82F6;        /* Blue 500 - Primary actions */
-  --parent-primary-hover: #2563EB;  /* Blue 600 - Hover state */
-  --parent-primary-light: #1E3A8A;  /* Blue 900 - Darker backgrounds */
+  /* Parent Theme - Minimal & Professional */
+  --parent-primary: #2563EB;        /* Blue 600 - Primary actions */
+  --parent-primary-hover: #1D4ED8;  /* Blue 700 - Hover state */
+  --parent-primary-light: #DBEAFE;  /* Blue 100 - Backgrounds */
 
-  --parent-success: #10B981;        /* Green 500 - Deposits */
-  --parent-success-light: #064E3B;  /* Green 900 - Dark green bg */
+  --parent-success: #059669;        /* Green 600 - Deposits */
+  --parent-success-light: #D1FAE5;  /* Green 100 */
 
-  --parent-danger: #EF4444;         /* Red 500 - Deductions/Delete */
-  --parent-danger-light: #7F1D1D;   /* Red 900 - Dark red bg */
+  --parent-danger: #DC2626;         /* Red 600 - Deductions/Delete */
+  --parent-danger-light: #FEE2E2;   /* Red 100 */
 
-  --parent-warning: #F59E0B;        /* Amber 500 - Warnings */
-  --parent-warning-light: #78350F;  /* Amber 900 - Dark amber bg */
+  --parent-warning: #D97706;        /* Amber 600 - Warnings */
+  --parent-warning-light: #FEF3C7;  /* Amber 100 */
 
-  --parent-text-primary: #F9FAFB;   /* Gray 50 - Light text on dark */
-  --parent-text-secondary: #9CA3AF; /* Gray 400 - Muted text */
-  --parent-bg: #111827;             /* Gray 900 - Dark background */
-  --parent-bg-secondary: #1F2937;   /* Gray 800 - Slightly lighter dark */
-  --parent-border: #374151;         /* Gray 700 - Dark borders */
+  --parent-text-primary: #111827;   /* Gray 900 */
+  --parent-text-secondary: #6B7280; /* Gray 500 */
+  --parent-bg: #FFFFFF;
+  --parent-bg-secondary: #F9FAFB;   /* Gray 50 */
+  --parent-border: #E5E7EB;         /* Gray 200 */
 
-  /* Child Theme - Dark with Vibrant Accents */
-  --child-primary: #A78BFA;         /* Purple 400 - Bright on dark */
-  --child-primary-hover: #8B5CF6;   /* Purple 500 */
-  --child-primary-light: #4C1D95;   /* Purple 900 - Dark purple bg */
+  /* Child Theme - Colorful & Engaging */
+  --child-primary: #8B5CF6;         /* Purple 500 - Main accent */
+  --child-primary-hover: #7C3AED;   /* Purple 600 */
+  --child-primary-light: #EDE9FE;   /* Purple 100 */
 
-  --child-success: #34D399;         /* Green 400 - Money earned */
-  --child-success-light: #064E3B;   /* Green 900 */
+  --child-success: #10B981;         /* Green 500 - Money earned */
+  --child-success-light: #D1FAE5;   /* Green 100 */
 
-  --child-accent-pink: #F472B6;     /* Pink 400 */
+  --child-accent-pink: #EC4899;     /* Pink 500 */
   --child-accent-yellow: #FBBF24;   /* Yellow 400 */
-  --child-accent-blue: #60A5FA;     /* Blue 400 */
-  --child-accent-orange: #FB923C;   /* Orange 400 */
+  --child-accent-blue: #3B82F6;     /* Blue 500 */
+  --child-accent-orange: #F97316;   /* Orange 500 */
 
-  --child-text-primary: #F9FAFB;    /* Gray 50 - Light text */
-  --child-text-secondary: #9CA3AF;  /* Gray 400 - Muted text */
-  --child-bg: #0F172A;              /* Slate 900 - Very dark blue-gray */
-  --child-bg-secondary: #1E293B;    /* Slate 800 - Slightly lighter */
-  --child-border: #334155;          /* Slate 700 - Dark borders */
+  --child-text-primary: #1F2937;    /* Gray 800 */
+  --child-text-secondary: #6B7280;  /* Gray 500 */
+  --child-bg: #FEFCE8;              /* Yellow 50 - Warm background */
+  --child-bg-secondary: #FEF3C7;    /* Amber 100 */
+  --child-border: #FDE68A;          /* Yellow 200 */
 
   /* Semantic Colors (Shared) */
   --white: #FFFFFF;
   --black: #000000;
-  --overlay: rgba(0, 0, 0, 0.7);
+  --overlay: rgba(0, 0, 0, 0.5);
 
   /* Typography */
   --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -147,7 +147,7 @@ html, body {
 
 /* Parent Theme Body */
 body.parent-theme {
-  background-color: var(--parent-bg);
+  background-color: var(--parent-bg-secondary);
   color: var(--parent-text-primary);
 }
 
@@ -155,7 +155,7 @@ body.parent-theme {
 body.child-theme {
   background-color: var(--child-bg);
   color: var(--child-text-primary);
-  background-image: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="2" fill="%23A78BFA" opacity="0.1"/></svg>');
+  background-image: url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="2" fill="%23FDE68A" opacity="0.3"/></svg>');
   background-size: 60px 60px;
 }
 
@@ -334,7 +334,7 @@ p {
   font-family: var(--font-family);
   border: 2px solid var(--parent-border);
   border-radius: var(--radius-lg);
-  background-color: var(--parent-bg);
+  background-color: var(--white);
   color: var(--parent-text-primary);
   transition: all var(--transition-base);
 }
@@ -344,14 +344,14 @@ p {
 .form-textarea:focus {
   outline: none;
   border-color: var(--parent-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 3px var(--parent-primary-light);
 }
 
 .child-theme .form-input,
 .child-theme .form-select,
 .child-theme .form-textarea {
   border-color: var(--child-border);
-  background-color: var(--child-bg);
+  background-color: var(--white);
   font-weight: var(--font-medium);
 }
 
@@ -359,7 +359,7 @@ p {
 .child-theme .form-select:focus,
 .child-theme .form-textarea:focus {
   border-color: var(--child-primary);
-  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.3);
+  box-shadow: 0 0 0 3px var(--child-primary-light);
 }
 
 .form-textarea {
@@ -384,17 +384,15 @@ p {
    ============================================ */
 
 .card {
-  background-color: var(--parent-bg-secondary);
+  background-color: var(--white);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   box-shadow: var(--shadow-md);
   transition: all var(--transition-base);
-  border: 1px solid var(--parent-border);
 }
 
 .card:hover {
   box-shadow: var(--shadow-lg);
-  border-color: var(--parent-primary);
 }
 
 .card-header {
@@ -421,15 +419,13 @@ p {
 
 /* Child Theme Cards */
 .child-theme .card {
-  background-color: var(--child-bg-secondary);
-  border: 2px solid var(--child-border);
+  border: 3px solid var(--child-border);
   box-shadow: var(--shadow-lg);
 }
 
 .child-theme .card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-xl);
-  border-color: var(--child-primary);
 }
 
 /* ============================================
