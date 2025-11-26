@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PiggyBank - Notifications</title>
+  <link rel="stylesheet" href="../shared/design-system.css">
+  <link rel="stylesheet" href="../shared/navigation.css">
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header/Navigation */
+    .app-header {
+      background-color: var(--white);
+      border-bottom: 2px solid var(--parent-border);
+      padding: var(--space-4) 0;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Main Content */
+    .app-main {
+      flex: 1;
+      padding: var(--space-8) 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+    }
+
+    .notifications-header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .mark-all-read {
+      color: var(--parent-primary);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+      transition: opacity var(--transition-base);
+    }
+
+    .mark-all-read:hover {
+      opacity: 0.7;
+    }
+
+    /* Notification Filters */
+    .notification-filters {
+      display: flex;
+      gap: var(--space-3);
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .filter-chip {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      border: 2px solid var(--parent-border);
+      background-color: var(--white);
+      color: var(--parent-text-secondary);
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .filter-chip:hover {
+      border-color: var(--parent-primary);
+    }
+
+    .filter-chip.active {
+      background-color: var(--parent-primary);
+      border-color: var(--parent-primary);
+      color: var(--white);
+    }
+
+    /* Notifications List */
+    .notifications-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .notification-item {
+      background-color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid transparent;
+      transition: all var(--transition-base);
+      position: relative;
+    }
+
+    .notification-item.unread {
+      border-left-color: var(--parent-primary);
+      background-color: #EFF6FF;
+    }
+
+    .notification-item:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateX(4px);
+    }
+
+    .notification-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-3);
+    }
+
+    .notification-icon {
+      font-size: var(--text-4xl);
+      margin-right: var(--space-4);
+      flex-shrink: 0;
+    }
+
+    .notification-content {
+      flex: 1;
+    }
+
+    .notification-type {
+      font-size: var(--text-xs);
+      font-weight: var(--font-bold);
+      text-transform: uppercase;
+      color: var(--parent-text-secondary);
+      margin-bottom: var(--space-1);
+    }
+
+    .notification-title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      color: var(--parent-text-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .notification-body {
+      color: var(--parent-text-secondary);
+      font-size: var(--text-base);
+      line-height: 1.6;
+      margin-bottom: var(--space-3);
+    }
+
+    .notification-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--parent-text-secondary);
+    }
+
+    .notification-time {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .notification-actions {
+      display: flex;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+    }
+
+    .notification-actions .btn {
+      flex: 1;
+      font-size: var(--text-sm);
+    }
+
+    .unread-badge {
+      position: absolute;
+      top: var(--space-3);
+      right: var(--space-3);
+      width: 12px;
+      height: 12px;
+      background-color: var(--parent-primary);
+      border-radius: var(--radius-full);
+      border: 2px solid var(--white);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: var(--space-16) var(--space-8);
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .empty-state-icon {
+      font-size: 80px;
+      margin-bottom: var(--space-6);
+      opacity: 0.5;
+    }
+
+    .empty-state h2 {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-3);
+    }
+
+    .empty-state p {
+      color: var(--parent-text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .app-header {
+        padding: var(--space-3) 0;
+      }
+
+      .notifications-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+      }
+
+      .notification-filters {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: var(--space-2);
+      }
+
+      .notification-item {
+        padding: var(--space-4);
+      }
+
+      .notification-icon {
+        font-size: var(--text-3xl);
+        margin-right: var(--space-3);
+      }
+
+      .notification-actions {
+        flex-direction: column;
+      }
+
+      .notification-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="parent-theme">
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          🏦 <span>PiggyBank</span>
+        </div>
+        <div class="sidebar-username">john_doe</div>
+      </div>
+
+      <div class="sidebar-menu">
+        <a href="03-parent-dashboard.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">🏠</span>
+          <span class="sidebar-menu-label">Dashboard</span>
+        </a>
+        <a href="04-add-child.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">➕</span>
+          <span class="sidebar-menu-label">Add Child</span>
+        </a>
+        <a href="06-transaction-history.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">💳</span>
+          <span class="sidebar-menu-label">Transactions</span>
+        </a>
+        <a href="06-pending-requests.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">📋</span>
+          <span class="sidebar-menu-label">Pending Requests</span>
+        </a>
+        <a href="07-notifications.html" class="sidebar-menu-item active">
+          <span class="sidebar-menu-icon">🔔</span>
+          <span class="sidebar-menu-label">Notifications</span>
+          <span class="badge-count" style="position: static; margin-left: auto;">3</span>
+        </a>
+        <a href="08-manage-invitations.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">👥</span>
+          <span class="sidebar-menu-label">Invite Co-Parent</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="sidebar-logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='02-parent-login.html'">
+          <span>🚪</span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container">
+        <div class="header-content">
+          <!-- Hamburger Menu Button -->
+          <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+            <span class="hamburger-icon"></span>
+          </button>
+
+          <!-- Page Title (Centered) -->
+          <h1 class="page-title">Notifications</h1>
+
+          <!-- Notification Bell -->
+          <button class="notification-bell" onclick="window.location.href='07-notifications.html'">
+            🔔
+            <span class="badge-count">3</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <div class="container">
+        <!-- Notifications Header -->
+        <div class="notifications-header">
+          <button class="mark-all-read" onclick="alert('All notifications marked as read!')">
+            Mark all as read
+          </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="notification-filters">
+          <button class="filter-chip active">All</button>
+          <button class="filter-chip">Requests</button>
+          <button class="filter-chip">Approvals</button>
+          <button class="filter-chip">Transactions</button>
+          <button class="filter-chip">System</button>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="notifications-list">
+          <!-- Unread Notification - Request -->
+          <div class="notification-item unread">
+            <div class="unread-badge"></div>
+            <div style="display: flex;">
+              <div class="notification-icon">💰</div>
+              <div class="notification-content">
+                <div class="notification-type">Credit Request</div>
+                <div class="notification-title">Emma requested $15.00</div>
+                <div class="notification-body">
+                  "Mom gave me birthday money from Grandma"
+                </div>
+                <div class="notification-meta">
+                  <div class="notification-time">
+                    <span>🕐</span>
+                    <span>5 minutes ago</span>
+                  </div>
+                  <div>
+                    <span>👧 Emma</span>
+                  </div>
+                </div>
+                <div class="notification-actions">
+                  <button class="btn btn-success" onclick="alert('Request approved!'); this.closest('.notification-item').classList.remove('unread');">
+                    ✓ Approve
+                  </button>
+                  <button class="btn btn-danger" onclick="alert('Request denied!'); this.closest('.notification-item').classList.remove('unread');">
+                    ✗ Deny
+                  </button>
+                  <button class="btn btn-secondary" onclick="window.location.href='06-pending-requests.html'">
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unread Notification - Expenditure Request -->
+          <div class="notification-item unread">
+            <div class="unread-badge"></div>
+            <div style="display: flex;">
+              <div class="notification-icon">🛍️</div>
+              <div class="notification-content">
+                <div class="notification-type">Expenditure Request</div>
+                <div class="notification-title">Noah wants to spend $8.50</div>
+                <div class="notification-body">
+                  "New LEGO minifigure pack at the toy store"
+                </div>
+                <div class="notification-meta">
+                  <div class="notification-time">
+                    <span>🕐</span>
+                    <span>2 hours ago</span>
+                  </div>
+                  <div>
+                    <span>👦 Noah</span>
+                  </div>
+                </div>
+                <div class="notification-actions">
+                  <button class="btn btn-success" onclick="alert('Request approved!'); this.closest('.notification-item').classList.remove('unread');">
+                    ✓ Approve
+                  </button>
+                  <button class="btn btn-danger" onclick="alert('Request denied!'); this.closest('.notification-item').classList.remove('unread');">
+                    ✗ Deny
+                  </button>
+                  <button class="btn btn-secondary" onclick="window.location.href='06-pending-requests.html'">
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Read Notification - Approved Request -->
+          <div class="notification-item">
+            <div style="display: flex;">
+              <div class="notification-icon">✅</div>
+              <div class="notification-content">
+                <div class="notification-type">Request Approved</div>
+                <div class="notification-title">You approved Emma's expenditure</div>
+                <div class="notification-body">
+                  $12.00 deducted for "Art supplies for school project"
+                </div>
+                <div class="notification-meta">
+                  <div class="notification-time">
+                    <span>🕐</span>
+                    <span>Yesterday at 3:45 PM</span>
+                  </div>
+                  <div>
+                    <span>👧 Emma</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Read Notification - Transaction -->
+          <div class="notification-item">
+            <div style="display: flex;">
+              <div class="notification-icon">💵</div>
+              <div class="notification-content">
+                <div class="notification-type">Transaction</div>
+                <div class="notification-title">john_doe added $20.00 to Noah</div>
+                <div class="notification-body">
+                  "Weekly allowance"
+                </div>
+                <div class="notification-meta">
+                  <div class="notification-time">
+                    <span>🕐</span>
+                    <span>2 days ago</span>
+                  </div>
+                  <div>
+                    <span>👦 Noah</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Read Notification - System -->
+          <div class="notification-item">
+            <div style="display: flex;">
+              <div class="notification-icon">🎉</div>
+              <div class="notification-content">
+                <div class="notification-type">Milestone</div>
+                <div class="notification-title">Emma reached a savings milestone!</div>
+                <div class="notification-body">
+                  Emma has saved over $100 for the first time. Great job!
+                </div>
+                <div class="notification-meta">
+                  <div class="notification-time">
+                    <span>🕐</span>
+                    <span>3 days ago</span>
+                  </div>
+                  <div>
+                    <span>👧 Emma</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State (hidden when notifications exist) -->
+        <!-- <div class="empty-state">
+          <div class="empty-state-icon">🔔</div>
+          <h2>No Notifications</h2>
+          <p>You're all caught up! New notifications will appear here.</p>
+        </div> -->
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      hamburgerBtn.classList.toggle('active');
+    }
+
+    // Close sidebar when clicking overlay
+    document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
+
+    // Close sidebar when clicking a menu item
+    document.querySelectorAll('.sidebar-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          toggleSidebar();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

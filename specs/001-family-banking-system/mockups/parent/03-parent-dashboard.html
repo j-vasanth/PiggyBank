@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PiggyBank - Dashboard</title>
   <link rel="stylesheet" href="../shared/design-system.css">
+  <link rel="stylesheet" href="../shared/navigation.css">
   <style>
     body {
       min-height: 100vh;
@@ -31,48 +32,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .app-logo {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      font-size: var(--text-xl);
-      font-weight: var(--font-bold);
-      color: var(--parent-primary);
-    }
-
-    .notification-badge {
       position: relative;
     }
 
-    .notification-badge .badge-count {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background-color: var(--parent-danger);
-      color: var(--white);
-      font-size: var(--text-xs);
-      font-weight: var(--font-bold);
-      padding: 2px 6px;
-      border-radius: var(--radius-full);
-      min-width: 20px;
-      text-align: center;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-    }
-
-    .user-menu {
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-      color: var(--parent-text-primary);
-      font-weight: var(--font-medium);
-    }
 
     /* Main Content */
     .app-main {
@@ -80,24 +42,10 @@
       padding: var(--space-8) 0;
     }
 
-    .dashboard-header {
-      margin-bottom: var(--space-8);
-    }
-
-    .dashboard-title {
-      font-size: var(--text-3xl);
-      margin-bottom: var(--space-2);
-    }
-
-    .dashboard-subtitle {
-      color: var(--parent-text-secondary);
-      font-size: var(--text-lg);
-    }
-
     .dashboard-actions {
       display: flex;
       gap: var(--space-4);
-      margin-top: var(--space-6);
+      margin-bottom: var(--space-8);
       flex-wrap: wrap;
     }
 
@@ -239,6 +187,10 @@
 
     /* Responsive */
     @media (max-width: 768px) {
+      .app-header {
+        padding: var(--space-3) 0;
+      }
+
       .dashboard-actions {
         flex-direction: column;
       }
@@ -255,31 +207,61 @@
 </head>
 <body class="parent-theme">
   <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo-icon">💵</span>
+        <h1 class="sidebar-app-title">Kash</h1>
+      </div>
+
+      <div class="sidebar-menu">
+        <a href="03-parent-dashboard.html" class="sidebar-menu-item active">
+          <span class="sidebar-menu-icon">🏠</span>
+          <span class="sidebar-menu-label">Dashboard</span>
+        </a>
+        <a href="04-add-child.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">➕</span>
+          <span class="sidebar-menu-label">Add Child</span>
+        </a>
+        <a href="06-transaction-history.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">💳</span>
+          <span class="sidebar-menu-label">Transactions</span>
+        </a>
+        <a href="06-pending-requests.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">📋</span>
+          <span class="sidebar-menu-label">Pending Requests</span>
+        </a>
+        <a href="08-manage-invitations.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">👥</span>
+          <span class="sidebar-menu-label">Invite Co-Parent</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-username">John</div>
+        <button class="sidebar-logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='02-parent-login.html'">
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- Header -->
     <header class="app-header">
       <div class="container">
         <div class="header-content">
-          <div class="app-logo">
-            🏦 <span>PiggyBank</span>
-          </div>
+          <!-- Hamburger Menu Button -->
+          <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+            <span class="hamburger-icon"></span>
+          </button>
 
-          <div class="header-actions">
-            <!-- Notification Bell -->
-            <a href="07-notifications.html" class="notification-badge">
-              <button class="btn btn-secondary">
-                🔔 Notifications
-              </button>
-              <span class="badge-count">3</span>
-            </a>
+          <!-- Page Title (Centered) -->
+          <h1 class="page-title">Dashboard</h1>
 
-            <!-- User Menu -->
-            <div class="user-menu">
-              <span>john_doe</span>
-              <button class="btn btn-secondary btn-sm" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='02-parent-login.html'">
-                Logout
-              </button>
-            </div>
-          </div>
+          <!-- Spacer for alignment -->
+          <div style="width: 44px;"></div>
         </div>
       </div>
     </header>
@@ -287,22 +269,19 @@
     <!-- Main Content -->
     <main class="app-main">
       <div class="container">
-        <!-- Dashboard Header -->
-        <div class="dashboard-header">
-          <h1 class="dashboard-title">Family Dashboard</h1>
-          <p class="dashboard-subtitle">Manage your children's allowances and track their progress</p>
+        <!-- Page Subtitle -->
+        <p class="page-subtitle">Manage your children's allowances and track their progress</p>
 
-          <div class="dashboard-actions">
-            <button class="btn btn-primary" onclick="window.location.href='04-add-child.html'">
-              ➕ Add Child
-            </button>
-            <button class="btn btn-secondary" onclick="window.location.href='08-manage-invitations.html'">
-              👥 Invite Co-Parent
-            </button>
-            <button class="btn btn-secondary" onclick="window.location.href='06-pending-requests.html'">
-              📋 View Requests
-            </button>
-          </div>
+        <div class="dashboard-actions">
+          <button class="btn btn-primary" onclick="window.location.href='04-add-child.html'">
+            ➕ Add Child
+          </button>
+          <button class="btn btn-secondary" onclick="window.location.href='08-manage-invitations.html'">
+            👥 Invite Co-Parent
+          </button>
+          <button class="btn btn-secondary" onclick="window.location.href='06-pending-requests.html'">
+            📋 View Requests
+          </button>
         </div>
 
         <!-- Children Grid -->
@@ -401,5 +380,29 @@
       </div>
     </main>
   </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      hamburgerBtn.classList.toggle('active');
+    }
+
+    // Close sidebar when clicking overlay
+    document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
+
+    // Close sidebar when clicking a menu item
+    document.querySelectorAll('.sidebar-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          toggleSidebar();
+        }
+      });
+    });
+  </script>
 </body>
 </html>

@@ -5,42 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PiggyBank - Add Child</title>
   <link rel="stylesheet" href="../shared/design-system.css">
+  <link rel="stylesheet" href="../shared/navigation.css">
   <style>
     body {
       min-height: 100vh;
     }
 
-    .page-container {
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header/Navigation */
+    .app-header {
+      background-color: var(--white);
+      border-bottom: 2px solid var(--parent-border);
+      padding: var(--space-4) 0;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Main Content */
+    .app-main {
+      flex: 1;
+      padding: var(--space-8) 0;
+    }
+
+    .container {
       max-width: 600px;
       margin: 0 auto;
-      padding: var(--space-8) var(--space-4);
-    }
-
-    .page-header {
-      margin-bottom: var(--space-8);
-    }
-
-    .back-button {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-2);
-      color: var(--parent-primary);
-      text-decoration: none;
-      font-weight: var(--font-medium);
-      margin-bottom: var(--space-4);
-    }
-
-    .back-button:hover {
-      text-decoration: underline;
-    }
-
-    .page-title {
-      font-size: var(--text-3xl);
-      margin-bottom: var(--space-2);
+      padding: 0 var(--space-4);
     }
 
     .page-subtitle {
       color: var(--parent-text-secondary);
+      text-align: center;
+      margin-bottom: var(--space-6);
     }
 
     .form-card {
@@ -148,18 +158,73 @@
   </style>
 </head>
 <body class="parent-theme">
-  <div class="page-container">
-    <!-- Page Header -->
-    <div class="page-header">
-      <a href="03-parent-dashboard.html" class="back-button">
-        ← Back to Dashboard
-      </a>
-      <h1 class="page-title">Add Child</h1>
-      <p class="page-subtitle">Set up a new piggy bank account for your child</p>
-    </div>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo-icon">💵</span>
+        <h1 class="sidebar-app-title">Kash</h1>
+      </div>
 
-    <!-- Form -->
-    <div class="form-card">
+      <div class="sidebar-menu">
+        <a href="03-parent-dashboard.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">🏠</span>
+          <span class="sidebar-menu-label">Dashboard</span>
+        </a>
+        <a href="04-add-child.html" class="sidebar-menu-item active">
+          <span class="sidebar-menu-icon">➕</span>
+          <span class="sidebar-menu-label">Add Child</span>
+        </a>
+        <a href="06-transaction-history.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">💳</span>
+          <span class="sidebar-menu-label">Transactions</span>
+        </a>
+        <a href="06-pending-requests.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">📋</span>
+          <span class="sidebar-menu-label">Pending Requests</span>
+        </a>
+        <a href="08-manage-invitations.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">👥</span>
+          <span class="sidebar-menu-label">Invite Co-Parent</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-username">John</div>
+        <button class="sidebar-logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='02-parent-login.html'">
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container">
+        <div class="header-content" style="position: relative;">
+          <!-- Hamburger Menu Button -->
+          <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+            <span class="hamburger-icon"></span>
+          </button>
+
+          <!-- Page Title (Centered) -->
+          <h1 class="page-title">Add Child</h1>
+
+          <!-- Spacer for alignment -->
+          <div style="width: 44px;"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <div class="container">
+        <p class="page-subtitle">Set up a new piggy bank account for your child</p>
+
+        <!-- Form -->
+        <div class="form-card">
       <form id="add-child-form">
         <!-- Child Name -->
         <div class="form-group">
@@ -248,11 +313,36 @@
             Add Child
           </button>
         </div>
-      </form>
-    </div>
+        </form>
+      </div>
+      </div>
+    </main>
   </div>
 
   <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      hamburgerBtn.classList.toggle('active');
+    }
+
+    // Close sidebar when clicking overlay
+    document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
+
+    // Close sidebar when clicking a menu item
+    document.querySelectorAll('.sidebar-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          toggleSidebar();
+        }
+      });
+    });
+
+    // Existing scripts below...
     // Avatar Selection
     const avatarOptions = document.querySelectorAll('.avatar-option');
     const selectedAvatarInput = document.getElementById('selected-avatar');

@@ -9,7 +9,9 @@
       "SlashCommand(/speckit.plan)",
       "Bash(git commit:*)",
       "Bash(git add:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(git revert:*)",
+      "Bash(open:*)"
     ],
     "deny": [],
     "ask": []
