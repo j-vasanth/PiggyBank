@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PiggyBank - Transaction History</title>
+  <link rel="stylesheet" href="../shared/design-system.css">
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .page-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .page-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--parent-primary);
+      text-decoration: none;
+      font-weight: var(--font-medium);
+      margin-bottom: var(--space-4);
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+
+    /* Child Header */
+    .child-header {
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+
+    .child-header-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--parent-primary-light) 0%, var(--parent-primary) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-5xl);
+      border: 4px solid var(--white);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .child-header-info {
+      flex: 1;
+    }
+
+    .child-header-name {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-2);
+    }
+
+    .child-header-balance {
+      font-size: var(--text-2xl);
+      color: var(--parent-success);
+      font-weight: var(--font-bold);
+    }
+
+    .child-header-label {
+      font-size: var(--text-sm);
+      color: var(--parent-text-secondary);
+      margin-bottom: var(--space-1);
+    }
+
+    .child-header-actions {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    /* Filters */
+    .filters {
+      background-color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      margin-bottom: var(--space-6);
+      display: flex;
+      gap: var(--space-4);
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    /* Transaction List */
+    .transaction-list {
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-md);
+    }
+
+    .transaction-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-4);
+      border-bottom: 2px solid var(--parent-border);
+    }
+
+    .transaction-list-title {
+      font-size: var(--text-xl);
+      font-weight: var(--font-semibold);
+    }
+
+    .transaction-count {
+      color: var(--parent-text-secondary);
+      font-size: var(--text-sm);
+    }
+
+    .transaction-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-3);
+      transition: all var(--transition-base);
+      cursor: pointer;
+    }
+
+    .transaction-item:hover {
+      background-color: var(--parent-bg-secondary);
+    }
+
+    .transaction-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-2xl);
+    }
+
+    .transaction-icon.deposit {
+      background-color: var(--parent-success-light);
+    }
+
+    .transaction-icon.deduction {
+      background-color: var(--parent-danger-light);
+    }
+
+    .transaction-details {
+      flex: 1;
+    }
+
+    .transaction-reason {
+      font-weight: var(--font-medium);
+      margin-bottom: var(--space-1);
+    }
+
+    .transaction-meta {
+      font-size: var(--text-sm);
+      color: var(--parent-text-secondary);
+    }
+
+    .transaction-amount {
+      text-align: right;
+    }
+
+    .transaction-amount-value {
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-1);
+    }
+
+    .transaction-amount-value.deposit {
+      color: var(--parent-success);
+    }
+
+    .transaction-amount-value.deduction {
+      color: var(--parent-danger);
+    }
+
+    .transaction-balance {
+      font-size: var(--text-sm);
+      color: var(--parent-text-secondary);
+    }
+
+    /* Pagination */
+    .pagination {
+      margin-top: var(--space-6);
+      display: flex;
+      justify-content: center;
+      gap: var(--space-2);
+    }
+
+    .pagination-button {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--parent-border);
+      background-color: var(--white);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .pagination-button:hover {
+      background-color: var(--parent-primary);
+      color: var(--white);
+      border-color: var(--parent-primary);
+    }
+
+    .pagination-button.active {
+      background-color: var(--parent-primary);
+      color: var(--white);
+      border-color: var(--parent-primary);
+    }
+
+    .pagination-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 768px) {
+      .child-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .child-header-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .child-header-actions .btn {
+        width: 100%;
+      }
+
+      .filters {
+        flex-direction: column;
+      }
+
+      .filter-group {
+        width: 100%;
+      }
+
+      .transaction-item {
+        flex-wrap: wrap;
+      }
+
+      .transaction-amount {
+        width: 100%;
+        text-align: left;
+        margin-top: var(--space-2);
+      }
+    }
+  </style>
+</head>
+<body class="parent-theme">
+  <div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <a href="03-parent-dashboard.html" class="back-button">
+        ← Back to Dashboard
+      </a>
+    </div>
+
+    <!-- Child Header -->
+    <div class="child-header">
+      <div class="child-header-avatar">🦄</div>
+      <div class="child-header-info">
+        <div class="child-header-name">Emma's Piggy Bank</div>
+        <div class="child-header-label">Current Balance</div>
+        <div class="child-header-balance">$125.50</div>
+      </div>
+      <div class="child-header-actions">
+        <button class="btn btn-success" onclick="window.location.href='05-create-transaction.html?child=emma&type=deposit'">
+          💰 Add Deposit
+        </button>
+        <button class="btn btn-danger" onclick="window.location.href='05-create-transaction.html?child=emma&type=deduction'">
+          📤 Make Deduction
+        </button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-group">
+        <label class="form-label">Filter by Type</label>
+        <select class="form-select">
+          <option value="all">All Transactions</option>
+          <option value="deposit">Deposits Only</option>
+          <option value="deduction">Deductions Only</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="form-label">Time Period</label>
+        <select class="form-select">
+          <option value="all">All Time</option>
+          <option value="week">Last 7 Days</option>
+          <option value="month">Last 30 Days</option>
+          <option value="year">Last Year</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Transaction List -->
+    <div class="transaction-list">
+      <div class="transaction-list-header">
+        <h2 class="transaction-list-title">Transaction History</h2>
+        <div class="transaction-count">47 transactions</div>
+      </div>
+
+      <!-- Transaction Items -->
+      <div class="transaction-item">
+        <div class="transaction-icon deposit">💰</div>
+        <div class="transaction-details">
+          <div class="transaction-reason">Weekly allowance</div>
+          <div class="transaction-meta">Today at 2:30 PM • Added by john_doe</div>
+        </div>
+        <div class="transaction-amount">
+          <div class="transaction-amount-value deposit">+$10.00</div>
+          <div class="transaction-balance">Balance: $125.50</div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="transaction-icon deduction">📤</div>
+        <div class="transaction-details">
+          <div class="transaction-reason">New toy from the store</div>
+          <div class="transaction-meta">Yesterday at 4:15 PM • Added by john_doe</div>
+        </div>
+        <div class="transaction-amount">
+          <div class="transaction-amount-value deduction">-$15.00</div>
+          <div class="transaction-balance">Balance: $115.50</div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="transaction-icon deposit">💰</div>
+        <div class="transaction-details">
+          <div class="transaction-reason">Completed all chores this week</div>
+          <div class="transaction-meta">3 days ago at 6:00 PM • Added by john_doe</div>
+        </div>
+        <div class="transaction-amount">
+          <div class="transaction-amount-value deposit">+$20.00</div>
+          <div class="transaction-balance">Balance: $130.50</div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="transaction-icon deposit">💰</div>
+        <div class="transaction-details">
+          <div class="transaction-reason">Birthday money from Grandma</div>
+          <div class="transaction-meta">5 days ago at 10:30 AM • Added by john_doe</div>
+        </div>
+        <div class="transaction-amount">
+          <div class="transaction-amount-value deposit">+$50.00</div>
+          <div class="transaction-balance">Balance: $110.50</div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="transaction-icon deduction">📤</div>
+        <div class="transaction-details">
+          <div class="transaction-reason">Ice cream treat</div>
+          <div class="transaction-meta">1 week ago at 3:45 PM • Added by john_doe</div>
+        </div>
+        <div class="transaction-amount">
+          <div class="transaction-amount-value deduction">-$5.00</div>
+          <div class="transaction-balance">Balance: $60.50</div>
+        </div>
+      </div>
+
+      <div class="transaction-item">
+        <div class="transaction-icon deposit">💰</div>
+        <div class="transaction-details">
+          <div class="transaction-reason">Weekly allowance</div>
+          <div class="transaction-meta">1 week ago at 2:30 PM • Added by john_doe</div>
+        </div>
+        <div class="transaction-amount">
+          <div class="transaction-amount-value deposit">+$10.00</div>
+          <div class="transaction-balance">Balance: $65.50</div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination">
+        <button class="pagination-button" disabled>← Previous</button>
+        <button class="pagination-button active">1</button>
+        <button class="pagination-button">2</button>
+        <button class="pagination-button">3</button>
+        <button class="pagination-button">Next →</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
