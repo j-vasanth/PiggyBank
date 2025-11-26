@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kash - Create Family Account</title>
+  <title>Kash - Create Parent Account</title>
   <link rel="stylesheet" href="../shared/design-system.css">
   <style>
     body {
@@ -134,14 +134,14 @@
     <!-- Registration Form -->
     <div class="register-card">
       <div class="register-header">
-        <h1>Create Family Account</h1>
-        <p>Start your family's financial journey</p>
+        <h1>Create Parent Account</h1>
+        <p>Get started with Kash</p>
       </div>
 
       <!-- Information Note -->
       <div class="form-note">
         <div class="form-note-title">Getting Started</div>
-        <p>Create your family account to manage allowances, track spending, and teach your kids about money. You'll be the family admin.</p>
+        <p>First, create your parent account. After that, you'll create your family and add your children. You'll be able to manage allowances, track spending, and teach your kids about money.</p>
       </div>
 
       <form>
@@ -195,7 +195,7 @@
 
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary btn-full btn-lg btn-register">
-          Create Family Account
+          Create Parent Account
         </button>
       </form>
 
@@ -235,8 +235,8 @@
       }
 
       // Success - In real app, this would call the API
-      alert('✓ Family account created successfully!\n\nRedirecting to dashboard...');
-      window.location.href = '03-parent-dashboard.html';
+      alert('✓ Parent account created successfully!\n\nNow let\'s create your family...');
+      window.location.href = '01b-create-family.html';
     });
   </script>
 </body>

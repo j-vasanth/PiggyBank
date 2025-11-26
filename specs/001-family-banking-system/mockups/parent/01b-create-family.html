@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kash - Create Family</title>
+  <link rel="stylesheet" href="../shared/design-system.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: var(--space-4);
+    }
+
+    .family-container {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+
+    .logo-icon {
+      font-size: var(--text-5xl);
+      margin-bottom: var(--space-2);
+    }
+
+    .logo-text {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-bold);
+      color: var(--parent-primary);
+      font-family: var(--font-family-display);
+    }
+
+    .family-card {
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-xl);
+    }
+
+    .family-header {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .family-header h1 {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-2);
+    }
+
+    .family-header p {
+      color: var(--parent-text-secondary);
+      font-size: var(--text-sm);
+      margin-bottom: 0;
+    }
+
+    .form-note {
+      background-color: var(--parent-primary-light);
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-6);
+      font-size: var(--text-sm);
+      border-left: 4px solid var(--parent-primary);
+    }
+
+    .form-note-title {
+      font-weight: var(--font-semibold);
+      margin-bottom: var(--space-1);
+    }
+
+    .btn-create {
+      margin-top: var(--space-2);
+    }
+
+    .skip-link {
+      text-align: center;
+      margin-top: var(--space-6);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--parent-border);
+    }
+
+    .skip-link a {
+      color: var(--parent-text-secondary);
+      text-decoration: none;
+      font-size: var(--text-sm);
+    }
+
+    .skip-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body class="parent-theme">
+  <div class="family-container">
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-icon">💵</div>
+      <div class="logo-text">Kash</div>
+    </div>
+
+    <!-- Family Form -->
+    <div class="family-card">
+      <div class="family-header">
+        <h1>Create Your Family</h1>
+        <p>Give your family a name</p>
+      </div>
+
+      <!-- Information Note -->
+      <div class="form-note">
+        <div class="form-note-title">What's a Family?</div>
+        <p>A family is where you'll manage your children's allowances and track their spending. You'll be the first admin, and you can invite other parents or guardians later.</p>
+      </div>
+
+      <form>
+        <!-- Family Name -->
+        <div class="form-group">
+          <label for="family-name" class="form-label">Family Name</label>
+          <input
+            type="text"
+            id="family-name"
+            name="family-name"
+            class="form-input"
+            placeholder="e.g., The Smith Family, My Family"
+            required
+            maxlength="100"
+          />
+          <div class="form-help">
+            Choose a name that your family will recognize. You can change this later.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-full btn-lg btn-create">
+          Create Family
+        </button>
+      </form>
+
+      <!-- Skip Link -->
+      <div class="skip-link">
+        <a href="03-parent-dashboard.html">Skip for now, I'll do this later</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const familyName = document.getElementById('family-name').value.trim();
+
+      if (!familyName) {
+        alert('Please enter a family name.');
+        return;
+      }
+
+      if (familyName.length < 1 || familyName.length > 100) {
+        alert('Family name must be between 1 and 100 characters.');
+        return;
+      }
+
+      // Success - In real app, this would call the API
+      alert('✓ Family created successfully!\n\nNow let\'s add your first child...');
+      window.location.href = '04-add-child.html';
+    });
+  </script>
+</body>
+</html>
