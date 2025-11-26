@@ -53,61 +53,6 @@
       margin-bottom: var(--space-4);
     }
 
-    .child-select {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-      margin-bottom: var(--space-6);
-    }
-
-    .child-option {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
-      padding: var(--space-5);
-      background-color: var(--child-bg);
-      border: 3px solid var(--child-border);
-      border-radius: var(--radius-lg);
-      cursor: pointer;
-      transition: all var(--transition-base);
-    }
-
-    .child-option:hover {
-      border-color: var(--child-primary);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .child-option.selected {
-      border-color: var(--child-primary);
-      background-color: var(--child-primary-light);
-    }
-
-    .child-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: var(--radius-full);
-      background: linear-gradient(135deg, var(--child-primary-light) 0%, var(--child-primary) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--text-4xl);
-      flex-shrink: 0;
-    }
-
-    .child-name {
-      font-size: var(--text-xl);
-      font-weight: var(--font-bold);
-      color: var(--child-text-primary);
-    }
-
-    .pin-section {
-      display: none;
-    }
-
-    .pin-section.active {
-      display: block;
-    }
 
     .pin-input-group {
       display: flex;
@@ -134,23 +79,6 @@
       box-shadow: 0 0 0 4px var(--child-primary-light);
     }
 
-    .back-button {
-      display: block;
-      width: 100%;
-      padding: var(--space-3);
-      background: none;
-      border: none;
-      color: var(--child-text-secondary);
-      font-size: var(--text-base);
-      font-weight: var(--font-medium);
-      cursor: pointer;
-      transition: color var(--transition-base);
-      margin-top: var(--space-4);
-    }
-
-    .back-button:hover {
-      color: var(--child-primary);
-    }
 
     .parent-login-link {
       text-align: center;
@@ -196,45 +124,40 @@
     <!-- Login Card -->
     <div class="login-card">
       <div class="login-header">
-        <h1>Who's logging in?</h1>
+        <h1>Child Login</h1>
       </div>
 
-      <!-- Child Selection -->
-      <div class="child-select" id="childSelect">
-        <div class="child-option" onclick="selectChild('emma', '🦄')">
-          <div class="child-avatar">🦄</div>
-          <div class="child-name">Emma</div>
+      <!-- Login Form -->
+      <form id="loginForm">
+        <!-- Username -->
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-input"
+            placeholder="Enter your username"
+            required
+            autocomplete="username"
+          />
         </div>
 
-        <div class="child-option" onclick="selectChild('noah', '🦖')">
-          <div class="child-avatar">🦖</div>
-          <div class="child-name">Noah</div>
-        </div>
-      </div>
-
-      <!-- PIN Entry -->
-      <div class="pin-section" id="pinSection">
-        <div class="login-header">
-          <h1>Enter your PIN</h1>
-        </div>
-
-        <form id="pinForm">
+        <!-- PIN Entry -->
+        <div class="form-group">
+          <label for="pin-input" class="form-label">4-Digit PIN</label>
           <div class="pin-input-group">
             <input type="password" class="pin-digit" maxlength="1" id="pin1" pattern="[0-9]" inputmode="numeric" required>
             <input type="password" class="pin-digit" maxlength="1" id="pin2" pattern="[0-9]" inputmode="numeric" required>
             <input type="password" class="pin-digit" maxlength="1" id="pin3" pattern="[0-9]" inputmode="numeric" required>
             <input type="password" class="pin-digit" maxlength="1" id="pin4" pattern="[0-9]" inputmode="numeric" required>
           </div>
+        </div>
 
-          <button type="submit" class="btn btn-primary btn-full btn-lg">
-            Login
-          </button>
-        </form>
-
-        <button class="back-button" onclick="backToChildSelect()">
-          ← Back to child selection
+        <button type="submit" class="btn btn-primary btn-full btn-lg">
+          Login
         </button>
-      </div>
+      </form>
 
       <!-- Parent Login Link -->
       <div class="parent-login-link">
@@ -244,30 +167,6 @@
   </div>
 
   <script>
-    let selectedChild = null;
-
-    function selectChild(childName, avatar) {
-      selectedChild = childName;
-      document.getElementById('childSelect').style.display = 'none';
-      document.getElementById('pinSection').classList.add('active');
-
-      // Focus first PIN digit
-      setTimeout(() => {
-        document.getElementById('pin1').focus();
-      }, 100);
-    }
-
-    function backToChildSelect() {
-      selectedChild = null;
-      document.getElementById('childSelect').style.display = 'flex';
-      document.getElementById('pinSection').classList.remove('active');
-
-      // Clear PIN inputs
-      for (let i = 1; i <= 4; i++) {
-        document.getElementById(`pin${i}`).value = '';
-      }
-    }
-
     // Auto-advance to next PIN digit
     document.querySelectorAll('.pin-digit').forEach((input, index) => {
       input.addEventListener('input', function(e) {
@@ -284,14 +183,20 @@
     });
 
     // Handle form submission
-    document.getElementById('pinForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
+      const username = document.getElementById('username').value.trim();
       const pin =
         document.getElementById('pin1').value +
         document.getElementById('pin2').value +
         document.getElementById('pin3').value +
         document.getElementById('pin4').value;
+
+      if (!username) {
+        alert('Please enter your username.');
+        return;
+      }
 
       if (pin.length !== 4 || !/^\d{4}$/.test(pin)) {
         alert('Please enter a 4-digit PIN.');
@@ -299,7 +204,7 @@
       }
 
       // Success - In real app, this would call the API
-      alert(`✓ Login successful for ${selectedChild}!\n\nRedirecting to balance...`);
+      alert(`✓ Login successful!\n\nRedirecting to balance...`);
       window.location.href = '02-child-balance.html';
     });
   </script>

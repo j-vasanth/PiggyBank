@@ -118,7 +118,7 @@ Junction table linking parent accounts to families as admins. Enables many-to-ma
 
 ### Child
 
-Child account belonging to a family, with balance and PIN authentication.
+Child account belonging to a family, with username, PIN authentication, and balance tracking.
 
 **Table**: `children`
 
@@ -126,21 +126,24 @@ Child account belonging to a family, with balance and PIN authentication.
 |-------|------|-------------|-------------|
 | id | UUID | PRIMARY KEY | Unique child identifier |
 | family_id | UUID | FOREIGN KEY (families.id), NOT NULL | Associated family |
+| username | VARCHAR(50) | UNIQUE, NOT NULL | Login username (globally unique per FR-043) |
 | name | VARCHAR(100) | NOT NULL | Child's display name |
 | avatar | VARCHAR(50) | NOT NULL | Avatar identifier (from predefined set) |
-| pin_hash | VARCHAR(255) | NOT NULL | bcrypt hashed PIN (4-6 digits per FR-032) |
+| pin_hash | VARCHAR(255) | NOT NULL | bcrypt hashed PIN (4 digits per FR-032) |
 | balance | NUMERIC(10, 2) | NOT NULL, DEFAULT 0.00, CHECK (balance >= 0) | Current balance in USD |
 | created_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Account creation timestamp |
 | updated_at | TIMESTAMP | NOT NULL, DEFAULT NOW() | Last modification timestamp |
 
 **Validation Rules**:
+- `username`: 3-50 characters, alphanumeric + underscore only, case-insensitive uniqueness, globally unique across all families (FR-043)
 - `name`: 1-100 characters, Unicode support (international names)
 - `avatar`: Must match predefined avatar set (validated at application layer)
-- `pin`: 4-6 digits (validated before hashing, not stored)
+- `pin`: Exactly 4 digits (validated before hashing, not stored)
 - `balance`: Non-negative (enforced by CHECK constraint per FR-012)
 
 **Indexes**:
 - PRIMARY KEY on `id`
+- UNIQUE INDEX on `username` (case-insensitive: `LOWER(username)`)
 - INDEX on `family_id` (foreign key lookup)
 - INDEX on `(family_id, updated_at DESC)` (recent activity queries)
 
@@ -148,6 +151,8 @@ Child account belonging to a family, with balance and PIN authentication.
 - Pessimistic locking: Balance updates use `BEGIN IMMEDIATE` transactions (FR-036)
 - No version column needed (database handles locking automatically)
 - Maximum transaction amount $1,000 enforced at application layer (FR-027)
+- Username and PIN are set by parent admins when creating child account (FR-002)
+- Children authenticate with username + PIN (no family selection needed)
 
 ---
 

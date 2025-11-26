@@ -7,12 +7,13 @@
 
 ## Summary
 
-PiggyBank is a family banking system that allows parents to manage virtual allowance accounts for their children. The system enables parents to first create their individual parent account, then create a family (becoming its first admin), add children with avatars and balances, perform deposits and deductions, while children can view their balance history and request transactions. Parents can invite other parents to join their family as co-admins using one-time invitation links. The application prioritizes simplicity and engaging user experience with minimal steps for common operations.
+PiggyBank is a family banking system that allows parents to manage virtual allowance accounts for their children. The system enables parents to first create their individual parent account, then create a family (becoming its first admin), add children with usernames, avatars, and PINs, perform deposits and deductions, while children can view their balance history and request transactions. Children authenticate using username + 4-digit PIN (credentials set by parents). Parents can invite other parents to join their family as co-admins using one-time invitation links. The application prioritizes simplicity and engaging user experience with minimal steps for common operations.
 
 **Key Architecture Changes**:
 - Using SQLite with pessimistic locking instead of PostgreSQL with optimistic locking for simpler concurrency handling and cost-effective single-tenant deployment on Fly.io persistent volumes
 - Parent accounts are independent entities that can be admins of multiple families via FamilyMembership junction table
 - Invitation links are one-time use only and expire immediately after first use
+- Child authentication uses username + 4-digit PIN (no password); usernames are globally unique and set by parents
 
 ## Technical Context
 

@@ -243,6 +243,24 @@
           </div>
         </div>
 
+        <!-- Username -->
+        <div class="form-group">
+          <label for="child-username" class="form-label">Username</label>
+          <input
+            type="text"
+            id="child-username"
+            name="child-username"
+            class="form-input"
+            placeholder="Choose a username for your child"
+            required
+            pattern="[a-zA-Z0-9_]{3,50}"
+            maxlength="50"
+          />
+          <div class="form-help">
+            3-50 characters. Letters, numbers, and underscores only. Your child will use this to login.
+          </div>
+        </div>
+
         <!-- Avatar Selection -->
         <div class="avatar-selector">
           <label class="form-label">Choose an Avatar</label>
@@ -276,7 +294,7 @@
             <input type="text" maxlength="1" pattern="[0-9]" class="pin-digit" id="pin4" required />
           </div>
           <div class="pin-help">
-            Enter a 4-6 digit PIN that your child will use to login.<br>
+            Enter a 4-digit PIN that your child will use to login.<br>
             Make it memorable for them!
           </div>
           <input type="hidden" id="pin-value" name="pin" required />
@@ -383,7 +401,8 @@
     document.getElementById('add-child-form').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const childName = document.getElementById('child-name').value;
+      const childName = document.getElementById('child-name').value.trim();
+      const childUsername = document.getElementById('child-username').value.trim();
       const avatar = selectedAvatarInput.value;
       const initialBalance = document.getElementById('initial-balance').value || '0.00';
 
@@ -397,18 +416,29 @@
         return;
       }
 
+      if (!childUsername) {
+        alert('Please enter a username for your child.');
+        return;
+      }
+
+      const usernamePattern = /^[a-zA-Z0-9_]{3,50}$/;
+      if (!usernamePattern.test(childUsername)) {
+        alert('Username must be 3-50 characters and contain only letters, numbers, and underscores.');
+        return;
+      }
+
       if (!avatar) {
         alert('Please select an avatar.');
         return;
       }
 
-      if (pin.length < 4) {
+      if (pin.length !== 4) {
         alert('Please enter a 4-digit PIN.');
         return;
       }
 
       // Success
-      alert(`✓ Child account created!\n\nName: ${childName}\nAvatar: ${avatar}\nInitial Balance: $${initialBalance}\n\nYour child can now login with their PIN!`);
+      alert(`✓ Child account created!\n\nName: ${childName}\nUsername: ${childUsername}\nInitial Balance: $${initialBalance}\n\nYour child can now login with their username and PIN!`);
       window.location.href = '03-parent-dashboard.html';
     });
   </script>

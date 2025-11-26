@@ -119,7 +119,7 @@ Children can view their balance history through engaging visualizations that sho
 - **FR-001**: System MUST allow users to create a parent account with unique username and password (no email required); authentication system MUST be designed to support future OAuth integration
 - **FR-038**: System MUST allow a parent to create a family with a family name after creating their parent account; parent becomes the first admin of that family
 - **FR-039**: System MUST support a parent belonging to multiple families as an admin
-- **FR-002**: System MUST allow parent admins to add child accounts with name, avatar, and 4-6 digit PIN code for child authentication within their family
+- **FR-002**: System MUST allow parent admins to add child accounts with username, name, avatar, and 4-digit PIN code for child authentication within their family
 - **FR-003**: System MUST allow any parent admin to generate a unique one-time invitation link with embedded code; link remains valid until used once or manually revoked by inviting parent; link expires immediately after first use
 - **FR-040**: System MUST allow an existing parent to join a family using an invitation link, adding them as a co-admin to that family
 - **FR-041**: System MUST allow a new user to use an invitation link during account creation, automatically creating their parent account and adding them as co-admin to the inviting family
@@ -168,7 +168,8 @@ Children can view their balance history through engaging visualizations that sho
 - **FR-029**: System MUST support standard currency denominations (dollars and cents or equivalent)
 - **FR-030**: System MUST prevent unauthorized access (children cannot access other children's accounts, non-admins cannot access family accounts)
 - **FR-031**: System MUST authenticate parent admins via username/password credentials
-- **FR-032**: System MUST authenticate children via 4-6 digit PIN codes set by parent admins
+- **FR-032**: System MUST authenticate children via username and 4-digit PIN code set by parent admins during child account creation
+- **FR-043**: System MUST ensure child usernames are globally unique across all families
 - **FR-033**: System authentication architecture MUST use abstraction layer to enable future OAuth provider integration without data migration
 
 ### Key Entities
@@ -176,7 +177,7 @@ Children can view their balance history through engaging visualizations that sho
 - **Parent Account**: Individual user account for a parent/guardian; has unique username and password credentials (future OAuth token support); can be admin of multiple families; independent of any specific family
 - **Family**: Represents a household unit; has family name, unique identifier, creation timestamp; contains multiple parent admins and child accounts; created by a parent after they create their account
 - **Family Membership**: Junction entity linking parent accounts to families as admins; a parent can be admin of multiple families; all admins have equal permissions within that family
-- **Child Account**: Belongs to one family; has name, avatar, 4-6 digit PIN code, current balance; read-only access for the child user
+- **Child Account**: Belongs to one family; has globally unique username, name, avatar, 4-digit PIN code, current balance; read-only access for the child user; credentials set by parent during account creation
 - **Transaction**: Represents a balance change; has type (deposit/deduction), amount, reason, timestamp, performing admin, target child account; immutable once recorded
 - **Request**: Submitted by child; has type (credit/expenditure), amount, reasoning, timestamp, status (pending/approved/denied), approving admin (if processed)
 - **Invitation**: Sent by existing parent admin to invite co-admin to their family; has unique one-time code/link, target family, creation timestamp, status (pending/accepted/revoked/used); no time-based expiration; can be manually revoked by creator; expires immediately after first use
@@ -185,7 +186,7 @@ Children can view their balance history through engaging visualizations that sho
 
 ### Session 2025-11-24
 
-- Q: What authentication mechanism should parents and children use to log in? → A: Username/password (no email required) for parents with 4-6 digit PIN for children; architecture must support future migration to OAuth (Google) for parent authentication
+- Q: What authentication mechanism should parents and children use to log in? → A: Username/password (no email required) for parents; username + 4-digit PIN for children (credentials created by parents when adding child accounts); architecture must support future migration to OAuth (Google) for parent authentication
 - Q: How should the system deliver notifications to parents when children submit requests and to children when requests are approved/denied? → A: In-app notifications only (notification badge/list visible when user opens app)
 - Q: How long should invitation links remain valid if not accepted? → A: No expiration unless manually revoked (link valid indefinitely until used or canceled by inviting parent)
 - Q: How should the system handle concurrent transaction attempts by multiple admins on the same child account? → A: Pessimistic locking (row-level database locks) to serialize transactions; second admin waits for first to complete
@@ -196,6 +197,8 @@ Children can view their balance history through engaging visualizations that sho
 - Q: Should parents create a "family account" first or a personal parent account first? → A: Parent creates their individual parent account first, then creates a family (becoming its first admin). This allows parents to potentially be admins of multiple families.
 - Q: How should invitation links work when inviting other parents? → A: Invitation links are one-time use only. An invited person can either (1) use an existing parent account to join the family as co-admin, or (2) create a new parent account and automatically join as co-admin. Once used once, the link expires and cannot be reused.
 - Q: What happens if someone tries to use an already-used invitation link? → A: System displays clear "invitation already used" error and denies access.
+- Q: How should children authenticate? Should they need to select their family first? → A: Children authenticate with username + 4-digit PIN (no password). Username is globally unique, so no family selection needed. Parents create child usernames and PINs when adding child accounts.
+- Q: Who sets the child's username and PIN? → A: Parents set both username and PIN when creating the child account. This ensures appropriate usernames and memorable PINs for young children.
 
 ## Success Criteria *(mandatory)*
 
