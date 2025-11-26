@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git merge 001-family-banking-system --no-ff -m \"$(cat <<''EOF''\nMerge branch ''001-family-banking-system''\n\nAdded comprehensive family banking system specification and implementation tasks:\n\n- Complete feature specification with 5 user stories (P1-P5)\n- Technical implementation plan with SQLite + pessimistic locking\n- Research decisions for architecture and technology choices\n- Data model with 8 entities and pessimistic locking strategy\n- OpenAPI contract with all API endpoints\n- Quickstart guide for development setup\n- 150 implementation tasks organized by user story\n\nMVP Scope: 65 tasks delivering parent account creation, child management,\nand transaction tracking with mobile-ready UI.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
