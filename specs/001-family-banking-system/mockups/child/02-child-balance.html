@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kash - My Balance</title>
+  <link rel="stylesheet" href="../shared/design-system.css">
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, var(--child-primary) 0%, var(--child-primary-hover) 100%);
+      color: var(--white);
+      padding: var(--space-6) 0;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+    }
+
+    .child-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .child-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius-full);
+      background-color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-4xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .child-greeting h1 {
+      font-size: var(--text-2xl);
+      margin: 0;
+      font-weight: var(--font-bold);
+    }
+
+    .child-greeting p {
+      font-size: var(--text-sm);
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .logout-btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: var(--white);
+      border: 2px solid var(--white);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-lg);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .logout-btn:hover {
+      background-color: var(--white);
+      color: var(--child-primary);
+    }
+
+    /* Main Content */
+    .app-main {
+      flex: 1;
+      padding: var(--space-8) 0;
+      background-color: var(--child-bg);
+    }
+
+    /* Balance Card */
+    .balance-card {
+      background: linear-gradient(135deg, var(--child-primary) 0%, var(--child-primary-hover) 100%);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      color: var(--white);
+      text-align: center;
+      margin-bottom: var(--space-6);
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-card::before {
+      content: '💰';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      font-size: 120px;
+      opacity: 0.1;
+    }
+
+    .balance-label {
+      font-size: var(--text-lg);
+      margin-bottom: var(--space-2);
+      opacity: 0.9;
+      font-weight: var(--font-medium);
+    }
+
+    .balance-amount {
+      font-size: 64px;
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-4);
+      line-height: 1;
+    }
+
+    .balance-subtext {
+      font-size: var(--text-base);
+      opacity: 0.8;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+
+    .action-card {
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      text-align: center;
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      text-decoration: none;
+      color: var(--child-text-primary);
+      border: 3px solid transparent;
+    }
+
+    .action-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--child-primary);
+    }
+
+    .action-icon {
+      font-size: 48px;
+      margin-bottom: var(--space-3);
+    }
+
+    .action-title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-1);
+    }
+
+    .action-description {
+      font-size: var(--text-sm);
+      color: var(--child-text-secondary);
+    }
+
+    /* Transaction History */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-4);
+    }
+
+    .section-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+    }
+
+    .view-all-link {
+      color: var(--child-primary);
+      text-decoration: none;
+      font-weight: var(--font-semibold);
+      font-size: var(--text-sm);
+    }
+
+    .view-all-link:hover {
+      text-decoration: underline;
+    }
+
+    .transaction-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .transaction-item {
+      background-color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-base);
+    }
+
+    .transaction-item:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateX(4px);
+    }
+
+    .transaction-info {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .transaction-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-2xl);
+      flex-shrink: 0;
+    }
+
+    .transaction-icon.credit {
+      background-color: var(--child-success-light);
+    }
+
+    .transaction-icon.debit {
+      background-color: #FEE2E2;
+    }
+
+    .transaction-details {
+      flex: 1;
+    }
+
+    .transaction-type {
+      font-size: var(--text-base);
+      font-weight: var(--font-semibold);
+      color: var(--child-text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .transaction-date {
+      font-size: var(--text-sm);
+      color: var(--child-text-secondary);
+    }
+
+    .transaction-amount {
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      white-space: nowrap;
+    }
+
+    .transaction-amount.credit {
+      color: var(--child-success);
+    }
+
+    .transaction-amount.debit {
+      color: var(--parent-danger);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: var(--space-12) var(--space-8);
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+    }
+
+    .empty-state-icon {
+      font-size: 64px;
+      margin-bottom: var(--space-4);
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-2);
+    }
+
+    .empty-state p {
+      color: var(--child-text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .app-header {
+        padding: var(--space-4) 0;
+      }
+
+      .child-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: var(--text-3xl);
+      }
+
+      .child-greeting h1 {
+        font-size: var(--text-xl);
+      }
+
+      .balance-amount {
+        font-size: 48px;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .transaction-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-3);
+      }
+
+      .transaction-amount {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body class="child-theme">
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container">
+        <div class="header-content">
+          <div class="child-info">
+            <div class="child-avatar">🦄</div>
+            <div class="child-greeting">
+              <h1>Hi, Emma!</h1>
+              <p>Here's your piggy bank</p>
+            </div>
+          </div>
+          <button class="logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='01-child-login.html'">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <div class="container">
+        <!-- Balance Card -->
+        <div class="balance-card">
+          <div class="balance-label">My Balance</div>
+          <div class="balance-amount">$125.50</div>
+          <div class="balance-subtext">Keep saving for your goals! 🎯</div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <a href="03-request-money.html" class="action-card">
+            <div class="action-icon">💰</div>
+            <div class="action-title">Request Money</div>
+            <div class="action-description">Ask to add money</div>
+          </a>
+
+          <a href="03-request-money.html" class="action-card">
+            <div class="action-icon">🛍️</div>
+            <div class="action-title">Request to Spend</div>
+            <div class="action-description">Ask to use money</div>
+          </a>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="section-header">
+          <h2 class="section-title">Recent Transactions</h2>
+          <a href="#" class="view-all-link">View All →</a>
+        </div>
+
+        <div class="transaction-list">
+          <!-- Credit Transaction -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon credit">💰</div>
+              <div class="transaction-details">
+                <div class="transaction-type">Allowance</div>
+                <div class="transaction-date">Today at 3:45 PM</div>
+              </div>
+            </div>
+            <div class="transaction-amount credit">+$20.00</div>
+          </div>
+
+          <!-- Debit Transaction -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon debit">🎨</div>
+              <div class="transaction-details">
+                <div class="transaction-type">Art supplies</div>
+                <div class="transaction-date">Yesterday at 2:30 PM</div>
+              </div>
+            </div>
+            <div class="transaction-amount debit">-$12.00</div>
+          </div>
+
+          <!-- Credit Transaction -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon credit">🎂</div>
+              <div class="transaction-details">
+                <div class="transaction-type">Birthday gift from Grandma</div>
+                <div class="transaction-date">3 days ago</div>
+              </div>
+            </div>
+            <div class="transaction-amount credit">+$25.00</div>
+          </div>
+
+          <!-- Credit Transaction -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon credit">⭐</div>
+              <div class="transaction-details">
+                <div class="transaction-type">Chore bonus</div>
+                <div class="transaction-date">5 days ago</div>
+              </div>
+            </div>
+            <div class="transaction-amount credit">+$5.00</div>
+          </div>
+
+          <!-- Debit Transaction -->
+          <div class="transaction-item">
+            <div class="transaction-info">
+              <div class="transaction-icon debit">📚</div>
+              <div class="transaction-details">
+                <div class="transaction-type">New book</div>
+                <div class="transaction-date">1 week ago</div>
+              </div>
+            </div>
+            <div class="transaction-amount debit">-$8.50</div>
+          </div>
+        </div>
+
+        <!-- Empty State (hidden when transactions exist) -->
+        <!-- <div class="empty-state">
+          <div class="empty-state-icon">📭</div>
+          <h3>No Transactions Yet</h3>
+          <p>Your transaction history will appear here once you start earning and spending money.</p>
+        </div> -->
+      </div>
+    </main>
+  </div>
+</body>
+</html>

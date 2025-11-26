@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kash - Request Money</title>
+  <link rel="stylesheet" href="../shared/design-system.css">
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, var(--child-primary) 0%, var(--child-primary-hover) 100%);
+      color: var(--white);
+      padding: var(--space-5) 0;
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+    }
+
+    .back-button {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: var(--text-3xl);
+      cursor: pointer;
+      padding: var(--space-2);
+      transition: transform var(--transition-base);
+    }
+
+    .back-button:hover {
+      transform: translateX(-4px);
+    }
+
+    .page-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      margin: 0;
+      flex: 1;
+      text-align: center;
+    }
+
+    /* Spacer for centering */
+    .spacer {
+      width: 44px;
+    }
+
+    /* Main Content */
+    .app-main {
+      flex: 1;
+      padding: var(--space-8) 0;
+      background-color: var(--child-bg);
+    }
+
+    .page-subtitle {
+      text-align: center;
+      color: var(--child-text-secondary);
+      margin-bottom: var(--space-8);
+      font-size: var(--text-base);
+    }
+
+    /* Request Type Selection */
+    .request-type-selection {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+
+    .request-type-card {
+      background-color: var(--white);
+      border: 3px solid var(--child-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .request-type-card:hover {
+      border-color: var(--child-primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .request-type-card.selected {
+      border-color: var(--child-primary);
+      background-color: var(--child-primary-light);
+      box-shadow: var(--shadow-md);
+    }
+
+    .request-type-icon {
+      font-size: 56px;
+      margin-bottom: var(--space-3);
+    }
+
+    .request-type-title {
+      font-size: var(--text-lg);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-1);
+    }
+
+    .request-type-description {
+      font-size: var(--text-sm);
+      color: var(--child-text-secondary);
+    }
+
+    /* Request Form */
+    .request-form-card {
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-xl);
+      display: none;
+    }
+
+    .request-form-card.active {
+      display: block;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+
+    .form-header-icon {
+      font-size: 64px;
+      margin-bottom: var(--space-3);
+    }
+
+    .form-header-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-2);
+    }
+
+    .form-header-subtitle {
+      font-size: var(--text-base);
+      color: var(--child-text-secondary);
+    }
+
+    .amount-input-wrapper {
+      position: relative;
+      margin-bottom: var(--space-6);
+    }
+
+    .amount-input {
+      width: 100%;
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      text-align: center;
+      padding: var(--space-4);
+      border: 3px solid var(--child-border);
+      border-radius: var(--radius-lg);
+      background-color: var(--child-bg);
+    }
+
+    .amount-input:focus {
+      border-color: var(--child-primary);
+      outline: none;
+      box-shadow: 0 0 0 4px var(--child-primary-light);
+    }
+
+    .currency-symbol {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-100%, -50%);
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      color: var(--child-text-secondary);
+      pointer-events: none;
+      margin-left: -20px;
+    }
+
+    .balance-info {
+      background-color: #EFF6FF;
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      margin-bottom: var(--space-6);
+      text-align: center;
+    }
+
+    .balance-info-label {
+      font-size: var(--text-sm);
+      color: var(--child-text-secondary);
+      margin-bottom: var(--space-1);
+    }
+
+    .balance-info-value {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      color: var(--child-primary);
+    }
+
+    .change-type-btn {
+      width: 100%;
+      padding: var(--space-3);
+      background: none;
+      border: none;
+      color: var(--child-primary);
+      font-size: var(--text-base);
+      font-weight: var(--font-semibold);
+      cursor: pointer;
+      transition: opacity var(--transition-base);
+      margin-top: var(--space-4);
+    }
+
+    .change-type-btn:hover {
+      opacity: 0.7;
+    }
+
+    /* Success Message */
+    .success-message {
+      text-align: center;
+      padding: var(--space-12);
+      display: none;
+    }
+
+    .success-message.active {
+      display: block;
+    }
+
+    .success-icon {
+      font-size: 80px;
+      margin-bottom: var(--space-4);
+    }
+
+    .success-title {
+      font-size: var(--text-3xl);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-3);
+    }
+
+    .success-subtitle {
+      font-size: var(--text-lg);
+      color: var(--child-text-secondary);
+      margin-bottom: var(--space-8);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .request-type-selection {
+        grid-template-columns: 1fr;
+      }
+
+      .amount-input {
+        font-size: var(--text-3xl);
+      }
+
+      .currency-symbol {
+        font-size: var(--text-3xl);
+      }
+    }
+  </style>
+</head>
+<body class="child-theme">
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container">
+        <div class="header-content">
+          <button class="back-button" onclick="window.location.href='02-child-balance.html'">
+            ←
+          </button>
+          <h1 class="page-title">Make a Request</h1>
+          <div class="spacer"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <div class="container">
+        <p class="page-subtitle">
+          Choose what type of request you want to make
+        </p>
+
+        <!-- Request Type Selection -->
+        <div class="request-type-selection" id="typeSelection">
+          <div class="request-type-card" onclick="selectRequestType('credit')">
+            <div class="request-type-icon">💰</div>
+            <div class="request-type-title">Add Money</div>
+            <div class="request-type-description">Request to add money to your balance</div>
+          </div>
+
+          <div class="request-type-card" onclick="selectRequestType('expenditure')">
+            <div class="request-type-icon">🛍️</div>
+            <div class="request-type-title">Spend Money</div>
+            <div class="request-type-description">Request to use your money</div>
+          </div>
+        </div>
+
+        <!-- Credit Request Form -->
+        <div class="request-form-card" id="creditForm">
+          <div class="form-header">
+            <div class="form-header-icon">💰</div>
+            <h2 class="form-header-title">Request to Add Money</h2>
+            <p class="form-header-subtitle">Tell us how much and why</p>
+          </div>
+
+          <form onsubmit="submitRequest(event, 'credit')">
+            <div class="form-group">
+              <label for="credit-amount" class="form-label">How much?</label>
+              <div class="amount-input-wrapper">
+                <span class="currency-symbol">$</span>
+                <input
+                  type="number"
+                  id="credit-amount"
+                  class="amount-input"
+                  placeholder="0.00"
+                  step="0.01"
+                  min="0.01"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="credit-reason" class="form-label">Why are you getting this money?</label>
+              <textarea
+                id="credit-reason"
+                class="form-input"
+                rows="4"
+                placeholder="Example: Birthday gift from Grandma, allowance, etc."
+                required
+              ></textarea>
+              <div class="form-help">
+                Tell your parents where this money came from so they can approve it.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full btn-lg">
+              Send Request
+            </button>
+
+            <button type="button" class="change-type-btn" onclick="backToSelection()">
+              ← Change request type
+            </button>
+          </form>
+        </div>
+
+        <!-- Expenditure Request Form -->
+        <div class="request-form-card" id="expenditureForm">
+          <div class="form-header">
+            <div class="form-header-icon">🛍️</div>
+            <h2 class="form-header-title">Request to Spend Money</h2>
+            <p class="form-header-subtitle">Tell us how much and what for</p>
+          </div>
+
+          <form onsubmit="submitRequest(event, 'expenditure')">
+            <div class="balance-info">
+              <div class="balance-info-label">Your Current Balance</div>
+              <div class="balance-info-value">$125.50</div>
+            </div>
+
+            <div class="form-group">
+              <label for="expenditure-amount" class="form-label">How much do you need?</label>
+              <div class="amount-input-wrapper">
+                <span class="currency-symbol">$</span>
+                <input
+                  type="number"
+                  id="expenditure-amount"
+                  class="amount-input"
+                  placeholder="0.00"
+                  step="0.01"
+                  min="0.01"
+                  max="125.50"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="expenditure-reason" class="form-label">What do you want to buy?</label>
+              <textarea
+                id="expenditure-reason"
+                class="form-input"
+                rows="4"
+                placeholder="Example: New toy, book, game, etc."
+                required
+              ></textarea>
+              <div class="form-help">
+                Explain what you want to spend your money on.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full btn-lg">
+              Send Request
+            </button>
+
+            <button type="button" class="change-type-btn" onclick="backToSelection()">
+              ← Change request type
+            </button>
+          </form>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+          <div class="success-icon">✅</div>
+          <h2 class="success-title">Request Sent!</h2>
+          <p class="success-subtitle">Your parents will review your request soon.</p>
+          <button class="btn btn-primary btn-lg" onclick="window.location.href='02-child-balance.html'">
+            Back to Balance
+          </button>
+          <button class="btn btn-secondary btn-lg" style="margin-top: var(--space-3);" onclick="location.reload()">
+            Make Another Request
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let selectedType = null;
+
+    function selectRequestType(type) {
+      selectedType = type;
+
+      // Hide selection
+      document.getElementById('typeSelection').style.display = 'none';
+      document.querySelector('.page-subtitle').style.display = 'none';
+
+      // Show appropriate form
+      if (type === 'credit') {
+        document.getElementById('creditForm').classList.add('active');
+      } else {
+        document.getElementById('expenditureForm').classList.add('active');
+      }
+    }
+
+    function backToSelection() {
+      selectedType = null;
+
+      // Show selection
+      document.getElementById('typeSelection').style.display = 'grid';
+      document.querySelector('.page-subtitle').style.display = 'block';
+
+      // Hide forms
+      document.getElementById('creditForm').classList.remove('active');
+      document.getElementById('expenditureForm').classList.remove('active');
+
+      // Clear form inputs
+      document.getElementById('credit-amount').value = '';
+      document.getElementById('credit-reason').value = '';
+      document.getElementById('expenditure-amount').value = '';
+      document.getElementById('expenditure-reason').value = '';
+    }
+
+    function submitRequest(event, type) {
+      event.preventDefault();
+
+      const amount = type === 'credit'
+        ? document.getElementById('credit-amount').value
+        : document.getElementById('expenditure-amount').value;
+
+      const reason = type === 'credit'
+        ? document.getElementById('credit-reason').value
+        : document.getElementById('expenditure-reason').value;
+
+      if (!amount || !reason) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      // Hide form
+      document.getElementById('creditForm').classList.remove('active');
+      document.getElementById('expenditureForm').classList.remove('active');
+
+      // Show success message
+      document.getElementById('successMessage').classList.add('active');
+
+      // In real app, this would call the API
+      console.log('Request submitted:', { type, amount, reason });
+    }
+  </script>
+</body>
+</html>
