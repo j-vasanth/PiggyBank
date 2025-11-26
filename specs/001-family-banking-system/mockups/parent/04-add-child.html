@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PiggyBank - Add Child</title>
+  <link rel="stylesheet" href="../shared/design-system.css">
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .page-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .page-header {
+      margin-bottom: var(--space-8);
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--parent-primary);
+      text-decoration: none;
+      font-weight: var(--font-medium);
+      margin-bottom: var(--space-4);
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
+    }
+
+    .page-title {
+      font-size: var(--text-3xl);
+      margin-bottom: var(--space-2);
+    }
+
+    .page-subtitle {
+      color: var(--parent-text-secondary);
+    }
+
+    .form-card {
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-xl);
+    }
+
+    /* Avatar Selector */
+    .avatar-selector {
+      margin-bottom: var(--space-6);
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-4);
+    }
+
+    .avatar-option {
+      aspect-ratio: 1;
+      background-color: var(--parent-bg-secondary);
+      border-radius: var(--radius-xl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-4xl);
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: all var(--transition-base);
+    }
+
+    .avatar-option:hover {
+      transform: scale(1.05);
+      background-color: var(--parent-primary-light);
+    }
+
+    .avatar-option.selected {
+      border-color: var(--parent-primary);
+      background-color: var(--parent-primary-light);
+      box-shadow: var(--shadow-lg);
+      transform: scale(1.1);
+    }
+
+    /* PIN Input */
+    .pin-input-group {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: center;
+      margin-top: var(--space-4);
+    }
+
+    .pin-digit {
+      width: 60px;
+      height: 60px;
+      text-align: center;
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      border: 2px solid var(--parent-border);
+      border-radius: var(--radius-lg);
+      background-color: var(--white);
+      transition: all var(--transition-base);
+    }
+
+    .pin-digit:focus {
+      outline: none;
+      border-color: var(--parent-primary);
+      box-shadow: 0 0 0 3px var(--parent-primary-light);
+    }
+
+    .pin-help {
+      text-align: center;
+      margin-top: var(--space-3);
+      font-size: var(--text-sm);
+      color: var(--parent-text-secondary);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: var(--space-4);
+      margin-top: var(--space-8);
+    }
+
+    @media (max-width: 640px) {
+      .avatar-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .pin-digit {
+        width: 50px;
+        height: 50px;
+        font-size: var(--text-xl);
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+
+      .form-actions .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="parent-theme">
+  <div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <a href="03-parent-dashboard.html" class="back-button">
+        ← Back to Dashboard
+      </a>
+      <h1 class="page-title">Add Child</h1>
+      <p class="page-subtitle">Set up a new piggy bank account for your child</p>
+    </div>
+
+    <!-- Form -->
+    <div class="form-card">
+      <form id="add-child-form">
+        <!-- Child Name -->
+        <div class="form-group">
+          <label for="child-name" class="form-label">Child's Name</label>
+          <input
+            type="text"
+            id="child-name"
+            name="child-name"
+            class="form-input"
+            placeholder="Enter child's name"
+            required
+            maxlength="100"
+          />
+          <div class="form-help">
+            This is how your child will be displayed in the app
+          </div>
+        </div>
+
+        <!-- Avatar Selection -->
+        <div class="avatar-selector">
+          <label class="form-label">Choose an Avatar</label>
+          <div class="avatar-grid">
+            <div class="avatar-option" data-avatar="unicorn">🦄</div>
+            <div class="avatar-option" data-avatar="dinosaur">🦖</div>
+            <div class="avatar-option" data-avatar="robot">🤖</div>
+            <div class="avatar-option" data-avatar="cat">🐱</div>
+            <div class="avatar-option" data-avatar="dog">🐶</div>
+            <div class="avatar-option" data-avatar="panda">🐼</div>
+            <div class="avatar-option" data-avatar="lion">🦁</div>
+            <div class="avatar-option" data-avatar="monkey">🐵</div>
+            <div class="avatar-option" data-avatar="penguin">🐧</div>
+            <div class="avatar-option" data-avatar="whale">🐋</div>
+            <div class="avatar-option" data-avatar="butterfly">🦋</div>
+            <div class="avatar-option" data-avatar="rocket">🚀</div>
+          </div>
+          <input type="hidden" id="selected-avatar" name="avatar" required />
+          <div class="form-help" style="margin-top: var(--space-3);">
+            Select a fun avatar that your child will love!
+          </div>
+        </div>
+
+        <!-- PIN Setup -->
+        <div class="form-group">
+          <label class="form-label">Create PIN for Child Login</label>
+          <div class="pin-input-group">
+            <input type="text" maxlength="1" pattern="[0-9]" class="pin-digit" id="pin1" required />
+            <input type="text" maxlength="1" pattern="[0-9]" class="pin-digit" id="pin2" required />
+            <input type="text" maxlength="1" pattern="[0-9]" class="pin-digit" id="pin3" required />
+            <input type="text" maxlength="1" pattern="[0-9]" class="pin-digit" id="pin4" required />
+          </div>
+          <div class="pin-help">
+            Enter a 4-6 digit PIN that your child will use to login.<br>
+            Make it memorable for them!
+          </div>
+          <input type="hidden" id="pin-value" name="pin" required />
+        </div>
+
+        <!-- Initial Balance (Optional) -->
+        <div class="form-group">
+          <label for="initial-balance" class="form-label">Initial Balance (Optional)</label>
+          <div style="position: relative;">
+            <span style="position: absolute; left: var(--space-4); top: 50%; transform: translateY(-50%); color: var(--parent-text-secondary);">$</span>
+            <input
+              type="number"
+              id="initial-balance"
+              name="initial-balance"
+              class="form-input"
+              placeholder="0.00"
+              min="0"
+              max="1000"
+              step="0.01"
+              style="padding-left: var(--space-8);"
+            />
+          </div>
+          <div class="form-help">
+            You can add an initial balance now or do it later from the dashboard
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" onclick="window.location.href='03-parent-dashboard.html'">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" style="flex: 2;">
+            Add Child
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Avatar Selection
+    const avatarOptions = document.querySelectorAll('.avatar-option');
+    const selectedAvatarInput = document.getElementById('selected-avatar');
+
+    avatarOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        // Remove selected class from all
+        avatarOptions.forEach(opt => opt.classList.remove('selected'));
+        // Add selected class to clicked
+        this.classList.add('selected');
+        // Set value
+        selectedAvatarInput.value = this.dataset.avatar;
+      });
+    });
+
+    // PIN Input Auto-Focus
+    const pinInputs = document.querySelectorAll('.pin-digit');
+    pinInputs.forEach((input, index) => {
+      input.addEventListener('input', function(e) {
+        // Only allow numbers
+        this.value = this.value.replace(/[^0-9]/g, '');
+
+        // Auto-focus next input
+        if (this.value && index < pinInputs.length - 1) {
+          pinInputs[index + 1].focus();
+        }
+      });
+
+      // Handle backspace
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Backspace' && !this.value && index > 0) {
+          pinInputs[index - 1].focus();
+        }
+      });
+    });
+
+    // Form Submission
+    document.getElementById('add-child-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const childName = document.getElementById('child-name').value;
+      const avatar = selectedAvatarInput.value;
+      const initialBalance = document.getElementById('initial-balance').value || '0.00';
+
+      // Collect PIN
+      const pin = Array.from(pinInputs).map(input => input.value).join('');
+      document.getElementById('pin-value').value = pin;
+
+      // Validation
+      if (!childName) {
+        alert('Please enter your child\'s name.');
+        return;
+      }
+
+      if (!avatar) {
+        alert('Please select an avatar.');
+        return;
+      }
+
+      if (pin.length < 4) {
+        alert('Please enter a 4-digit PIN.');
+        return;
+      }
+
+      // Success
+      alert(`✓ Child account created!\n\nName: ${childName}\nAvatar: ${avatar}\nInitial Balance: $${initialBalance}\n\nYour child can now login with their PIN!`);
+      window.location.href = '03-parent-dashboard.html';
+    });
+  </script>
+</body>
+</html>
