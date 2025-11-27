@@ -46,7 +46,7 @@ A parent manages their child's piggy bank by adding deposits (allowance, birthda
 
 A child can request a credit (asking for allowance or reporting cash received) or request an expense (asking permission to spend money). Parents receive notifications and can approve or deny these requests.
 
-**Why this priority**: This adds child agency and teaches financial responsibility, but the system works without it (parents can manually enter all transactions). **DEPRIORITIZED**: This feature has been moved to future consideration. The MVP will focus on parent-initiated transactions only. UI mockups remain in the codebase but navigation to request pages has been removed.
+**Why this priority**: This adds child agency and teaches financial responsibility, but the system works without it (parents can manually enter all transactions). **DEPRIORITIZED**: This feature has been moved to future consideration. The MVP will focus on parent-initiated transactions only. UI mockups remain in the codebase (child request forms and parent pending requests page) but all navigation to these pages has been removed from sidebars and dashboards.
 
 **Independent Test**: Can be tested with existing family and child accounts. Child submits requests, parent reviews and approves/denies them, and balances update accordingly upon approval.
 
