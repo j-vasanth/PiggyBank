@@ -6,15 +6,17 @@ This directory contains interactive HTML/CSS mockups for all screens in the Kash
 ## Mockup Structure
 
 ### Parent Screens (`/parent/`)
-1. **01-register-family.html** - Create new family account (User Story 1)
-2. **02-parent-login.html** - Parent authentication (User Story 1)
-3. **03-parent-dashboard.html** - Main dashboard with all children (User Story 1, 2)
-4. **04-add-child.html** - Add new child with avatar and PIN (User Story 1)
-5. **05-create-transaction.html** - Deposit/deduction form (User Story 2)
-6. **06-transaction-history.html** - View child's transaction history (User Story 2)
-7. **07-notifications.html** - View in-app notifications (User Story 3) - TODO
-8. **08-pending-requests.html** - Approve/deny child requests (User Story 3) - TODO
-9. **09-manage-invitations.html** - Invite co-parents (User Story 4) - TODO
+1. **01-register-parent.html** - Create new parent account (User Story 1)
+2. **01b-create-family.html** - Create family after parent account (User Story 1)
+3. **02-parent-login.html** - Parent authentication (User Story 1)
+4. **03-parent-dashboard.html** - Main dashboard with all children (User Story 1, 2)
+5. **04-add-child.html** - Add new child with avatar and PIN (User Story 1 - accessed via Settings)
+6. **05-create-transaction.html** - Deposit/deduction form (User Story 2)
+7. **06-transaction-history.html** - View child's transaction history (User Story 2)
+8. **06-pending-requests.html** - Approve/deny child requests (User Story 3 - DEFERRED, no navigation)
+9. **07-notifications.html** - View in-app notifications (User Story 3) - TODO
+10. **08-manage-invitations.html** - Invite co-parents (User Story 4 - accessed via Settings)
+11. **09-settings.html** - Settings hub with family management options (User Story 1, 4)
 
 ### Child Screens (`/child/`)
 1. **01-child-login.html** - Child PIN authentication (User Story 1)

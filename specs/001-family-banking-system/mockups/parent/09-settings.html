@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kash - Settings</title>
+  <link rel="stylesheet" href="../shared/design-system.css">
+  <link rel="stylesheet" href="../shared/navigation.css">
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header/Navigation */
+    .app-header {
+      background-color: var(--white);
+      border-bottom: 2px solid var(--parent-border);
+      padding: var(--space-4) 0;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Main Content */
+    .app-main {
+      flex: 1;
+      padding: var(--space-8) 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+    }
+
+    .page-subtitle {
+      color: var(--parent-text-secondary);
+      text-align: center;
+      margin-bottom: var(--space-8);
+    }
+
+    /* Settings Sections */
+    .settings-section {
+      background-color: var(--white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-6);
+    }
+
+    .settings-section-title {
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      color: var(--parent-text-primary);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 2px solid var(--parent-border);
+    }
+
+    .settings-section-description {
+      color: var(--parent-text-secondary);
+      font-size: var(--text-sm);
+      margin-bottom: var(--space-4);
+    }
+
+    .settings-action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4);
+      background-color: var(--parent-bg-secondary);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-3);
+      transition: all var(--transition-base);
+    }
+
+    .settings-action:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-action:hover {
+      background-color: var(--parent-primary-light);
+      transform: translateX(4px);
+    }
+
+    .settings-action-icon {
+      font-size: var(--text-3xl);
+      margin-right: var(--space-4);
+    }
+
+    .settings-action-content {
+      flex: 1;
+    }
+
+    .settings-action-title {
+      font-size: var(--text-base);
+      font-weight: var(--font-semibold);
+      color: var(--parent-text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .settings-action-description {
+      font-size: var(--text-sm);
+      color: var(--parent-text-secondary);
+    }
+
+    .settings-action-button {
+      padding: var(--space-3) var(--space-5);
+      background-color: var(--parent-primary);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-md);
+      font-weight: var(--font-semibold);
+      cursor: pointer;
+      transition: all var(--transition-base);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .settings-action-button:hover {
+      background-color: var(--parent-primary-dark);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 640px) {
+      .settings-action {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .settings-action-icon {
+        margin-right: 0;
+        margin-bottom: var(--space-2);
+      }
+
+      .settings-action-button {
+        margin-top: var(--space-3);
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="parent-theme">
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo-icon">💵</span>
+        <h1 class="sidebar-app-title">Kash</h1>
+      </div>
+
+      <div class="sidebar-menu">
+        <a href="03-parent-dashboard.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">🏠</span>
+          <span class="sidebar-menu-label">Dashboard</span>
+        </a>
+        <a href="06-transaction-history.html" class="sidebar-menu-item">
+          <span class="sidebar-menu-icon">💳</span>
+          <span class="sidebar-menu-label">Transactions</span>
+        </a>
+        <a href="09-settings.html" class="sidebar-menu-item active">
+          <span class="sidebar-menu-icon">⚙️</span>
+          <span class="sidebar-menu-label">Settings</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-username">John</div>
+        <button class="sidebar-logout-btn" onclick="if(confirm('Are you sure you want to logout?')) window.location.href='02-parent-login.html'">
+          Logout
+        </button>
+      </div>
+    </nav>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container">
+        <div class="header-content">
+          <!-- Hamburger Menu Button -->
+          <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+            <span class="hamburger-icon"></span>
+          </button>
+
+          <!-- Page Title (Centered) -->
+          <h1 class="page-title">Settings</h1>
+
+          <!-- Spacer for alignment -->
+          <div style="width: 44px;"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="app-main">
+      <div class="container">
+        <p class="page-subtitle">Manage your family account</p>
+
+        <!-- Family Management Section -->
+        <div class="settings-section">
+          <h2 class="settings-section-title">Family Management</h2>
+          <p class="settings-section-description">Add children and invite other parents to co-manage your family account</p>
+
+          <!-- Add Child Action -->
+          <div class="settings-action">
+            <span class="settings-action-icon">➕</span>
+            <div class="settings-action-content">
+              <div class="settings-action-title">Add Child</div>
+              <div class="settings-action-description">Create a new piggy bank account for your child</div>
+            </div>
+            <a href="04-add-child.html" class="settings-action-button">Add Child</a>
+          </div>
+
+          <!-- Invite Co-Parent Action -->
+          <div class="settings-action">
+            <span class="settings-action-icon">👥</span>
+            <div class="settings-action-content">
+              <div class="settings-action-title">Invite Co-Parent</div>
+              <div class="settings-action-description">Share family management with another parent</div>
+            </div>
+            <a href="08-manage-invitations.html" class="settings-action-button">Invite</a>
+          </div>
+        </div>
+
+        <!-- Account Section (for future features) -->
+        <div class="settings-section">
+          <h2 class="settings-section-title">Account</h2>
+          <p class="settings-section-description">Manage your account preferences</p>
+
+          <div class="settings-action">
+            <span class="settings-action-icon">👤</span>
+            <div class="settings-action-content">
+              <div class="settings-action-title">Profile</div>
+              <div class="settings-action-description">View and edit your profile information</div>
+            </div>
+            <button class="settings-action-button" onclick="alert('Profile settings coming soon!')">Edit</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebarOverlay');
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+
+      sidebar.classList.toggle('active');
+      overlay.classList.toggle('active');
+      hamburgerBtn.classList.toggle('active');
+    }
+
+    // Close sidebar when clicking overlay
+    document.getElementById('sidebarOverlay').addEventListener('click', toggleSidebar);
+
+    // Close sidebar when clicking a menu item
+    document.querySelectorAll('.sidebar-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          toggleSidebar();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
