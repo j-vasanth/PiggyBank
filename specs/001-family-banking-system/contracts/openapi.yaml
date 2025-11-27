@@ -30,7 +30,7 @@ tags:
   - name: Transactions
     description: Deposits and deductions
   - name: Requests
-    description: Child-initiated credit/expenditure requests
+    description: Child-initiated credit/expense requests
   - name: Invitations
     description: Multi-parent admin invitations
   - name: Notifications
@@ -327,9 +327,9 @@ paths:
   /requests:
     post:
       tags: [Requests]
-      summary: Create new credit or expenditure request
+      summary: Create new credit or expense request
       description: |
-        Children submit credit or expenditure requests (FR-014, FR-015).
+        Children submit credit or expense requests (FR-014, FR-015).
         Notifies all parent admins via in-app notification (FR-016).
       requestBody:
         required: true
@@ -710,8 +710,8 @@ components:
           format: uuid
         type:
           type: string
-          enum: [credit, expenditure]
-          example: expenditure
+          enum: [credit, expense]
+          example: expense
         amount:
           type: number
           format: decimal
@@ -861,8 +861,8 @@ components:
       properties:
         type:
           type: string
-          enum: [credit, expenditure]
-          example: expenditure
+          enum: [credit, expense]
+          example: expense
         amount:
           type: number
           format: decimal

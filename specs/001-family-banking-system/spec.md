@@ -3,7 +3,7 @@
 **Feature Branch**: `001-family-banking-system`
 **Created**: 2025-11-24
 **Status**: Draft
-**Input**: User description: "Parent creates a family account. Parent can invite other parents as admins. Parent or other parent admins can add their child as a child account with the child's name and avatar. Parents (or admins) can add deposits to the child's balance. parents or admins can deduct an amount from their child's balance. Children can request a credit with a reasoning. Children can request expenditure with reasoning, expenditure deducts their balance. Children can view all their balance history, historically aggregated and in ways that show progress. Parents can view their children's balance history and all transactions. The app must be sleek and fun to use for children. The act must be minimal."
+**Input**: User description: "Parent creates a family account. Parent can invite other parents as admins. Parent or other parent admins can add their child as a child account with the child's name and avatar. Parents (or admins) can add deposits to the child's balance. parents or admins can deduct an amount from their child's balance. Children can request a credit with a reasoning. Children can request expense with reasoning, expense deducts their balance. Children can view all their balance history, historically aggregated and in ways that show progress. Parents can view their children's balance history and all transactions. The app must be sleek and fun to use for children. The act must be minimal."
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -44,7 +44,7 @@ A parent manages their child's piggy bank by adding deposits (allowance, birthda
 
 ### User Story 3 - Child Requests Transactions (Priority: P6 - Future/Deferred)
 
-A child can request a credit (asking for allowance or reporting cash received) or request an expenditure (asking permission to spend money). Parents receive notifications and can approve or deny these requests.
+A child can request a credit (asking for allowance or reporting cash received) or request an expense (asking permission to spend money). Parents receive notifications and can approve or deny these requests.
 
 **Why this priority**: This adds child agency and teaches financial responsibility, but the system works without it (parents can manually enter all transactions). **DEPRIORITIZED**: This feature has been moved to future consideration. The MVP will focus on parent-initiated transactions only. UI mockups remain in the codebase but navigation to request pages has been removed.
 
@@ -53,9 +53,9 @@ A child can request a credit (asking for allowance or reporting cash received) o
 **Acceptance Scenarios**:
 
 1. **Given** a child is logged in, **When** they submit a credit request with amount and reasoning, **Then** the request should be visible to all parent admins for approval and an in-app notification should be created
-2. **Given** a child is logged in, **When** they submit an expenditure request with amount and reasoning, **Then** the request should be visible to all parent admins and marked as pending
+2. **Given** a child is logged in, **When** they submit an expense request with amount and reasoning, **Then** the request should be visible to all parent admins and marked as pending
 3. **Given** a parent receives a credit request, **When** they approve it, **Then** the child's balance increases and the child receives an in-app notification of approval
-4. **Given** a parent receives an expenditure request, **When** they approve it, **Then** the child's balance decreases and the child receives an in-app notification of approval
+4. **Given** a parent receives an expense request, **When** they approve it, **Then** the child's balance decreases and the child receives an in-app notification of approval
 5. **Given** a parent receives any request, **When** they deny it, **Then** the balance remains unchanged and the child receives an in-app notification of the denial
 
 ---
@@ -101,7 +101,7 @@ Children can view their balance history through engaging visualizations that sho
 
 - What happens when a parent tries to deduct more than the child's current balance? System prevents the transaction and displays an error message showing current balance and attempted deduction amount.
 - What happens when multiple admins try to modify the same child's balance simultaneously? System uses pessimistic locking (row-level locks) to serialize concurrent access; the second admin's transaction waits for the first to complete, then proceeds with the current balance.
-- What happens when a child submits multiple expenditure requests that would exceed their balance if all approved? System should flag this to parents during approval.
+- What happens when a child submits multiple expense requests that would exceed their balance if all approved? System should flag this to parents during approval.
 - What happens when an invited parent never accepts the invitation? The invitation remains valid indefinitely until the inviting parent manually revokes it or another user consumes it; no automatic time-based expiration.
 - What happens when someone tries to use an invitation link that has already been used? System displays "invitation already used" error and does not grant access.
 - What happens when an existing parent uses an invitation link while already logged in? System adds their existing parent account as a co-admin to the inviting family.
@@ -144,7 +144,7 @@ Children can view their balance history through engaging visualizations that sho
 **Request System**
 
 - **FR-014**: System MUST allow children to submit credit requests with amount and reasoning
-- **FR-015**: System MUST allow children to submit expenditure requests with amount and reasoning
+- **FR-015**: System MUST allow children to submit expense requests with amount and reasoning
 - **FR-016**: System MUST notify all parent admins when a child submits a request via in-app notification (visible when parent opens app)
 - **FR-017**: System MUST allow any parent admin to approve or deny pending requests
 - **FR-018**: System MUST update balances only upon approval of requests
@@ -179,7 +179,7 @@ Children can view their balance history through engaging visualizations that sho
 - **Family Membership**: Junction entity linking parent accounts to families as admins; a parent can be admin of multiple families; all admins have equal permissions within that family
 - **Child Account**: Belongs to one family; has globally unique username, name, avatar, 4-digit PIN code, current balance; read-only access for the child user; credentials set by parent during account creation
 - **Transaction**: Represents a balance change; has type (deposit/deduction), amount, reason, timestamp, performing admin, target child account; immutable once recorded
-- **Request**: Submitted by child; has type (credit/expenditure), amount, reasoning, timestamp, status (pending/approved/denied), approving admin (if processed)
+- **Request**: Submitted by child; has type (credit/expense), amount, reasoning, timestamp, status (pending/approved/denied), approving admin (if processed)
 - **Invitation**: Sent by existing parent admin to invite co-admin to their family; has unique one-time code/link, target family, creation timestamp, status (pending/accepted/revoked/used); no time-based expiration; can be manually revoked by creator; expires immediately after first use
 
 ## Clarifications

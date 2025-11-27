@@ -148,7 +148,7 @@ This is a Web + Mobile app with backend and frontend:
 
 **STATUS**: ⚠️ **DEPRIORITIZED** - This feature has been moved to future consideration. The MVP will focus on parent-initiated transactions only. UI mockups remain in the codebase but navigation has been removed from child balance page.
 
-**Goal**: A child can request a credit or expenditure with reasoning, parents receive in-app notifications, and can approve or deny requests which update balances accordingly.
+**Goal**: A child can request a credit or expense with reasoning, parents receive in-app notifications, and can approve or deny requests which update balances accordingly.
 
 **Independent Test**: With existing family and child accounts, child submits requests, parent reviews and approves/denies them, and balances update correctly upon approval.
 
@@ -171,7 +171,7 @@ This is a Web + Mobile app with backend and frontend:
 - [ ] T090 [P] [US3] Create RequestCard component in frontend/src/components/RequestCard.tsx displaying request details with approve/deny buttons
 - [ ] T091 [P] [US3] Create NotificationBadge component in frontend/src/components/NotificationBadge.tsx showing unread count
 - [ ] T092 [P] [US3] Create NotificationList component in frontend/src/components/NotificationList.tsx displaying notification history
-- [ ] T093 [US3] Create RequestMoneyPage in frontend/src/pages/child/RequestMoneyPage.tsx with credit/expenditure form per FR-014, FR-015
+- [ ] T093 [US3] Create RequestMoneyPage in frontend/src/pages/child/RequestMoneyPage.tsx with credit/expense form per FR-014, FR-015
 - [ ] T094 [US3] Create PendingRequestsPage in frontend/src/pages/parent/PendingRequestsPage.tsx listing all pending requests with RequestCard components
 - [ ] T095 [US3] Create NotificationsPage in frontend/src/pages/parent/NotificationsPage.tsx with NotificationList component
 - [ ] T096 [US3] Add NotificationBadge to parent navigation header in frontend/src/components/ParentHeader.tsx

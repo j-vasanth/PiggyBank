@@ -19,7 +19,7 @@ This directory contains interactive HTML/CSS mockups for all screens in the Kash
 ### Child Screens (`/child/`)
 1. **01-child-login.html** - Child PIN authentication (User Story 1)
 2. **02-child-balance.html** - View balance and history (User Story 1, 2)
-3. **03-request-money.html** - Submit credit/expenditure requests (User Story 3)
+3. **03-request-money.html** - Submit credit/expense requests (User Story 3)
 4. **04-progress-dashboard.html** - Charts and milestones (User Story 5) - TODO
 
 ### Shared Resources (`/shared/`)

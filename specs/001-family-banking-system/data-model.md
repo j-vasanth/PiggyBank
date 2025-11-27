@@ -192,7 +192,7 @@ Immutable record of balance changes (deposits or deductions).
 
 ### Request
 
-Child-initiated credit or expenditure request pending parent approval.
+Child-initiated credit or expense request pending parent approval.
 
 **Table**: `requests`
 
@@ -200,7 +200,7 @@ Child-initiated credit or expenditure request pending parent approval.
 |-------|------|-------------|-------------|
 | id | UUID | PRIMARY KEY | Unique request identifier |
 | child_id | UUID | FOREIGN KEY (children.id), NOT NULL | Child who submitted request |
-| type | VARCHAR(20) | NOT NULL, CHECK (type IN ('credit', 'expenditure')) | Request type (FR-014, FR-015) |
+| type | VARCHAR(20) | NOT NULL, CHECK (type IN ('credit', 'expense')) | Request type (FR-014, FR-015) |
 | amount | NUMERIC(10, 2) | NOT NULL, CHECK (amount > 0 AND amount <= 1000) | Requested amount |
 | reasoning | TEXT | NOT NULL | Child's justification (FR-014, FR-015) |
 | status | VARCHAR(20) | NOT NULL, DEFAULT 'pending', CHECK (status IN ('pending', 'approved', 'denied')) | Request status |
@@ -424,7 +424,7 @@ def create_transaction(db: Session, child_id: str, amount: Decimal, reason: str)
 - `transactions.amount > 0 AND amount <= 1000` (FR-027)
 - `requests.amount > 0 AND amount <= 1000` (FR-027)
 - `transactions.type IN ('deposit', 'deduction')`
-- `requests.type IN ('credit', 'expenditure')`
+- `requests.type IN ('credit', 'expense')`
 - `requests.status IN ('pending', 'approved', 'denied')`
 - `invitations.status IN ('pending', 'accepted', 'revoked')`
 
