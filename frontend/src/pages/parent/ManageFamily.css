@@ -1,5 +1,5 @@
 /**
- * Manage Family Page - No hover effects
+ * Manage Family Page - Dark Theme
  */
 
 .manage-family-page {
@@ -10,34 +10,36 @@
 
 .page-subtitle {
   text-align: center;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-300);
   margin-bottom: 24px;
   line-height: 1.5;
 }
 
 .error-message {
   background: var(--kash-danger-100);
-  color: var(--kash-danger-600);
+  color: var(--kash-danger-400);
   padding: 12px 16px;
   border-radius: 12px;
   margin-bottom: 16px;
   font-size: 14px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .loading-message {
   margin-top: 16px;
   padding: 12px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
   font-size: 14px;
   text-align: center;
 }
 
 .family-card {
-  background: white;
+  background: var(--surface-card);
   border-radius: 20px;
   padding: 20px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 0 0 1px var(--kash-navy-100);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--kash-navy-600);
 }
 
 .family-card--clickable {
@@ -45,6 +47,11 @@
   align-items: center;
   gap: 16px;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.family-card--clickable:hover {
+  border-color: var(--kash-gold-500);
 }
 
 .family-card__header {
@@ -64,13 +71,13 @@
 }
 
 .family-card__icon--green {
-  background: linear-gradient(135deg, var(--kash-success-100) 0%, #e6f7f5 100%);
-  color: var(--kash-success-600);
+  background: var(--kash-success-100);
+  color: var(--kash-success-400);
 }
 
 .family-card__icon--gold {
-  background: linear-gradient(135deg, var(--kash-gold-100) 0%, #fef6e6 100%);
-  color: var(--kash-gold-600);
+  background: var(--kash-gold-100);
+  color: var(--kash-gold-500);
 }
 
 .family-card__text {
@@ -81,43 +88,48 @@
   font-family: var(--font-display);
   font-size: 18px;
   font-weight: 600;
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   margin: 0 0 4px 0;
 }
 
 .family-card__text p {
   font-size: 14px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-300);
   margin: 0;
   line-height: 1.4;
 }
 
 .family-card__arrow {
-  color: var(--kash-navy-300);
+  color: var(--kash-navy-400);
   flex-shrink: 0;
 }
 
 .invite-action {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid var(--kash-navy-100);
+  border-top: 1px solid var(--kash-navy-600);
 }
 
 .create-invite-btn {
   display: inline-block;
   padding: 10px 20px;
   background: var(--kash-gold-500);
-  color: white;
+  color: var(--kash-navy-900);
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.create-invite-btn:hover {
+  background: var(--kash-gold-400);
 }
 
 .pending-invites {
   margin-top: 16px;
   padding-top: 16px;
-  border-top: 1px solid var(--kash-navy-100);
+  border-top: 1px solid var(--kash-navy-600);
 }
 
 .pending-invites__header {
@@ -127,19 +139,19 @@
   margin-bottom: 12px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--kash-navy-700);
+  color: var(--kash-navy-100);
 }
 
 .pending-invites__count {
   font-size: 12px;
-  color: var(--kash-navy-500);
-  background: var(--kash-navy-100);
+  color: var(--kash-navy-300);
+  background: var(--kash-navy-700);
   padding: 4px 8px;
   border-radius: 20px;
 }
 
 .invite-row {
-  background: var(--kash-navy-50);
+  background: var(--kash-navy-700);
   border-radius: 12px;
   padding: 12px 16px;
   margin-bottom: 8px;
@@ -147,6 +159,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 12px;
+  border: 1px solid var(--kash-navy-600);
 }
 
 .invite-row:last-child {
@@ -161,14 +174,14 @@
 
 .invite-row__label {
   font-size: 11px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
 }
 
 .invite-row__value {
   font-family: monospace;
   font-size: 16px;
   font-weight: 600;
-  color: var(--kash-navy-800);
+  color: var(--kash-gold-400);
   letter-spacing: 0.05em;
 }
 
@@ -183,27 +196,36 @@
   font-size: 12px;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .invite-btn--copy {
-  background: var(--kash-navy-800);
-  color: white;
+  background: var(--kash-gold-500);
+  color: var(--kash-navy-900);
+}
+
+.invite-btn--copy:hover {
+  background: var(--kash-gold-400);
 }
 
 .invite-btn--remove {
   background: transparent;
-  color: var(--kash-danger-500);
-  border: 1px solid var(--kash-danger-200);
+  color: var(--kash-danger-400);
+  border: 1px solid var(--kash-danger-100);
+}
+
+.invite-btn--remove:hover {
+  background: var(--kash-danger-100);
 }
 
 .limit-message {
   margin-top: 16px;
   padding: 12px;
-  background: var(--kash-gold-50);
-  border: 1px solid var(--kash-gold-200);
+  background: var(--kash-gold-100);
+  border: 1px solid rgba(255, 176, 32, 0.3);
   border-radius: 12px;
   font-size: 13px;
-  color: var(--kash-gold-700);
+  color: var(--kash-gold-300);
 }
 
 .info-note {
@@ -211,9 +233,10 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px;
-  background: var(--kash-navy-50);
+  background: var(--kash-navy-700);
   border-radius: 16px;
   margin-top: 24px;
+  border: 1px solid var(--kash-navy-600);
 }
 
 .info-note svg {
@@ -224,7 +247,7 @@
 
 .info-note span {
   font-size: 14px;
-  color: var(--kash-navy-600);
+  color: var(--kash-navy-300);
   line-height: 1.5;
 }
 

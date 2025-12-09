@@ -1,6 +1,6 @@
 /**
- * Register Parent Page Styles
- * "Soft Banking" Aesthetic - Warm, welcoming onboarding
+ * Register Parent Page Styles - Dark Theme
+ * "Midnight Banking" Aesthetic - Warm, welcoming onboarding
  */
 
 /* ============================================
@@ -14,6 +14,7 @@
   padding: var(--space-6);
   position: relative;
   overflow: hidden;
+  background: var(--surface-base);
 }
 
 .register-page__container {
@@ -36,14 +37,14 @@
 .register-page__bg-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.6;
+  filter: blur(100px);
+  opacity: 0.35;
 }
 
 .register-page__bg-orb--1 {
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, var(--kash-gold-200) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--kash-gold-500) 0%, transparent 70%);
   top: -200px;
   right: -200px;
   animation: float 20s ease-in-out infinite;
@@ -52,7 +53,7 @@
 .register-page__bg-orb--2 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, var(--kash-navy-200) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--kash-navy-500) 0%, transparent 70%);
   bottom: -100px;
   left: -100px;
   animation: float 25s ease-in-out infinite reverse;
@@ -61,12 +62,13 @@
 .register-page__bg-orb--3 {
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, var(--kash-success-100) 0%, transparent 70%);
+  background: radial-gradient(circle, var(--kash-success-500) 0%, transparent 70%);
   top: 40%;
   left: 50%;
   transform: translateX(-50%);
   animation: float 18s ease-in-out infinite;
   animation-delay: -5s;
+  opacity: 0.2;
 }
 
 /* ============================================
@@ -87,7 +89,7 @@
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 8px 32px rgba(245, 166, 35, 0.35),
+    0 8px 32px rgba(255, 176, 32, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
@@ -99,14 +101,14 @@
   font-family: var(--font-display);
   font-size: var(--text-4xl);
   font-weight: var(--font-extrabold);
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   letter-spacing: -0.03em;
   margin: 0 0 var(--space-2);
 }
 
 .register-page__tagline {
   font-size: var(--text-lg);
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
   margin: 0;
 }
 
@@ -114,13 +116,11 @@
    REGISTRATION CARD
    ============================================ */
 .register-card {
-  background: var(--white);
+  background: var(--surface-card);
   border-radius: var(--radius-3xl);
   padding: var(--space-8);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.06),
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 0 0 1px var(--kash-navy-100);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--kash-navy-600);
 }
 
 .register-card__header {
@@ -132,13 +132,13 @@
   font-family: var(--font-display);
   font-size: var(--text-2xl);
   font-weight: var(--font-bold);
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   margin: 0 0 var(--space-2);
 }
 
 .register-card__subtitle {
   font-size: var(--text-base);
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
   margin: 0;
 }
 
@@ -189,7 +189,7 @@
 .password-strength__bar {
   flex: 1;
   height: 4px;
-  background: var(--kash-navy-100);
+  background: var(--kash-navy-700);
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -202,7 +202,7 @@
 
 .password-strength__text {
   font-size: var(--text-xs);
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
   white-space: nowrap;
 }
 
@@ -210,7 +210,7 @@
 .form-success {
   margin-top: var(--space-2);
   font-size: var(--text-sm);
-  color: var(--kash-success-600);
+  color: var(--kash-success-400);
   font-weight: var(--font-medium);
   display: flex;
   align-items: center;
@@ -247,13 +247,13 @@
 .register-card__footer {
   margin-top: var(--space-6);
   padding-top: var(--space-6);
-  border-top: 1px solid var(--kash-navy-100);
+  border-top: 1px solid var(--kash-navy-600);
   text-align: center;
 }
 
 .register-card__footer p {
   font-size: var(--text-base);
-  color: var(--kash-navy-600);
+  color: var(--kash-navy-300);
   margin: 0;
 }
 

@@ -1,5 +1,5 @@
 /**
- * Transactions Page Styles
+ * Transactions Page Styles - Dark Theme
  */
 
 .transactions-page {
@@ -11,7 +11,7 @@
 .transactions-loading {
   text-align: center;
   padding: 40px 20px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-300);
 }
 
 /* Empty State */
@@ -21,14 +21,14 @@
 }
 
 .transactions-empty p {
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-300);
   margin-bottom: 20px;
 }
 
 .transactions-empty-btn {
   display: inline-block;
   background: var(--kash-gold-500);
-  color: white;
+  color: var(--kash-navy-900);
   padding: 12px 24px;
   border-radius: 12px;
   font-weight: 600;
@@ -40,10 +40,11 @@
   display: flex;
   gap: 8px;
   padding: 4px;
-  background: var(--kash-navy-100);
+  background: var(--kash-navy-700);
   border-radius: 16px;
   margin-bottom: 20px;
   overflow-x: auto;
+  border: 1px solid var(--kash-navy-600);
 }
 
 .child-tab {
@@ -58,8 +59,8 @@
 }
 
 .child-tab--active {
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: var(--surface-card);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .child-tab__avatar {
@@ -69,7 +70,7 @@
 .child-tab__name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--kash-navy-700);
+  color: var(--kash-navy-100);
 }
 
 /* Child Header */
@@ -77,18 +78,19 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: white;
+  background: var(--surface-card);
   padding: 20px;
   border-radius: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--kash-navy-600);
 }
 
 .child-header__avatar {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--kash-gold-200) 0%, var(--kash-gold-100) 100%);
+  background: linear-gradient(135deg, var(--kash-gold-500) 0%, var(--kash-gold-400) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,14 +107,14 @@
   font-family: var(--font-display);
   font-size: 18px;
   font-weight: 700;
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   margin: 0 0 4px 0;
 }
 
 .child-header__label {
   display: block;
   font-size: 12px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
   margin-bottom: 2px;
 }
 
@@ -120,7 +122,7 @@
   font-family: var(--font-display);
   font-size: 24px;
   font-weight: 700;
-  color: var(--kash-success-600);
+  color: var(--kash-success-400);
 }
 
 .child-header__actions {
@@ -137,6 +139,7 @@
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
 .child-header__btn--deposit {
@@ -144,9 +147,17 @@
   color: white;
 }
 
+.child-header__btn--deposit:hover {
+  background: var(--kash-success-400);
+}
+
 .child-header__btn--deduct {
   background: var(--kash-danger-100);
-  color: var(--kash-danger-600);
+  color: var(--kash-danger-400);
+}
+
+.child-header__btn--deduct:hover {
+  background: rgba(239, 68, 68, 0.25);
 }
 
 /* Filters */
@@ -163,18 +174,18 @@
 .filter-label {
   font-size: 12px;
   font-weight: 600;
-  color: var(--kash-navy-600);
+  color: var(--kash-navy-300);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .filter-select {
   padding: 12px 16px;
-  border: 2px solid var(--kash-navy-200);
+  border: 2px solid var(--kash-navy-600);
   border-radius: 12px;
   font-size: 15px;
-  color: var(--kash-navy-800);
-  background: white;
+  color: var(--kash-navy-50);
+  background: var(--surface-card);
   cursor: pointer;
   outline: none;
 }
@@ -185,10 +196,11 @@
 
 /* Transaction List */
 .transaction-list {
-  background: white;
+  background: var(--surface-card);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--kash-navy-600);
 }
 
 .transaction-list__header {
@@ -196,26 +208,26 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--kash-navy-100);
+  border-bottom: 1px solid var(--kash-navy-600);
 }
 
 .transaction-list__title {
   font-family: var(--font-display);
   font-size: 16px;
   font-weight: 700;
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   margin: 0;
 }
 
 .transaction-list__count {
   font-size: 13px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
 }
 
 .transaction-list__empty {
   padding: 40px 20px;
   text-align: center;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
 }
 
 /* Transaction Item */
@@ -224,7 +236,7 @@
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--kash-navy-50);
+  border-bottom: 1px solid var(--kash-navy-700);
 }
 
 .transaction-item:last-child {
@@ -259,14 +271,14 @@
   display: block;
   font-size: 15px;
   font-weight: 600;
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   margin-bottom: 2px;
 }
 
 .transaction-item__meta {
   display: block;
   font-size: 13px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
 }
 
 .transaction-item__amount {
@@ -283,17 +295,17 @@
 }
 
 .transaction-item__value--deposit {
-  color: var(--kash-success-600);
+  color: var(--kash-success-400);
 }
 
 .transaction-item__value--deduct {
-  color: var(--kash-danger-600);
+  color: var(--kash-danger-400);
 }
 
 .transaction-item__balance {
   display: block;
   font-size: 12px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
 }
 
 /* Responsive */

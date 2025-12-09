@@ -1,5 +1,5 @@
 /**
- * Transaction Form Styles
+ * Transaction Form Styles - Dark Theme
  */
 
 .transaction-form {
@@ -12,7 +12,7 @@
 .transaction-form__error {
   text-align: center;
   padding: 40px 20px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-300);
 }
 
 /* Child Info */
@@ -20,18 +20,19 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background: white;
+  background: var(--surface-card);
   padding: 20px;
   border-radius: 16px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--kash-navy-600);
 }
 
 .transaction-form__avatar {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--kash-gold-200) 0%, var(--kash-gold-100) 100%);
+  background: linear-gradient(135deg, var(--kash-gold-500) 0%, var(--kash-gold-400) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,24 +43,25 @@
   font-family: var(--font-display);
   font-size: 18px;
   font-weight: 600;
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   margin: 0 0 4px 0;
 }
 
 .transaction-form__child-info p {
   font-size: 14px;
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-300);
   margin: 0;
 }
 
 /* Error Message */
 .transaction-form__error-msg {
   background: var(--kash-danger-100);
-  color: var(--kash-danger-600);
+  color: var(--kash-danger-400);
   padding: 12px 16px;
   border-radius: 12px;
   margin-bottom: 20px;
   font-size: 14px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 /* Amount Section */
@@ -71,21 +73,22 @@
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: var(--kash-navy-700);
+  color: var(--kash-navy-200);
   margin-bottom: 8px;
 }
 
 .transaction-form__amount-input {
   display: flex;
   align-items: center;
-  background: white;
-  border: 2px solid var(--kash-navy-200);
+  background: var(--surface-card);
+  border: 2px solid var(--kash-navy-600);
   border-radius: 16px;
   padding: 16px 20px;
 }
 
 .transaction-form__amount-input:focus-within {
   border-color: var(--kash-gold-500);
+  box-shadow: 0 0 0 4px var(--kash-gold-glow);
 }
 
 .transaction-form__currency {
@@ -102,12 +105,12 @@
   font-size: 32px;
   font-weight: 700;
   font-family: var(--font-display);
-  color: var(--kash-navy-900);
+  color: var(--kash-navy-50);
   background: transparent;
 }
 
 .transaction-form__input::placeholder {
-  color: var(--kash-navy-300);
+  color: var(--kash-navy-500);
 }
 
 /* Quick Amounts */
@@ -120,18 +123,25 @@
 .transaction-form__quick-btn {
   flex: 1;
   padding: 12px;
-  background: var(--kash-navy-100);
+  background: var(--kash-navy-700);
   border-radius: 12px;
   text-align: center;
   font-size: 16px;
   font-weight: 600;
-  color: var(--kash-navy-700);
+  color: var(--kash-navy-200);
   cursor: pointer;
+  border: 1px solid var(--kash-navy-600);
+  transition: all 0.2s ease;
+}
+
+.transaction-form__quick-btn:hover {
+  background: var(--kash-navy-600);
 }
 
 .transaction-form__quick-btn--active {
   background: var(--kash-gold-500);
-  color: white;
+  color: var(--kash-navy-900);
+  border-color: var(--kash-gold-500);
 }
 
 /* Text Input */
@@ -142,16 +152,17 @@
 .transaction-form__text-input {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid var(--kash-navy-200);
+  border: 2px solid var(--kash-navy-600);
   border-radius: 12px;
   font-size: 16px;
-  color: var(--kash-navy-900);
-  background: white;
+  color: var(--kash-navy-50);
+  background: var(--surface-card);
   outline: none;
 }
 
 .transaction-form__text-input:focus {
   border-color: var(--kash-gold-500);
+  box-shadow: 0 0 0 4px var(--kash-gold-glow);
 }
 
 .transaction-form__text-input::placeholder {
@@ -163,12 +174,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--kash-navy-50);
+  background: var(--kash-navy-700);
   padding: 16px 20px;
   border-radius: 12px;
   margin-bottom: 24px;
   font-size: 16px;
-  color: var(--kash-navy-600);
+  color: var(--kash-navy-200);
+  border: 1px solid var(--kash-navy-600);
 }
 
 .transaction-form__preview-amount {
@@ -178,11 +190,11 @@
 }
 
 .transaction-form__preview-amount--positive {
-  color: var(--kash-success-600);
+  color: var(--kash-success-400);
 }
 
 .transaction-form__preview-amount--negative {
-  color: var(--kash-danger-600);
+  color: var(--kash-danger-400);
 }
 
 /* Submit Button */
@@ -196,6 +208,7 @@
   font-family: var(--font-display);
   color: white;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .transaction-form__submit:disabled {
@@ -205,10 +218,22 @@
 
 .transaction-form__submit--deposit {
   background: var(--kash-success-500);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+}
+
+.transaction-form__submit--deposit:hover:not(:disabled) {
+  box-shadow: 0 6px 24px rgba(16, 185, 129, 0.4);
+  transform: translateY(-2px);
 }
 
 .transaction-form__submit--deduct {
   background: var(--kash-danger-500);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.3);
+}
+
+.transaction-form__submit--deduct:hover:not(:disabled) {
+  box-shadow: 0 6px 24px rgba(239, 68, 68, 0.4);
+  transform: translateY(-2px);
 }
 
 /* Responsive */

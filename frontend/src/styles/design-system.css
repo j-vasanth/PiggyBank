@@ -1,9 +1,9 @@
 /**
- * Kash Design System
- * "Soft Banking" Aesthetic - Premium, warm, approachable
+ * Kash Design System - Dark Theme
+ * "Midnight Banking" Aesthetic - Sleek, modern, premium
  *
- * A family banking app that feels like a modern fintech product
- * but with warmth and personality that appeals to both parents and kids.
+ * A family banking app with a sophisticated dark theme
+ * that feels like a premium fintech product.
  */
 
 /* ============================================
@@ -12,55 +12,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap');
 
 /* ============================================
-   CSS CUSTOM PROPERTIES
+   CSS CUSTOM PROPERTIES - DARK THEME
    ============================================ */
 :root {
-  /* Primary Palette - Deep Navy & Warm Gold */
-  --kash-navy-950: #0a0e1a;
-  --kash-navy-900: #0f1629;
-  --kash-navy-800: #1a2342;
-  --kash-navy-700: #252f52;
-  --kash-navy-600: #3d4a6b;
-  --kash-navy-500: #5a6a8a;
-  --kash-navy-400: #8694b0;
-  --kash-navy-300: #b3bdd1;
-  --kash-navy-200: #d4dae6;
-  --kash-navy-100: #ebeef4;
-  --kash-navy-50: #f5f7fa;
+  /* Primary Palette - Deep Dark with subtle blue undertones */
+  --kash-navy-950: #030507;
+  --kash-navy-900: #080c14;
+  --kash-navy-800: #0d1320;
+  --kash-navy-700: #141c2e;
+  --kash-navy-600: #1c2640;
+  --kash-navy-500: #2a3752;
+  --kash-navy-400: #4a5a7a;
+  --kash-navy-300: #7a8aa8;
+  --kash-navy-200: #a8b4c8;
+  --kash-navy-100: #d0d8e4;
+  --kash-navy-50: #e8ecf2;
 
-  /* Accent - Warm Gold/Amber */
-  --kash-gold-500: #f5a623;
-  --kash-gold-400: #f7b84d;
-  --kash-gold-300: #f9ca77;
-  --kash-gold-200: #fcdca1;
-  --kash-gold-100: #fef0d4;
-  --kash-gold-glow: rgba(245, 166, 35, 0.25);
+  /* Accent - Electric Gold/Amber (brighter for dark bg) */
+  --kash-gold-600: #e69500;
+  --kash-gold-500: #ffb020;
+  --kash-gold-400: #ffc04d;
+  --kash-gold-300: #ffd078;
+  --kash-gold-200: #ffe0a3;
+  --kash-gold-100: #2a2418;
+  --kash-gold-glow: rgba(255, 176, 32, 0.35);
 
-  /* Success - Soft Teal */
-  --kash-success-600: #0d9488;
-  --kash-success-500: #14b8a6;
-  --kash-success-400: #2dd4bf;
-  --kash-success-100: #ccfbf1;
-  --kash-success-glow: rgba(20, 184, 166, 0.2);
+  /* Success - Vibrant Emerald */
+  --kash-success-600: #059669;
+  --kash-success-500: #10b981;
+  --kash-success-400: #34d399;
+  --kash-success-100: #0d2620;
+  --kash-success-glow: rgba(16, 185, 129, 0.3);
 
-  /* Danger - Warm Coral */
+  /* Danger - Vivid Red */
   --kash-danger-600: #dc2626;
   --kash-danger-500: #ef4444;
   --kash-danger-400: #f87171;
-  --kash-danger-100: #fee2e2;
+  --kash-danger-100: #2a1515;
 
   /* Child Theme - Playful Purple & Pink */
-  --kash-child-primary: #8b5cf6;
-  --kash-child-secondary: #ec4899;
-  --kash-child-accent: #06b6d4;
-  --kash-child-bg: #fefbf3;
-  --kash-child-glow: rgba(139, 92, 246, 0.2);
+  --kash-child-primary: #a78bfa;
+  --kash-child-secondary: #f472b6;
+  --kash-child-accent: #22d3ee;
+  --kash-child-bg: #0d0a14;
+  --kash-child-glow: rgba(167, 139, 250, 0.3);
 
-  /* Semantic */
+  /* Semantic - Dark Theme */
   --white: #ffffff;
   --black: #000000;
-  --overlay-dark: rgba(10, 14, 26, 0.7);
-  --overlay-light: rgba(255, 255, 255, 0.03);
+  --overlay-dark: rgba(0, 0, 0, 0.8);
+  --overlay-light: rgba(255, 255, 255, 0.05);
+
+  /* Surface Colors for Dark Theme */
+  --surface-base: #080c14;
+  --surface-elevated: #0d1320;
+  --surface-overlay: #141c2e;
+  --surface-card: #111827;
+  --surface-input: #0d1320;
 
   /* Typography */
   --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -107,16 +115,17 @@
   --radius-3xl: 2rem;
   --radius-full: 9999px;
 
-  /* Shadows - Layered depth */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+  /* Shadows - Dark theme with subtle glows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
   --shadow-glow-gold: 0 0 40px var(--kash-gold-glow);
   --shadow-glow-success: 0 0 40px var(--kash-success-glow);
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.06);
-  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.05);
+  --shadow-card-hover: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-glow-subtle: 0 0 20px rgba(255, 176, 32, 0.15);
 
   /* Transitions */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -157,8 +166,8 @@ body {
   font-family: var(--font-body);
   font-size: var(--text-base);
   line-height: 1.6;
-  color: var(--kash-navy-800);
-  background: var(--kash-navy-50);
+  color: var(--kash-navy-100);
+  background: var(--surface-base);
 }
 
 #root {
@@ -166,24 +175,24 @@ body {
 }
 
 /* ============================================
-   PARENT THEME - Professional & Warm
+   PARENT THEME - Dark & Premium
    ============================================ */
 .parent-theme {
-  --theme-bg: var(--kash-navy-50);
-  --theme-bg-elevated: var(--white);
-  --theme-text-primary: var(--kash-navy-900);
-  --theme-text-secondary: var(--kash-navy-500);
+  --theme-bg: var(--surface-base);
+  --theme-bg-elevated: var(--surface-card);
+  --theme-text-primary: var(--kash-navy-50);
+  --theme-text-secondary: var(--kash-navy-300);
   --theme-text-tertiary: var(--kash-navy-400);
   --theme-accent: var(--kash-gold-500);
   --theme-accent-glow: var(--kash-gold-glow);
-  --theme-border: var(--kash-navy-200);
-  --theme-border-subtle: var(--kash-navy-100);
+  --theme-border: var(--kash-navy-600);
+  --theme-border-subtle: var(--kash-navy-700);
 
   background: var(--theme-bg);
   color: var(--theme-text-primary);
 }
 
-/* Subtle background pattern for parent theme */
+/* Subtle background pattern for dark parent theme */
 .parent-theme::before {
   content: '';
   position: fixed;
@@ -192,23 +201,24 @@ body {
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, var(--kash-gold-100) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 100% 100%, var(--kash-navy-100) 0%, transparent 40%);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 176, 32, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(20, 28, 46, 0.5) 0%, transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 30%);
   pointer-events: none;
   z-index: -1;
 }
 
 /* ============================================
-   CHILD THEME - Playful & Engaging
+   CHILD THEME - Playful & Dark
    ============================================ */
 .child-theme {
   --theme-bg: var(--kash-child-bg);
-  --theme-bg-elevated: var(--white);
-  --theme-text-primary: var(--kash-navy-900);
-  --theme-text-secondary: var(--kash-navy-600);
+  --theme-bg-elevated: #141020;
+  --theme-text-primary: var(--kash-navy-50);
+  --theme-text-secondary: var(--kash-navy-300);
   --theme-accent: var(--kash-child-primary);
   --theme-accent-glow: var(--kash-child-glow);
-  --theme-border: rgba(139, 92, 246, 0.2);
+  --theme-border: rgba(167, 139, 250, 0.2);
 
   background: var(--theme-bg);
   color: var(--theme-text-primary);
@@ -222,9 +232,9 @@ body {
   right: 0;
   bottom: 0;
   background:
-    radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.05) 0%, transparent 60%);
+    radial-gradient(circle at 20% 20%, rgba(167, 139, 250, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(244, 114, 182, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.08) 0%, transparent 60%);
   pointer-events: none;
   z-index: -1;
 }
@@ -237,7 +247,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-bold);
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--theme-text-primary, var(--kash-navy-900));
+  color: var(--theme-text-primary, var(--kash-navy-50));
 }
 
 h1 { font-size: var(--text-4xl); font-weight: var(--font-extrabold); }
@@ -265,7 +275,7 @@ p {
 }
 
 .text-muted {
-  color: var(--theme-text-secondary, var(--kash-navy-500));
+  color: var(--theme-text-secondary, var(--kash-navy-300));
 }
 
 .text-small {
@@ -351,15 +361,15 @@ p {
 
 /* Secondary/Ghost Button */
 .btn-secondary {
-  background: var(--white);
-  color: var(--kash-navy-800);
-  border: 2px solid var(--kash-navy-200);
+  background: var(--surface-card);
+  color: var(--kash-navy-100);
+  border: 2px solid var(--kash-navy-600);
   box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover:not(:disabled) {
-  border-color: var(--kash-navy-300);
-  background: var(--kash-navy-50);
+  border-color: var(--kash-navy-500);
+  background: var(--kash-navy-700);
   transform: translateY(-1px);
 }
 
@@ -399,7 +409,7 @@ p {
   font-family: var(--font-display);
   font-size: var(--text-sm);
   font-weight: var(--font-semibold);
-  color: var(--kash-navy-700);
+  color: var(--kash-navy-200);
   letter-spacing: 0.01em;
 }
 
@@ -410,9 +420,9 @@ p {
   padding: var(--space-4);
   font-family: var(--font-body);
   font-size: var(--text-base);
-  color: var(--kash-navy-900);
-  background: var(--white);
-  border: 2px solid var(--kash-navy-200);
+  color: var(--kash-navy-50);
+  background: var(--surface-input);
+  border: 2px solid var(--kash-navy-600);
   border-radius: var(--radius-xl);
   transition: all var(--duration-base) var(--ease-out-expo);
   box-shadow: var(--shadow-inner);
@@ -423,7 +433,7 @@ p {
 }
 
 .form-input:hover:not(:focus):not(:disabled) {
-  border-color: var(--kash-navy-300);
+  border-color: var(--kash-navy-500);
 }
 
 .form-input:focus {
@@ -435,14 +445,14 @@ p {
 }
 
 .form-input:disabled {
-  background: var(--kash-navy-100);
+  background: var(--kash-navy-700);
   cursor: not-allowed;
 }
 
 .form-help {
   margin-top: var(--space-2);
   font-size: var(--text-sm);
-  color: var(--kash-navy-500);
+  color: var(--kash-navy-400);
 }
 
 .form-error {
@@ -456,16 +466,17 @@ p {
    CARDS
    ============================================ */
 .card {
-  background: var(--white);
+  background: var(--surface-card);
   border-radius: var(--radius-2xl);
   padding: var(--space-6);
   box-shadow: var(--shadow-card);
   transition: all var(--duration-base) var(--ease-out-expo);
-  border: 1px solid var(--kash-navy-100);
+  border: 1px solid var(--kash-navy-600);
 }
 
 .card:hover {
   box-shadow: var(--shadow-card-hover);
+  border-color: var(--kash-navy-500);
 }
 
 .card-interactive {
@@ -479,21 +490,22 @@ p {
 .card-header {
   margin-bottom: var(--space-4);
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--kash-navy-100);
+  border-bottom: 1px solid var(--kash-navy-600);
 }
 
 .card-title {
   font-size: var(--text-xl);
   font-weight: var(--font-bold);
   margin-bottom: 0;
+  color: var(--kash-navy-50);
 }
 
-/* Glass Card Effect */
+/* Glass Card Effect - Dark */
 .card-glass {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(17, 24, 39, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* ============================================
@@ -684,13 +696,13 @@ p {
 .delay-4 { animation-delay: 200ms; }
 .delay-5 { animation-delay: 250ms; }
 
-/* Loading skeleton */
+/* Loading skeleton - Dark */
 .skeleton {
   background: linear-gradient(
     90deg,
-    var(--kash-navy-100) 25%,
-    var(--kash-navy-50) 50%,
-    var(--kash-navy-100) 75%
+    var(--kash-navy-700) 25%,
+    var(--kash-navy-600) 50%,
+    var(--kash-navy-700) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
