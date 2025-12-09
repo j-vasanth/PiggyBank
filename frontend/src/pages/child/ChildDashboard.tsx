@@ -120,7 +120,6 @@ const ChildDashboard: React.FC = () => {
           <div className="balance-card__decoration">💰</div>
           <span className="balance-card__label">My Balance</span>
           <span className="balance-card__amount">{formatCurrency(user?.balance || 0)}</span>
-          <span className="balance-card__subtext">Keep saving for your goals! 🎯</span>
         </div>
 
         {/* Recent Transactions */}
