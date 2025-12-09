@@ -161,6 +161,16 @@ Children can view their balance history through engaging visualizations that sho
 - **FR-025**: System MUST present child-facing interfaces in an engaging, age-appropriate, visually appealing manner
 - **FR-026**: System MUST present parent-facing interfaces with minimal steps to complete common actions
 
+**Avatar System**
+
+- **FR-044**: System MUST store avatar images as SVG or PNG assets in a dedicated frontend assets folder (`frontend/src/assets/avatars/`)
+- **FR-045**: System MUST use short identifier codes (max 10 characters) to reference avatars (e.g., `mc-vind` for Minecraft Vindicator, `mc-creep` for Minecraft Creeper, `em-dino` for emoji dinosaur)
+- **FR-046**: System MUST maintain an in-code mapping between avatar identifiers and their corresponding asset file paths
+- **FR-047**: System MUST store the avatar identifier (short code) in the child record in the database, not the full file path or image data
+- **FR-048**: System MUST support both legacy emoji avatars (stored directly as emoji characters) and new image-based avatars (stored as identifiers) for backward compatibility
+- **FR-049**: System MUST render image-based avatars using `<img>` tags and emoji avatars as text, determined by the avatar identifier format
+- **FR-050**: System MUST provide an avatar selection interface allowing children or parents to choose from all available avatars (both emoji and image-based)
+
 **Data & Validation**
 
 - **FR-027**: System MUST validate all transaction amounts as positive numbers between $0.01 and $1,000.00
@@ -177,7 +187,7 @@ Children can view their balance history through engaging visualizations that sho
 - **Parent Account**: Individual user account for a parent/guardian; has unique username and password credentials (future OAuth token support); can be admin of multiple families; independent of any specific family
 - **Family**: Represents a household unit; has family name, unique identifier, creation timestamp; contains multiple parent admins and child accounts; created by a parent after they create their account
 - **Family Membership**: Junction entity linking parent accounts to families as admins; a parent can be admin of multiple families; all admins have equal permissions within that family
-- **Child Account**: Belongs to one family; has globally unique username, name, avatar, 4-digit PIN code, current balance; read-only access for the child user; credentials set by parent during account creation
+- **Child Account**: Belongs to one family; has globally unique username, name, avatar identifier (max 10 chars, e.g., `mc-vind` or emoji character for legacy), 4-digit PIN code, current balance; read-only access for the child user; credentials set by parent during account creation
 - **Transaction**: Represents a balance change; has type (deposit/deduction), amount, reason, timestamp, performing admin, target child account; immutable once recorded
 - **Request**: Submitted by child; has type (credit/expense), amount, reasoning, timestamp, status (pending/approved/denied), approving admin (if processed)
 - **Invitation**: Sent by existing parent admin to invite co-admin to their family; has unique one-time code/link, target family, creation timestamp, status (pending/accepted/revoked/used); no time-based expiration; can be manually revoked by creator; expires immediately after first use
@@ -225,4 +235,5 @@ Children can view their balance history through engaging visualizations that sho
 - Currency is in US dollars (internationalization can be added later)
 - Maximum transaction amount is $1,000 per deposit or deduction (suitable for typical children's allowances, gifts, and purchases)
 - Negative balances are prevented entirely; system enforces non-negative balance constraint
-- Avatar selection is from a predefined set (custom avatar upload can be added later)
+- Avatar selection is from a predefined set of image assets (SVG/PNG) and emoji options; custom avatar upload can be added later
+- Avatar identifiers use a naming convention: `mc-*` for Minecraft characters, `em-*` for emoji-style, etc.
