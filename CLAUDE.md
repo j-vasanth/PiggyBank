@@ -5,6 +5,8 @@ Auto-generated from all feature plans. Last updated: 2025-11-24
 ## Active Technologies
 - Python 3.11+ (backend), TypeScript with React 18+ (frontend) + FastAPI (backend API), SQLAlchemy ORM, React 18, Ionic Framework, Capacitor (mobile capabilities) (001-family-banking-system)
 - SQLite with Write-Ahead Logging (WAL) mode on Fly.io persistent volumes (001-family-banking-system)
+- TypeScript with React 18+ + React, Ionic Framework (existing) (002-avatar-system)
+- N/A (frontend assets only; database field already exists) (002-avatar-system)
 
 - Python 3.11+ (backend), TypeScript with React 18+ (frontend) + FastAPI (backend API), React 18, Ionic Framework, Capacitor (mobile capabilities) (001-family-banking-system)
 
@@ -24,6 +26,7 @@ cd src [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLO
 Python 3.11+ (backend), TypeScript with React 18+ (frontend): Follow standard conventions
 
 ## Recent Changes
+- 002-avatar-system: Added TypeScript with React 18+ + React, Ionic Framework (existing)
 - 001-family-banking-system: Added Python 3.11+ (backend), TypeScript with React 18+ (frontend) + FastAPI (backend API), SQLAlchemy ORM, React 18, Ionic Framework, Capacitor (mobile capabilities)
 
 - 001-family-banking-system: Added Python 3.11+ (backend), TypeScript with React 18+ (frontend) + FastAPI (backend API), React 18, Ionic Framework, Capacitor (mobile capabilities)
