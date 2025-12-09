@@ -1,0 +1,321 @@
+/**
+ * Register Parent Page Styles
+ * "Soft Banking" Aesthetic - Warm, welcoming onboarding
+ */
+
+/* ============================================
+   PAGE LAYOUT
+   ============================================ */
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.register-page__container {
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   BACKGROUND DECORATION
+   ============================================ */
+.register-page__bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.register-page__bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.6;
+}
+
+.register-page__bg-orb--1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--kash-gold-200) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  animation: float 20s ease-in-out infinite;
+}
+
+.register-page__bg-orb--2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--kash-navy-200) 0%, transparent 70%);
+  bottom: -100px;
+  left: -100px;
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+.register-page__bg-orb--3 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--kash-success-100) 0%, transparent 70%);
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: float 18s ease-in-out infinite;
+  animation-delay: -5s;
+}
+
+/* ============================================
+   HEADER / BRANDING
+   ============================================ */
+.register-page__header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.register-page__logo {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--radius-2xl);
+  background: linear-gradient(135deg, var(--kash-gold-400) 0%, var(--kash-gold-500) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 8px 32px rgba(245, 166, 35, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.register-page__logo-icon {
+  font-size: 40px;
+}
+
+.register-page__brand {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  color: var(--kash-navy-900);
+  letter-spacing: -0.03em;
+  margin: 0 0 var(--space-2);
+}
+
+.register-page__tagline {
+  font-size: var(--text-lg);
+  color: var(--kash-navy-500);
+  margin: 0;
+}
+
+/* ============================================
+   REGISTRATION CARD
+   ============================================ */
+.register-card {
+  background: var(--white);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-8);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 0 0 1px var(--kash-navy-100);
+}
+
+.register-card__header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.register-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  margin: 0 0 var(--space-2);
+}
+
+.register-card__subtitle {
+  font-size: var(--text-base);
+  color: var(--kash-navy-500);
+  margin: 0;
+}
+
+/* ============================================
+   FORM STYLES
+   ============================================ */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* Input wrapper with icon */
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--kash-navy-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-base) ease;
+  pointer-events: none;
+}
+
+.input-wrapper .form-input {
+  padding-left: calc(var(--space-4) + 20px + var(--space-3));
+}
+
+/* Focus state for icon */
+.form-group--focused .input-icon {
+  color: var(--kash-gold-500);
+}
+
+/* Password Strength Indicator */
+.password-strength {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.password-strength__bar {
+  flex: 1;
+  height: 4px;
+  background: var(--kash-navy-100);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.password-strength__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.password-strength__text {
+  font-size: var(--text-xs);
+  color: var(--kash-navy-500);
+  white-space: nowrap;
+}
+
+/* Form success text */
+.form-success {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--kash-success-600);
+  font-weight: var(--font-medium);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.form-success::before {
+  content: '✓';
+  font-weight: bold;
+}
+
+/* Submit Button */
+.register-form__submit {
+  margin-top: var(--space-4);
+}
+
+/* Button Spinner */
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   CARD FOOTER
+   ============================================ */
+.register-card__footer {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--kash-navy-100);
+  text-align: center;
+}
+
+.register-card__footer p {
+  font-size: var(--text-base);
+  color: var(--kash-navy-600);
+  margin: 0;
+}
+
+.register-card__link {
+  color: var(--kash-gold-500);
+  font-weight: var(--font-semibold);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.register-card__link:hover {
+  color: var(--kash-gold-400);
+  text-decoration: underline;
+}
+
+/* ============================================
+   PAGE FOOTER
+   ============================================ */
+.register-page__footer {
+  margin-top: var(--space-6);
+  text-align: center;
+}
+
+.register-page__footer p {
+  font-size: var(--text-sm);
+  color: var(--kash-navy-400);
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+  .register-page {
+    padding: var(--space-4);
+    align-items: flex-start;
+    padding-top: var(--space-8);
+  }
+
+  .register-page__header {
+    margin-bottom: var(--space-6);
+  }
+
+  .register-page__logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .register-page__logo-icon {
+    font-size: 32px;
+  }
+
+  .register-page__brand {
+    font-size: var(--text-3xl);
+  }
+
+  .register-card {
+    padding: var(--space-6);
+    border-radius: var(--radius-2xl);
+  }
+
+  .register-card__title {
+    font-size: var(--text-xl);
+  }
+}

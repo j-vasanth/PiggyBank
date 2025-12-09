@@ -1,0 +1,294 @@
+/**
+ * Add Child Page Styles
+ * "Soft Banking" Aesthetic - Fun, engaging form experience
+ */
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.add-child {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.add-child__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.add-child__header {
+  text-align: center;
+  padding: var(--space-4) 0;
+}
+
+.add-child__header-icon {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--kash-gold-200) 0%, var(--kash-gold-100) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.25);
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.add-child__header-title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  margin: 0 0 var(--space-2);
+}
+
+.add-child__header-subtitle {
+  font-size: var(--text-base);
+  color: var(--kash-navy-500);
+  margin: 0;
+}
+
+/* ============================================
+   FORM
+   ============================================ */
+.add-child__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* Form Sections */
+.form-section {
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--kash-navy-100);
+}
+
+.form-section__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  margin: 0 0 var(--space-2);
+}
+
+.form-section__subtitle {
+  font-size: var(--text-sm);
+  color: var(--kash-navy-500);
+  margin: 0 0 var(--space-5);
+}
+
+/* Form Label Optional */
+.form-label__optional {
+  font-weight: var(--font-normal);
+  color: var(--kash-navy-400);
+}
+
+/* ============================================
+   AVATAR GRID
+   ============================================ */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+}
+
+.avatar-option {
+  aspect-ratio: 1;
+  background: var(--kash-navy-50);
+  border-radius: var(--radius-xl);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.avatar-option:hover {
+  background: var(--kash-gold-100);
+  border-color: var(--kash-gold-300);
+  transform: scale(1.05);
+}
+
+.avatar-option--selected {
+  background: var(--kash-gold-100);
+  border-color: var(--kash-gold-500);
+  box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
+  transform: scale(1.05);
+}
+
+.avatar-option__emoji {
+  font-size: 32px;
+  transition: transform var(--duration-base) var(--ease-out-back);
+}
+
+.avatar-option:hover .avatar-option__emoji,
+.avatar-option--selected .avatar-option__emoji {
+  transform: scale(1.1);
+}
+
+.avatar-option__check {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 24px;
+  height: 24px;
+  background: var(--kash-gold-500);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--kash-navy-900);
+  box-shadow: 0 2px 8px rgba(245, 166, 35, 0.4);
+  animation: scaleIn var(--duration-fast) var(--ease-out-back);
+}
+
+/* ============================================
+   INPUT WRAPPER (with icon)
+   ============================================ */
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--kash-navy-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-base) ease;
+  pointer-events: none;
+}
+
+.input-wrapper .form-input {
+  padding-left: calc(var(--space-4) + 20px + var(--space-3));
+}
+
+.form-group--focused .input-icon {
+  color: var(--kash-gold-500);
+}
+
+/* ============================================
+   PIN INPUT
+   ============================================ */
+.pin-input-container {
+  text-align: center;
+}
+
+.pin-input-group {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+}
+
+.pin-digit {
+  width: 64px;
+  height: 72px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  background: var(--kash-navy-50);
+  border: 2px solid var(--kash-navy-200);
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-base) var(--ease-out-expo);
+  caret-color: var(--kash-gold-500);
+}
+
+.pin-digit:focus {
+  outline: none;
+  background: var(--white);
+  border-color: var(--kash-gold-500);
+  box-shadow: 0 0 0 4px var(--kash-gold-glow);
+}
+
+.pin-digit--filled {
+  background: var(--white);
+  border-color: var(--kash-gold-400);
+}
+
+.pin-help {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--kash-navy-500);
+  font-weight: var(--font-medium);
+}
+
+/* ============================================
+   ACTIONS
+   ============================================ */
+.add-child__actions {
+  display: flex;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+}
+
+.add-child__actions .btn {
+  flex: 1;
+}
+
+.add-child__actions .btn-primary {
+  flex: 2;
+}
+
+/* Button Spinner */
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+  .add-child__header-icon {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+  }
+
+  .avatar-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .avatar-option__emoji {
+    font-size: 28px;
+  }
+
+  .pin-digit {
+    width: 56px;
+    height: 64px;
+    font-size: var(--text-2xl);
+  }
+
+  .add-child__actions {
+    flex-direction: column;
+  }
+
+  .add-child__actions .btn,
+  .add-child__actions .btn-primary {
+    flex: unset;
+    width: 100%;
+  }
+}

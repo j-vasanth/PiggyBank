@@ -1,0 +1,287 @@
+/**
+ * Parent Login Page Styles
+ * "Soft Banking" Aesthetic - Clean, focused login experience
+ */
+
+/* ============================================
+   PAGE LAYOUT
+   ============================================ */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-page__container {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   BACKGROUND DECORATION
+   ============================================ */
+.login-page__bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.login-page__bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+}
+
+.login-page__bg-orb--1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--kash-gold-200) 0%, transparent 70%);
+  top: -150px;
+  right: -150px;
+  animation: float 20s ease-in-out infinite;
+}
+
+.login-page__bg-orb--2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--kash-navy-200) 0%, transparent 70%);
+  bottom: -100px;
+  left: -100px;
+  animation: float 25s ease-in-out infinite reverse;
+}
+
+/* ============================================
+   HEADER / BRANDING
+   ============================================ */
+.login-page__header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+}
+
+.login-page__logo {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--radius-2xl);
+  background: linear-gradient(135deg, var(--kash-gold-400) 0%, var(--kash-gold-500) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 8px 32px rgba(245, 166, 35, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.login-page__logo-icon {
+  font-size: 36px;
+}
+
+.login-page__brand {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-extrabold);
+  color: var(--kash-navy-900);
+  letter-spacing: -0.03em;
+  margin: 0 0 var(--space-2);
+}
+
+.login-page__tagline {
+  font-size: var(--text-lg);
+  color: var(--kash-navy-500);
+  margin: 0;
+}
+
+/* ============================================
+   LOGIN CARD
+   ============================================ */
+.login-card {
+  background: var(--white);
+  border-radius: var(--radius-3xl);
+  padding: var(--space-8);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 0 0 1px var(--kash-navy-100);
+}
+
+.login-card__header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.login-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  margin: 0 0 var(--space-2);
+}
+
+.login-card__subtitle {
+  font-size: var(--text-base);
+  color: var(--kash-navy-500);
+  margin: 0;
+}
+
+/* ============================================
+   FORM STYLES
+   ============================================ */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* Input wrapper with icon */
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--kash-navy-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-base) ease;
+  pointer-events: none;
+}
+
+.input-wrapper .form-input {
+  padding-left: calc(var(--space-4) + 20px + var(--space-3));
+}
+
+/* Focus state for icon */
+.form-group--focused .input-icon {
+  color: var(--kash-gold-500);
+}
+
+/* Submit Button */
+.login-form__submit {
+  margin-top: var(--space-4);
+}
+
+/* Button Spinner */
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   CARD FOOTER
+   ============================================ */
+.login-card__footer {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--kash-navy-100);
+  text-align: center;
+}
+
+.login-card__footer p {
+  font-size: var(--text-base);
+  color: var(--kash-navy-600);
+  margin: 0;
+}
+
+.login-card__link {
+  color: var(--kash-gold-500);
+  font-weight: var(--font-semibold);
+  text-decoration: none;
+  transition: color var(--duration-fast) ease;
+}
+
+.login-card__link:hover {
+  color: var(--kash-gold-400);
+  text-decoration: underline;
+}
+
+/* ============================================
+   CHILD LOGIN LINK
+   ============================================ */
+.login-page__child-link {
+  margin-top: var(--space-6);
+  text-align: center;
+}
+
+.child-login-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  background: var(--white);
+  border: 2px solid var(--kash-navy-200);
+  border-radius: var(--radius-full);
+  color: var(--kash-navy-700);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  text-decoration: none;
+  transition: all var(--duration-base) var(--ease-out-expo);
+  box-shadow: var(--shadow-sm);
+}
+
+.child-login-link:hover {
+  border-color: var(--kash-child-primary);
+  color: var(--kash-child-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.child-login-link__icon {
+  font-size: var(--text-lg);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+  .login-page {
+    padding: var(--space-4);
+    align-items: flex-start;
+    padding-top: var(--space-12);
+  }
+
+  .login-page__header {
+    margin-bottom: var(--space-6);
+  }
+
+  .login-page__logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .login-page__logo-icon {
+    font-size: 32px;
+  }
+
+  .login-page__brand {
+    font-size: var(--text-3xl);
+  }
+
+  .login-card {
+    padding: var(--space-6);
+    border-radius: var(--radius-2xl);
+  }
+
+  .login-card__title {
+    font-size: var(--text-xl);
+  }
+}
