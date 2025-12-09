@@ -170,13 +170,20 @@ body:has(.child-login-page) {
   font-size: var(--text-lg);
   padding: var(--space-4);
   border-radius: var(--radius-xl);
-  border: 3px solid var(--kash-navy-200);
+  border: 3px solid #c7d2fe;
+  background: var(--white) !important;
+  color: #1f2937 !important;
   transition: all var(--duration-base) var(--ease-out-expo);
 }
 
+.child-login-form .form-input--large::placeholder {
+  color: #9ca3af;
+}
+
 .child-login-form .form-input--large:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+  background: var(--white) !important;
 }
 
 /* PIN Input */
@@ -193,25 +200,25 @@ body:has(.child-login-page) {
   font-family: var(--font-display);
   font-size: var(--text-3xl);
   font-weight: var(--font-bold);
-  color: var(--kash-navy-900);
-  background: var(--kash-navy-50);
-  border: 3px solid var(--kash-navy-200);
+  color: #1f2937 !important;
+  background: #f3f4f6 !important;
+  border: 3px solid #c7d2fe;
   border-radius: var(--radius-xl);
   transition: all var(--duration-base) var(--ease-out-expo);
-  caret-color: #667eea;
+  caret-color: #7c3aed;
 }
 
 .pin-digit:focus {
   outline: none;
-  background: var(--white);
-  border-color: #667eea;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+  background: var(--white) !important;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
   transform: scale(1.05);
 }
 
 .pin-digit--filled {
-  background: var(--white);
-  border-color: #667eea;
+  background: var(--white) !important;
+  border-color: #7c3aed;
 }
 
 /* ============================================
