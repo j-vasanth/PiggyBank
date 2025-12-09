@@ -2,22 +2,9 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { childrenService } from '../../services/children-service';
 import Layout from '../../components/Layout';
+import { AVATAR_OPTIONS } from '../../constants/avatars';
+import { Avatar } from '../../components/Avatar';
 import './AddChild.css';
-
-const AVATAR_OPTIONS = [
-  { emoji: '🦄', name: 'unicorn' },
-  { emoji: '🦖', name: 'dinosaur' },
-  { emoji: '🤖', name: 'robot' },
-  { emoji: '🐱', name: 'cat' },
-  { emoji: '🐶', name: 'dog' },
-  { emoji: '🐼', name: 'panda' },
-  { emoji: '🦁', name: 'lion' },
-  { emoji: '🐵', name: 'monkey' },
-  { emoji: '🐧', name: 'penguin' },
-  { emoji: '🐋', name: 'whale' },
-  { emoji: '🦋', name: 'butterfly' },
-  { emoji: '🚀', name: 'rocket' },
-];
 
 const AddChild: React.FC = () => {
   const navigate = useNavigate();
@@ -47,8 +34,8 @@ const AddChild: React.FC = () => {
     setError('');
   };
 
-  const handleAvatarSelect = (emoji: string) => {
-    setFormData({ ...formData, avatar: emoji });
+  const handleAvatarSelect = (avatarId: string) => {
+    setFormData({ ...formData, avatar: avatarId });
   };
 
   const handlePinChange = (index: number, value: string) => {
@@ -127,9 +114,7 @@ const AddChild: React.FC = () => {
         <div className="add-child__container">
           {/* Header */}
           <header className="add-child__header animate-slide-up">
-            <div className="add-child__header-icon">
-              {formData.avatar || '👶'}
-            </div>
+            <Avatar avatar={formData.avatar || null} size="xl" className="add-child__header-icon" />
             <h2 className="add-child__header-title">Create a new account</h2>
             <p className="add-child__header-subtitle">
               Set up a piggy bank for your child
@@ -155,15 +140,19 @@ const AddChild: React.FC = () => {
               <h3 className="form-section__title">Choose an Avatar</h3>
               <p className="form-section__subtitle">Pick a fun character your child will love!</p>
               <div className="avatar-grid">
-                {AVATAR_OPTIONS.map((option) => (
+                {AVATAR_OPTIONS.map(([id, entry]) => (
                   <button
-                    key={option.name}
+                    key={id}
                     type="button"
-                    className={`avatar-option ${formData.avatar === option.emoji ? 'avatar-option--selected' : ''}`}
-                    onClick={() => handleAvatarSelect(option.emoji)}
+                    className={`avatar-option ${formData.avatar === id ? 'avatar-option--selected' : ''}`}
+                    onClick={() => handleAvatarSelect(id)}
                   >
-                    <span className="avatar-option__emoji">{option.emoji}</span>
-                    {formData.avatar === option.emoji && (
+                    {entry.type === 'image' ? (
+                      <img src={entry.src} alt={entry.name} className="avatar-option__image" />
+                    ) : (
+                      <span className="avatar-option__emoji">{id}</span>
+                    )}
+                    {formData.avatar === id && (
                       <span className="avatar-option__check">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                           <polyline points="20 6 9 17 4 12"/>

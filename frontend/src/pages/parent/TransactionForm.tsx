@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/Layout';
+import { Avatar } from '../../components/Avatar';
 import { childrenService } from '../../services/children-service';
 import { transactionsService } from '../../services/transactions-service';
 import { Child } from '../../types';
@@ -117,7 +118,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({ type }) => {
       <div className="transaction-form">
         {/* Child Info */}
         <div className="transaction-form__child">
-          <div className="transaction-form__avatar">{child.avatar || '👤'}</div>
+          <Avatar avatar={child.avatar} size="lg" className="transaction-form__avatar" />
           <div className="transaction-form__child-info">
             <h3>{child.name}</h3>
             <p>Current Balance: {formatCurrency(child.balance)}</p>

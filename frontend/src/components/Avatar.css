@@ -1,0 +1,37 @@
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--kash-gold-500) 0%, var(--kash-gold-400) 100%);
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(255, 176, 32, 0.3);
+}
+
+.avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar__emoji {
+  line-height: 1;
+}
+
+/* Size variants */
+.avatar--sm .avatar__emoji {
+  font-size: 12px;
+}
+
+.avatar--md .avatar__emoji {
+  font-size: 24px;
+}
+
+.avatar--lg .avatar__emoji {
+  font-size: 28px;
+}
+
+.avatar--xl .avatar__emoji {
+  font-size: 32px;
+}

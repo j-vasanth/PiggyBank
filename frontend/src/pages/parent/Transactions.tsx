@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/Layout';
+import { Avatar } from '../../components/Avatar';
 import { childrenService } from '../../services/children-service';
 import { transactionsService } from '../../services/transactions-service';
 import { Child, Transaction } from '../../types';
@@ -113,7 +114,7 @@ const Transactions: React.FC = () => {
               className={`child-tab ${selectedChild?.id === child.id ? 'child-tab--active' : ''}`}
               onClick={() => setSelectedChild(child)}
             >
-              <span className="child-tab__avatar">{child.avatar || '👤'}</span>
+              <Avatar avatar={child.avatar} size="sm" />
               <span className="child-tab__name">{child.name}</span>
             </div>
           ))}
@@ -123,7 +124,7 @@ const Transactions: React.FC = () => {
           <>
             {/* Child Header */}
             <div className="child-header">
-              <div className="child-header__avatar">{selectedChild.avatar || '👤'}</div>
+              <Avatar avatar={selectedChild.avatar} size="xl" className="child-header__avatar" />
               <div className="child-header__info">
                 <h2 className="child-header__name">{selectedChild.name}'s Piggy Bank</h2>
                 <span className="child-header__label">Current Balance</span>

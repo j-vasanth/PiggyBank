@@ -4,6 +4,7 @@ import { childrenService } from '../../services/children-service';
 import { transactionsService } from '../../services/transactions-service';
 import { Child, Transaction } from '../../types';
 import Layout from '../../components/Layout';
+import { Avatar } from '../../components/Avatar';
 import './ParentDashboard.css';
 
 interface ChildStats {
@@ -128,9 +129,7 @@ const ParentDashboard: React.FC = () => {
                   onClick={() => navigate(`/parent/child/${child.id}`)}
                 >
                   <div className="child-card__header">
-                    <div className="child-card__avatar">
-                      {child.avatar || '👤'}
-                    </div>
+                    <Avatar avatar={child.avatar} size="xl" className="child-card__avatar" />
                     <div className="child-card__info">
                       <h4 className="child-card__name">{child.name}</h4>
                       {child.age && (

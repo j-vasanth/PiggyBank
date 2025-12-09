@@ -131,8 +131,18 @@
   transition: transform var(--duration-base) var(--ease-out-back);
 }
 
+.avatar-option__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  transition: transform var(--duration-base) var(--ease-out-back);
+}
+
 .avatar-option:hover .avatar-option__emoji,
-.avatar-option--selected .avatar-option__emoji {
+.avatar-option--selected .avatar-option__emoji,
+.avatar-option:hover .avatar-option__image,
+.avatar-option--selected .avatar-option__image {
   transform: scale(1.1);
 }
 
