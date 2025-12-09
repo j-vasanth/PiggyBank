@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Avatar } from '../../components/Avatar';
 import { transactionsService } from '../../services/transactions-service';
+import { isImageAvatar, getAvatarSrc } from '../../constants/avatars';
 import { Transaction } from '../../types';
 import './ChildDashboard.css';
 
@@ -75,8 +76,27 @@ const ChildDashboard: React.FC = () => {
     }
   };
 
+  // Get wallpaper background style
+  const getWallpaperStyle = () => {
+    const avatar = user?.avatar;
+    if (!avatar) return {};
+
+    if (isImageAvatar(avatar)) {
+      const src = getAvatarSrc(avatar);
+      return {
+        '--wallpaper-image': `url(${src})`,
+      } as React.CSSProperties;
+    }
+    return {
+      '--wallpaper-emoji': `"${avatar}"`,
+    } as React.CSSProperties;
+  };
+
   return (
-    <div className="child-dashboard child-theme">
+    <div className="child-dashboard child-theme" style={getWallpaperStyle()}>
+      {/* Avatar Wallpaper Background */}
+      <div className={`child-dashboard__wallpaper ${user?.avatar && isImageAvatar(user.avatar) ? 'child-dashboard__wallpaper--image' : 'child-dashboard__wallpaper--emoji'}`} />
+
       {/* Header */}
       <header className="child-dashboard__header">
         <div className="child-dashboard__header-content">
