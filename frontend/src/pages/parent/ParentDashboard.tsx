@@ -1,25 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { childrenService } from '../../services/children-service';
-import { Child } from '../../types';
+import { transactionsService } from '../../services/transactions-service';
+import { Child, Transaction } from '../../types';
 import Layout from '../../components/Layout';
 import './ParentDashboard.css';
+
+interface ChildStats {
+  earned: number;
+  transactionCount: number;
+}
 
 const ParentDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [children, setChildren] = useState<Child[]>([]);
+  const [childStats, setChildStats] = useState<Record<string, ChildStats>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    loadChildren();
+    loadData();
   }, []);
 
-  const loadChildren = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
-      const data = await childrenService.getChildren();
-      setChildren(data);
+      const [childrenData, transactions] = await Promise.all([
+        childrenService.getChildren(),
+        transactionsService.getFamilyTransactions(100, 0)
+      ]);
+      setChildren(childrenData);
+
+      // Calculate stats per child
+      const stats: Record<string, ChildStats> = {};
+      childrenData.forEach(child => {
+        const childTransactions = transactions.filter(t => t.child_id === child.id);
+        const earned = childTransactions
+          .filter(t => t.type === 'credit')
+          .reduce((sum, t) => sum + Number(t.amount), 0);
+        stats[child.id] = {
+          earned,
+          transactionCount: childTransactions.length
+        };
+      });
+      setChildStats(stats);
     } catch (err: any) {
       setError('Failed to load children');
       console.error(err);
@@ -124,12 +148,16 @@ const ParentDashboard: React.FC = () => {
 
                   <div className="child-card__stats">
                     <div className="child-card__stat">
-                      <span className="child-card__stat-value">$0.00</span>
+                      <span className="child-card__stat-value">
+                        {formatCurrency(childStats[child.id]?.earned || 0)}
+                      </span>
                       <span className="child-card__stat-label">Earned</span>
                     </div>
                     <div className="child-card__stat-divider" />
                     <div className="child-card__stat">
-                      <span className="child-card__stat-value">0</span>
+                      <span className="child-card__stat-value">
+                        {childStats[child.id]?.transactionCount || 0}
+                      </span>
                       <span className="child-card__stat-label">Transactions</span>
                     </div>
                   </div>

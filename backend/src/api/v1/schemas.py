@@ -87,3 +87,21 @@ class TransactionResponse(BaseModel):
         if hasattr(v, 'value'):
             return v.value
         return v
+
+
+# Invitation schemas
+class InvitationResponse(BaseModel):
+    id: str
+    invite_code: str
+    status: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+    @validator('status', pre=True)
+    def extract_status_value(cls, v):
+        """Convert enum to string value."""
+        if hasattr(v, 'value'):
+            return v.value
+        return v

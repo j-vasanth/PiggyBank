@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     project_name: str = "PiggyBank Family Banking System"
 
     # CORS
-    cors_origins: List[str] = ["http://localhost:5173", "http://localhost:3000"]
+    cors_origins: List[str] = ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"]
 
     # Logging
     log_level: str = "INFO"

@@ -1,0 +1,259 @@
+/**
+ * Manage Family Page - No hover effects
+ */
+
+.manage-family-page {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.page-subtitle {
+  text-align: center;
+  color: var(--kash-navy-500);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.error-message {
+  background: var(--kash-danger-100);
+  color: var(--kash-danger-600);
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.loading-message {
+  margin-top: 16px;
+  padding: 12px;
+  color: var(--kash-navy-500);
+  font-size: 14px;
+  text-align: center;
+}
+
+.family-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 0 0 1px var(--kash-navy-100);
+}
+
+.family-card--clickable {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+}
+
+.family-card__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.family-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.family-card__icon--green {
+  background: linear-gradient(135deg, var(--kash-success-100) 0%, #e6f7f5 100%);
+  color: var(--kash-success-600);
+}
+
+.family-card__icon--gold {
+  background: linear-gradient(135deg, var(--kash-gold-100) 0%, #fef6e6 100%);
+  color: var(--kash-gold-600);
+}
+
+.family-card__text {
+  flex: 1;
+}
+
+.family-card__text h3 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--kash-navy-900);
+  margin: 0 0 4px 0;
+}
+
+.family-card__text p {
+  font-size: 14px;
+  color: var(--kash-navy-500);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.family-card__arrow {
+  color: var(--kash-navy-300);
+  flex-shrink: 0;
+}
+
+.invite-action {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--kash-navy-100);
+}
+
+.create-invite-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: var(--kash-gold-500);
+  color: white;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pending-invites {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--kash-navy-100);
+}
+
+.pending-invites__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--kash-navy-700);
+}
+
+.pending-invites__count {
+  font-size: 12px;
+  color: var(--kash-navy-500);
+  background: var(--kash-navy-100);
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+.invite-row {
+  background: var(--kash-navy-50);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.invite-row:last-child {
+  margin-bottom: 0;
+}
+
+.invite-row__code {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.invite-row__label {
+  font-size: 11px;
+  color: var(--kash-navy-500);
+}
+
+.invite-row__value {
+  font-family: monospace;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--kash-navy-800);
+  letter-spacing: 0.05em;
+}
+
+.invite-row__buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.invite-btn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.invite-btn--copy {
+  background: var(--kash-navy-800);
+  color: white;
+}
+
+.invite-btn--remove {
+  background: transparent;
+  color: var(--kash-danger-500);
+  border: 1px solid var(--kash-danger-200);
+}
+
+.limit-message {
+  margin-top: 16px;
+  padding: 12px;
+  background: var(--kash-gold-50);
+  border: 1px solid var(--kash-gold-200);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--kash-gold-700);
+}
+
+.info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: var(--kash-navy-50);
+  border-radius: 16px;
+  margin-top: 24px;
+}
+
+.info-note svg {
+  color: var(--kash-navy-400);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.info-note span {
+  font-size: 14px;
+  color: var(--kash-navy-600);
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .manage-family-page {
+    padding: 12px;
+  }
+
+  .family-card {
+    padding: 16px;
+  }
+
+  .family-card__icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .invite-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .invite-row__buttons {
+    justify-content: stretch;
+  }
+
+  .invite-btn {
+    flex: 1;
+    text-align: center;
+  }
+}

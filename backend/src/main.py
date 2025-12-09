@@ -4,6 +4,7 @@ from src.config.settings import settings
 from src.api.v1.auth import router as auth_router
 from src.api.v1.children import router as children_router
 from src.api.v1.transactions import router as transactions_router
+from src.api.v1.invitations import router as invitations_router
 
 # Create FastAPI app
 app = FastAPI(
@@ -25,6 +26,7 @@ app.add_middleware(
 app.include_router(auth_router, prefix=f"{settings.api_v1_prefix}/auth", tags=["auth"])
 app.include_router(children_router, prefix=f"{settings.api_v1_prefix}/children", tags=["children"])
 app.include_router(transactions_router, prefix=f"{settings.api_v1_prefix}/transactions", tags=["transactions"])
+app.include_router(invitations_router, prefix=f"{settings.api_v1_prefix}/invitations", tags=["invitations"])
 
 
 @app.get("/")
