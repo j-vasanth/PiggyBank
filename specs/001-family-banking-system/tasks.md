@@ -105,7 +105,7 @@ This is a Web + Mobile app with backend and frontend:
 - [ ] T054 [P] [US1] Create BalanceCard component in frontend/src/components/BalanceCard.tsx showing child name, avatar, and current balance
 - [ ] T055 [P] [US1] Create TransactionList component in frontend/src/components/TransactionList.tsx displaying transaction history
 - [ ] T056 [US1] Create RegisterFamilyPage in frontend/src/pages/parent/RegisterFamilyPage.tsx with username/password form
-- [ ] T057 [US1] Create ParentLoginPage in frontend/src/pages/parent/ParentLoginPage.tsx with username/password form
+- [x] T057 [US1] Create ParentLoginPage in frontend/src/pages/parent/ParentLogin.tsx with username/password form
 - [ ] T058 [US1] Create ChildLoginPage in frontend/src/pages/child/ChildLoginPage.tsx with child selection and PIN entry
 - [ ] T059 [US1] Create ParentDashboard in frontend/src/pages/parent/ParentDashboard.tsx listing all children with BalanceCard components
 - [ ] T060 [US1] Create AddChildPage in frontend/src/pages/parent/AddChildPage.tsx with name, avatar selector, and PIN setup
