@@ -1,0 +1,334 @@
+/**
+ * Child Login Page Styles
+ * Fun, colorful, kid-friendly design
+ */
+
+/* ============================================
+   PAGE LAYOUT
+   ============================================ */
+.child-login-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-4);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+}
+
+/* ============================================
+   BACKGROUND SHAPES
+   ============================================ */
+.child-login-page__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.child-login-page__bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+}
+
+.child-login-page__bg-shape--1 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  top: -100px;
+  right: -50px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.child-login-page__bg-shape--2 {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  bottom: -50px;
+  left: -50px;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+.child-login-page__bg-shape--3 {
+  width: 150px;
+  height: 150px;
+  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+  top: 50%;
+  left: 10%;
+  animation: float 12s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.child-login-page__container {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.child-login-page__header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.child-login-page__logo {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.child-login-page__logo-icon {
+  font-size: 56px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.child-login-page__brand {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  font-weight: var(--font-black);
+  color: var(--white);
+  margin: 0 0 var(--space-2);
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.child-login-page__tagline {
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  font-weight: var(--font-medium);
+}
+
+/* ============================================
+   LOGIN CARD
+   ============================================ */
+.child-login-card {
+  width: 100%;
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.child-login-card__header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.child-login-card__title {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  margin: 0 0 var(--space-2);
+}
+
+.child-login-card__subtitle {
+  font-size: var(--text-base);
+  color: var(--kash-navy-500);
+  margin: 0;
+}
+
+/* ============================================
+   FORM
+   ============================================ */
+.child-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.child-login-form .form-input--large {
+  font-size: var(--text-lg);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+  border: 3px solid var(--kash-navy-200);
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.child-login-form .form-input--large:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+}
+
+/* PIN Input */
+.pin-input-group {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.pin-digit {
+  width: 64px;
+  height: 72px;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  background: var(--kash-navy-50);
+  border: 3px solid var(--kash-navy-200);
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-base) var(--ease-out-expo);
+  caret-color: #667eea;
+}
+
+.pin-digit:focus {
+  outline: none;
+  background: var(--white);
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
+  transform: scale(1.05);
+}
+
+.pin-digit--filled {
+  background: var(--white);
+  border-color: #667eea;
+}
+
+/* ============================================
+   BUTTON
+   ============================================ */
+.btn-child-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: var(--white);
+  border: none;
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  transition: all var(--duration-base) var(--ease-out-expo);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+}
+
+.btn-child-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+}
+
+.btn-child-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-child-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-emoji {
+  font-size: var(--text-xl);
+}
+
+.btn-spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   ALERT
+   ============================================ */
+.child-login-card .alert {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-4);
+  background: #FEF2F2;
+  color: #DC2626;
+  font-weight: var(--font-medium);
+}
+
+.alert__icon {
+  font-size: var(--text-xl);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.child-login-card__footer {
+  margin-top: var(--space-6);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--kash-navy-100);
+  text-align: center;
+}
+
+.child-login-card__footer p {
+  font-size: var(--text-sm);
+  color: var(--kash-navy-500);
+  margin: 0;
+}
+
+.child-login-card__link {
+  color: #667eea;
+  font-weight: var(--font-semibold);
+  text-decoration: none;
+}
+
+.child-login-card__link:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 480px) {
+  .child-login-page__logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .child-login-page__logo-icon {
+    font-size: 44px;
+  }
+
+  .child-login-page__brand {
+    font-size: var(--text-3xl);
+  }
+
+  .child-login-card {
+    padding: var(--space-6);
+  }
+
+  .pin-digit {
+    width: 56px;
+    height: 64px;
+    font-size: var(--text-2xl);
+  }
+}

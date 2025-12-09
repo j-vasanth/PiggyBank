@@ -8,6 +8,8 @@ import AddChild from './pages/parent/AddChild';
 import ManageFamily from './pages/parent/ManageFamily';
 import TransactionForm from './pages/parent/TransactionForm';
 import Transactions from './pages/parent/Transactions';
+import ChildLogin from './pages/child/ChildLogin';
+import ChildDashboard from './pages/child/ChildDashboard';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; userType?: 'parent' | 'child' }> = ({
@@ -21,11 +23,19 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; userType?: 'parent' 
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/register" replace />;
+    // Redirect to appropriate login page based on intended user type
+    if (userType === 'child') {
+      return <Navigate to="/child/login" replace />;
+    }
+    return <Navigate to="/parent/login" replace />;
   }
 
   if (userType && user?.user_type !== userType) {
-    return <Navigate to="/" replace />;
+    // Redirect to appropriate dashboard based on user type
+    if (user?.user_type === 'child') {
+      return <Navigate to="/child/dashboard" replace />;
+    }
+    return <Navigate to="/parent/dashboard" replace />;
   }
 
   return <>{children}</>;
@@ -85,7 +95,16 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
-      {/* Additional routes will be added here */}
+      {/* Child Routes */}
+      <Route path="/child/login" element={<ChildLogin />} />
+      <Route
+        path="/child/dashboard"
+        element={
+          <ProtectedRoute userType="child">
+            <ChildDashboard />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }

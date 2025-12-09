@@ -1,0 +1,372 @@
+/**
+ * Child Dashboard Styles
+ * Fun, colorful, engaging design for kids
+ */
+
+/* ============================================
+   PAGE LAYOUT
+   ============================================ */
+.child-dashboard {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.child-dashboard__header {
+  background: transparent;
+  padding: var(--space-6) var(--space-4);
+}
+
+.child-dashboard__header-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.child-dashboard__user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.child-dashboard__avatar {
+  border: 3px solid var(--white);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.child-dashboard__greeting {
+  color: var(--white);
+}
+
+.child-dashboard__greeting h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  margin: 0;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.child-dashboard__greeting p {
+  font-size: var(--text-sm);
+  margin: var(--space-1) 0 0;
+  opacity: 0.9;
+}
+
+.child-dashboard__logout-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  border: 2px solid var(--white);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.child-dashboard__logout-btn:hover {
+  background: var(--white);
+  color: #667eea;
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.child-dashboard__main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--space-4) var(--space-8);
+}
+
+/* ============================================
+   BALANCE CARD
+   ============================================ */
+.balance-card {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  text-align: center;
+  margin-bottom: var(--space-6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.balance-card__decoration {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  font-size: 120px;
+  opacity: 0.15;
+  transform: rotate(15deg);
+}
+
+.balance-card__label {
+  display: block;
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: #7c3aed;
+  margin-bottom: var(--space-2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.balance-card__amount {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: var(--font-black);
+  color: #7c3aed;
+  line-height: 1;
+  margin-bottom: var(--space-3);
+}
+
+.balance-card__subtext {
+  display: block;
+  font-size: var(--text-base);
+  color: #9333ea;
+  font-weight: var(--font-medium);
+}
+
+/* ============================================
+   TRANSACTIONS SECTION
+   ============================================ */
+.transactions-section {
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.transactions-section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-5);
+}
+
+.transactions-section__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  margin: 0;
+}
+
+/* ============================================
+   TRANSACTIONS LIST
+   ============================================ */
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.transaction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4);
+  background: var(--kash-navy-50);
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.transaction-item:hover {
+  background: #f0f4ff;
+  transform: translateX(4px);
+}
+
+.transaction-item__info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.transaction-item__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-2xl);
+  flex-shrink: 0;
+}
+
+.transaction-item__icon--credit {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+}
+
+.transaction-item__icon--debit {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+}
+
+.transaction-item__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.transaction-item__type {
+  font-size: var(--text-base);
+  font-weight: var(--font-semibold);
+  color: var(--kash-navy-900);
+}
+
+.transaction-item__date {
+  font-size: var(--text-sm);
+  color: var(--kash-navy-500);
+}
+
+.transaction-item__amount {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  white-space: nowrap;
+}
+
+.transaction-item__amount--credit {
+  color: #059669;
+}
+
+.transaction-item__amount--debit {
+  color: #dc2626;
+}
+
+/* ============================================
+   LOADING STATE
+   ============================================ */
+.transactions-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  color: var(--kash-navy-500);
+}
+
+.transactions-loading__spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--kash-navy-100);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.transactions-empty {
+  text-align: center;
+  padding: var(--space-8);
+}
+
+.transactions-empty__icon {
+  display: block;
+  font-size: 64px;
+  margin-bottom: var(--space-4);
+  opacity: 0.5;
+}
+
+.transactions-empty h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--kash-navy-900);
+  margin: 0 0 var(--space-2);
+}
+
+.transactions-empty p {
+  font-size: var(--text-base);
+  color: var(--kash-navy-500);
+  margin: 0;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+.animate-scale-in {
+  animation: scaleIn 0.4s var(--ease-out-back);
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s var(--ease-out-expo);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+  .child-dashboard__header {
+    padding: var(--space-4);
+  }
+
+  .child-dashboard__greeting h1 {
+    font-size: var(--text-xl);
+  }
+
+  .child-dashboard__avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .balance-card {
+    padding: var(--space-6);
+  }
+
+  .balance-card__amount {
+    font-size: 48px;
+  }
+
+  .balance-card__decoration {
+    font-size: 80px;
+  }
+
+  .transactions-section {
+    padding: var(--space-4);
+  }
+
+  .transaction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .transaction-item__amount {
+    align-self: flex-end;
+  }
+}
