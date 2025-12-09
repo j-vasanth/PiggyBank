@@ -1,11 +1,20 @@
+# fly.toml app configuration file generated for piggybank-api on 2025-12-09T16:02:00-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
 app = 'piggybank-api'
 primary_region = 'sjc'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [env]
-  DATABASE_URL = "/data/piggybank.db"
+  DATABASE_URL = '/data/piggybank.db'
+
+[[mounts]]
+  source = 'piggybank_data'
+  destination = '/data'
 
 [http_service]
   internal_port = 8000
@@ -17,9 +26,5 @@ primary_region = 'sjc'
 
 [[vm]]
   memory = '512mb'
-  cpu_kind = 'shared'
   cpus = 1
-
-[mounts]
-  source = "piggybank_data"
-  destination = "/data"
+  memory_mb = 512
