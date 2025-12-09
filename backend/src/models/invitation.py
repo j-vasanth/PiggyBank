@@ -9,7 +9,6 @@ class InvitationStatus(enum.Enum):
     """Invitation status enumeration."""
     PENDING = "pending"
     ACCEPTED = "accepted"
-    EXPIRED = "expired"
 
 
 class Invitation(Base):
@@ -23,7 +22,6 @@ class Invitation(Base):
     created_by_parent_id = Column(String(36), nullable=False)
     status = Column(SQLEnum(InvitationStatus), default=InvitationStatus.PENDING, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    expires_at = Column(DateTime, nullable=False)
     accepted_at = Column(DateTime, nullable=True)
 
     # Relationships

@@ -5,6 +5,9 @@ import RegisterParent from './pages/parent/RegisterParent';
 import ParentLogin from './pages/parent/ParentLogin';
 import ParentDashboard from './pages/parent/ParentDashboard';
 import AddChild from './pages/parent/AddChild';
+import ManageFamily from './pages/parent/ManageFamily';
+import TransactionForm from './pages/parent/TransactionForm';
+import Transactions from './pages/parent/Transactions';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; userType?: 'parent' | 'child' }> = ({
@@ -47,6 +50,38 @@ function AppRoutes() {
         element={
           <ProtectedRoute userType="parent">
             <AddChild />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/parent/manage-family"
+        element={
+          <ProtectedRoute userType="parent">
+            <ManageFamily />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/parent/child/:childId/deposit"
+        element={
+          <ProtectedRoute userType="parent">
+            <TransactionForm type="deposit" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/parent/child/:childId/deduct"
+        element={
+          <ProtectedRoute userType="parent">
+            <TransactionForm type="deduct" />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/parent/transactions"
+        element={
+          <ProtectedRoute userType="parent">
+            <Transactions />
           </ProtectedRoute>
         }
       />
