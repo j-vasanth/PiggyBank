@@ -82,8 +82,8 @@
   padding: 20px;
   border-radius: 20px;
   margin-bottom: 20px;
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--kash-navy-600);
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .child-header__avatar {
@@ -199,8 +199,8 @@
   background: var(--surface-card);
   border-radius: 20px;
   overflow: hidden;
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--kash-navy-600);
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .transaction-list__header {

@@ -107,8 +107,8 @@
   background: var(--surface-card);
   border-radius: var(--radius-3xl);
   padding: var(--space-8);
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--kash-navy-600);
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .login-card__header {

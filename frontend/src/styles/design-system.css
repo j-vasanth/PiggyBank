@@ -63,12 +63,12 @@
   --overlay-dark: rgba(0, 0, 0, 0.8);
   --overlay-light: rgba(255, 255, 255, 0.05);
 
-  /* Surface Colors for Dark Theme */
-  --surface-base: #080c14;
-  --surface-elevated: #0d1320;
-  --surface-overlay: #141c2e;
-  --surface-card: #111827;
-  --surface-input: #0d1320;
+  /* Surface Colors for Dark Theme - Enhanced Contrast */
+  --surface-base: #050709;
+  --surface-elevated: #0f1419;
+  --surface-overlay: #1a222e;
+  --surface-card: #151c28;
+  --surface-input: #0c1018;
 
   /* Typography */
   --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -469,14 +469,14 @@ p {
   background: var(--surface-card);
   border-radius: var(--radius-2xl);
   padding: var(--space-6);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-card), 0 0 0 1px rgba(255, 255, 255, 0.04);
   transition: all var(--duration-base) var(--ease-out-expo);
-  border: 1px solid var(--kash-navy-600);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--kash-navy-500);
+  box-shadow: var(--shadow-card-hover), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.12);
 }
 
 .card-interactive {
