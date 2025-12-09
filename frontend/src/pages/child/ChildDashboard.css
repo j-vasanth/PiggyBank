@@ -1,6 +1,6 @@
 /**
  * Child Dashboard Styles
- * Fun, colorful, engaging design for kids
+ * Fun, colorful, engaging design for kids - Light Theme
  */
 
 /* ============================================
@@ -8,7 +8,7 @@
    ============================================ */
 .child-dashboard {
   min-height: 100vh;
-  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(180deg, #e0e7ff 0%, #fce7f3 100%);
 }
 
 /* ============================================
@@ -34,12 +34,12 @@
 }
 
 .child-dashboard__avatar {
-  border: 3px solid var(--white);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 3px solid #c4b5fd;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
 }
 
 .child-dashboard__greeting {
-  color: var(--white);
+  color: #1f2937;
 }
 
 .child-dashboard__greeting h1 {
@@ -47,19 +47,19 @@
   font-size: var(--text-2xl);
   font-weight: var(--font-bold);
   margin: 0;
-  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  color: #7c3aed;
 }
 
 .child-dashboard__greeting p {
   font-size: var(--text-sm);
   margin: var(--space-1) 0 0;
-  opacity: 0.9;
+  color: #6b7280;
 }
 
 .child-dashboard__logout-btn {
-  background: rgba(255, 255, 255, 0.2);
-  color: var(--white);
-  border: 2px solid var(--white);
+  background: var(--white);
+  color: #7c3aed;
+  border: 2px solid #7c3aed;
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-lg);
   font-size: var(--text-sm);
@@ -69,8 +69,8 @@
 }
 
 .child-dashboard__logout-btn:hover {
-  background: var(--white);
-  color: #667eea;
+  background: #7c3aed;
+  color: var(--white);
 }
 
 /* ============================================
@@ -177,7 +177,7 @@
 }
 
 .transaction-item:hover {
-  background: #f0f4ff;
+  background: #f5f3ff;
   transform: translateX(4px);
 }
 
@@ -253,8 +253,8 @@
 .transactions-loading__spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid var(--kash-navy-100);
-  border-top-color: #667eea;
+  border: 4px solid #e5e7eb;
+  border-top-color: #7c3aed;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

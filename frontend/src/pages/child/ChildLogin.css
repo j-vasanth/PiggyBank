@@ -1,6 +1,6 @@
 /**
  * Child Login Page Styles
- * Fun, colorful, kid-friendly design
+ * Fun, colorful, kid-friendly design - Light Theme
  */
 
 /* ============================================
@@ -14,7 +14,7 @@
   padding: var(--space-4);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #e0e7ff 0%, #fce7f3 50%, #ddd6fe 100%);
 }
 
 /* ============================================
@@ -36,7 +36,7 @@
 .child-login-page__bg-shape--1 {
   width: 300px;
   height: 300px;
-  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  background: linear-gradient(135deg, #c7d2fe 0%, #ddd6fe 100%);
   top: -100px;
   right: -50px;
   animation: float 8s ease-in-out infinite;
@@ -45,7 +45,7 @@
 .child-login-page__bg-shape--2 {
   width: 200px;
   height: 200px;
-  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  background: linear-gradient(135deg, #a5f3fc 0%, #fbcfe8 100%);
   bottom: -50px;
   left: -50px;
   animation: float 10s ease-in-out infinite reverse;
@@ -54,7 +54,7 @@
 .child-login-page__bg-shape--3 {
   width: 150px;
   height: 150px;
-  background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+  background: linear-gradient(135deg, #f5d0fe 0%, #bfdbfe 100%);
   top: 50%;
   left: 10%;
   animation: float 12s ease-in-out infinite;
@@ -111,14 +111,13 @@
   font-family: var(--font-display);
   font-size: var(--text-4xl);
   font-weight: var(--font-black);
-  color: var(--white);
+  color: #7c3aed;
   margin: 0 0 var(--space-2);
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .child-login-page__tagline {
   font-size: var(--text-lg);
-  color: rgba(255, 255, 255, 0.9);
+  color: #6b7280;
   margin: 0;
   font-weight: var(--font-medium);
 }
