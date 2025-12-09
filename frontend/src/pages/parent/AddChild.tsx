@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { childrenService } from '../../services/children-service';
 import Layout from '../../components/Layout';
-import { AVATAR_OPTIONS } from '../../constants/avatars';
+import { IMAGE_AVATARS, EMOJI_AVATARS } from '../../constants/avatars';
 import { Avatar } from '../../components/Avatar';
 import './AddChild.css';
 
@@ -18,6 +18,7 @@ const AddChild: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [avatarTab, setAvatarTab] = useState<'images' | 'emojis'>('images');
 
   const pinRefs = [
     useRef<HTMLInputElement>(null),
@@ -139,29 +140,70 @@ const AddChild: React.FC = () => {
             <div className="form-section">
               <h3 className="form-section__title">Choose an Avatar</h3>
               <p className="form-section__subtitle">Pick a fun character your child will love!</p>
-              <div className="avatar-grid">
-                {AVATAR_OPTIONS.map(([id, entry]) => (
-                  <button
-                    key={id}
-                    type="button"
-                    className={`avatar-option ${formData.avatar === id ? 'avatar-option--selected' : ''}`}
-                    onClick={() => handleAvatarSelect(id)}
-                  >
-                    {entry.type === 'image' ? (
-                      <img src={entry.src} alt={entry.name} className="avatar-option__image" />
-                    ) : (
-                      <span className="avatar-option__emoji">{id}</span>
-                    )}
-                    {formData.avatar === id && (
-                      <span className="avatar-option__check">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                          <polyline points="20 6 9 17 4 12"/>
-                        </svg>
-                      </span>
-                    )}
-                  </button>
-                ))}
+
+              {/* Avatar Tabs */}
+              <div className="avatar-tabs">
+                <button
+                  type="button"
+                  className={`avatar-tab ${avatarTab === 'images' ? 'avatar-tab--active' : ''}`}
+                  onClick={() => setAvatarTab('images')}
+                >
+                  Characters
+                </button>
+                <button
+                  type="button"
+                  className={`avatar-tab ${avatarTab === 'emojis' ? 'avatar-tab--active' : ''}`}
+                  onClick={() => setAvatarTab('emojis')}
+                >
+                  Emojis
+                </button>
               </div>
+
+              {/* Image Avatars */}
+              {avatarTab === 'images' && (
+                <div className="avatar-grid avatar-grid--images">
+                  {IMAGE_AVATARS.map(([id, entry]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      className={`avatar-option avatar-option--large ${formData.avatar === id ? 'avatar-option--selected' : ''}`}
+                      onClick={() => handleAvatarSelect(id)}
+                    >
+                      <img src={entry.src} alt={entry.name} className="avatar-option__image" />
+                      {formData.avatar === id && (
+                        <span className="avatar-option__check">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Emoji Avatars */}
+              {avatarTab === 'emojis' && (
+                <div className="avatar-grid avatar-grid--emojis">
+                  {EMOJI_AVATARS.map(([id]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      className={`avatar-option ${formData.avatar === id ? 'avatar-option--selected' : ''}`}
+                      onClick={() => handleAvatarSelect(id)}
+                    >
+                      <span className="avatar-option__emoji">{id}</span>
+                      {formData.avatar === id && (
+                        <span className="avatar-option__check">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Child Details */}

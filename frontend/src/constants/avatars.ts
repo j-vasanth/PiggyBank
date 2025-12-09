@@ -30,8 +30,10 @@ export const AVATAR_REGISTRY: Record<string, AvatarEntry> = {
   '🚀': { type: 'emoji', name: 'Rocket' },
 };
 
-// Derived array for picker UI: [id, entry][]
+// Derived arrays for picker UI
 export const AVATAR_OPTIONS = Object.entries(AVATAR_REGISTRY);
+export const IMAGE_AVATARS = AVATAR_OPTIONS.filter(([_, entry]) => entry.type === 'image');
+export const EMOJI_AVATARS = AVATAR_OPTIONS.filter(([_, entry]) => entry.type === 'emoji');
 
 /**
  * Check if avatar is an image-based avatar
