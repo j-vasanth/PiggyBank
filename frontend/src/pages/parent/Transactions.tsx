@@ -57,7 +57,9 @@ const Transactions: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+    // Append 'Z' if no timezone info to indicate UTC
+    const utcString = dateString.includes('Z') || dateString.includes('+') ? dateString : dateString + 'Z';
+    const date = new Date(utcString);
     return date.toLocaleDateString(undefined, {
       month: 'short',
       day: 'numeric',
