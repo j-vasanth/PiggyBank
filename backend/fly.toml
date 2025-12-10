@@ -10,7 +10,7 @@ primary_region = 'sjc'
   dockerfile = 'Dockerfile'
 
 [env]
-  DATABASE_URL = '/data/piggybank.db'
+  DATABASE_URL = 'sqlite:////data/piggybank.db'
 
 [[mounts]]
   source = 'piggybank_data'
