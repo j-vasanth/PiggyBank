@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     # JWT Authentication
     jwt_secret_key: str = "dev-secret-key-change-in-production"
     jwt_algorithm: str = "HS256"
-    access_token_expire_minutes: int = 30
+    access_token_expire_minutes: int = 10080  # 7 days
 
     # Application
     environment: str = "development"
