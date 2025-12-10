@@ -1,7 +1,7 @@
 import os
+from functools import cached_property
 from pathlib import Path
-from typing import List, Union
-from pydantic import field_validator
+from typing import List
 from pydantic_settings import BaseSettings
 
 # Project root directory
@@ -24,18 +24,16 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
     project_name: str = "PiggyBank Family Banking System"
 
-    # CORS - accepts comma-separated string or list
-    cors_origins: List[str] = ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"]
+    # CORS - stored as comma-separated string to avoid pydantic-settings JSON parsing
+    cors_origins_str: str = "http://localhost:5173,http://localhost:5174,http://localhost:3000"
 
     # Logging
     log_level: str = "INFO"
 
-    @field_validator('cors_origins', mode='before')
-    @classmethod
-    def parse_cors_origins(cls, v: Union[str, List[str]]) -> List[str]:
-        if isinstance(v, str):
-            return [origin.strip() for origin in v.split(',')]
-        return v
+    @property
+    def cors_origins(self) -> List[str]:
+        """Parse CORS origins from comma-separated string."""
+        return [origin.strip() for origin in self.cors_origins_str.split(',')]
 
     class Config:
         env_file = ".env"
