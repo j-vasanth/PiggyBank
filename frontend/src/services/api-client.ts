@@ -32,10 +32,13 @@ class ApiClient {
       (response) => response,
       (error) => {
         if (error.response?.status === 401) {
-          // Clear auth data and redirect to login
+          // Clear auth data and redirect to appropriate login
           localStorage.removeItem('auth_token');
           localStorage.removeItem('user');
-          window.location.href = '/login';
+
+          // Redirect based on current portal
+          const isChildPortal = window.location.pathname.startsWith('/child');
+          window.location.href = isChildPortal ? '/child/login' : '/parent/login';
         }
         return Promise.reject(error);
       }
