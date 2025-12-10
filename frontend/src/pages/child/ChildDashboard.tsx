@@ -18,10 +18,9 @@ const ChildDashboard: React.FC = () => {
   }, []);
 
   const loadTransactions = async () => {
-    if (!user?.id) return;
     try {
       setLoading(true);
-      const data = await transactionsService.getChildTransactions(user.id, 10, 0);
+      const data = await transactionsService.getMyTransactions(10, 0);
       setTransactions(data);
     } catch (err) {
       console.error('Failed to load transactions:', err);
