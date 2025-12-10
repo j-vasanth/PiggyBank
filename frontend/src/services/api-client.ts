@@ -40,6 +40,21 @@ class ApiClient {
           const isChildPortal = window.location.pathname.startsWith('/child');
           window.location.href = isChildPortal ? '/child/login' : '/parent/login';
         }
+
+        if (error.response?.status === 403) {
+          // Redirect to appropriate dashboard based on user type
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            try {
+              const user = JSON.parse(storedUser);
+              const dashboard = user.user_type === 'child' ? '/child/dashboard' : '/parent/dashboard';
+              window.location.href = dashboard;
+            } catch {
+              // Invalid JSON, ignore
+            }
+          }
+        }
+
         return Promise.reject(error);
       }
     );
