@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(.specify/scripts/bash/create-new-feature.sh:*)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
+      "Bash(.specify/scripts/bash/setup-plan.sh:*)",
+      "Bash(.specify/scripts/bash/update-agent-context.sh:*)",
+      "SlashCommand(/speckit.plan)",
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(git checkout:*)",
+      "Bash(git revert:*)",
+      "Bash(open:*)",
+      "Bash(alembic upgrade:*)",
+      "Bash(pip install:*)",
+      "WebFetch(domain:www.claude.com)",
+      "Bash(ls:*)",
+      "Skill(frontend-design:frontend-design)",
+      "Bash(git rm:*)",
+      "Bash(git merge:*)",
+      "Bash(git push:*)",
+      "Bash(ssh-add:*)",
+      "SlashCommand(/global:start-browser)",
+      "Bash(curl:*)",
+      "Bash(sqlite3:*)",
+      "Bash(python3:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(find:*)",
+      "Bash(git branch:*)",
+      "Bash(npm run build:*)",
+      "Bash(npx tsc:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

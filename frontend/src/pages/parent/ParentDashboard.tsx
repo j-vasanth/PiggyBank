@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { childrenService } from '../../services/children-service';
 import { transactionsService } from '../../services/transactions-service';
-import { Child, Transaction } from '../../types';
+import { Child } from '../../types';
 import Layout from '../../components/Layout';
 import { Avatar } from '../../components/Avatar';
 import './ParentDashboard.css';
