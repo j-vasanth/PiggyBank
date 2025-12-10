@@ -1,11 +1,19 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import './ChildLogin.css';
 
 const ChildLogin: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const dashboard = user.user_type === 'child' ? '/child/dashboard' : '/parent/dashboard';
+      navigate(dashboard, { replace: true });
+    }
+  }, [isAuthenticated, user, navigate]);
   const [username, setUsername] = useState('');
   const [pin, setPin] = useState(['', '', '', '']);
   const [error, setError] = useState('');
