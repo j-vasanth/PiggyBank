@@ -5,7 +5,6 @@ export interface User {
   family_id: string;
   user_type: 'parent' | 'child';
   role?: 'owner' | 'co_parent';
-  balance?: number;
   avatar?: string;
   family_code?: string;
 }

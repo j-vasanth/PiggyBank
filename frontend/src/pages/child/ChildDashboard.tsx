@@ -11,6 +11,7 @@ const ChildDashboard: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [balance, setBalance] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +23,12 @@ const ChildDashboard: React.FC = () => {
       setLoading(true);
       const data = await transactionsService.getMyTransactions(10, 0);
       setTransactions(data);
+      // Derive balance from most recent transaction
+      if (data.length > 0) {
+        setBalance(Number(data[0].balance_after));
+      } else {
+        setBalance(0);
+      }
     } catch (err) {
       console.error('Failed to load transactions:', err);
     } finally {
@@ -112,7 +119,7 @@ const ChildDashboard: React.FC = () => {
         <div className="balance-card animate-scale-in">
           <div className="balance-card__decoration">💰</div>
           <span className="balance-card__label">My Balance</span>
-          <span className="balance-card__amount">{formatCurrency(user?.balance || 0)}</span>
+          <span className="balance-card__amount">{formatCurrency(balance)}</span>
         </div>
 
         {/* Recent Transactions */}
