@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../../components/Layout';
 import { Avatar } from '../../components/Avatar';
 import { childrenService } from '../../services/children-service';
@@ -9,6 +9,7 @@ import './Transactions.css';
 
 const Transactions: React.FC = () => {
   const navigate = useNavigate();
+  const { childId } = useParams<{ childId: string }>();
   const [children, setChildren] = useState<Child[]>([]);
   const [selectedChild, setSelectedChild] = useState<Child | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -31,7 +32,11 @@ const Transactions: React.FC = () => {
       const data = await childrenService.getChildren();
       setChildren(data);
       if (data.length > 0) {
-        setSelectedChild(data[0]);
+        // If childId is provided in URL, select that child; otherwise select first
+        const targetChild = childId 
+          ? data.find(c => c.id === childId) || data[0]
+          : data[0];
+        setSelectedChild(targetChild);
       }
     } catch (err) {
       console.error('Failed to load children:', err);
