@@ -8,6 +8,8 @@ primary_region = 'sjc'
 
 [build]
   dockerfile = 'Dockerfile'
+  [build.args]
+    VITE_API_BASE_URL = 'https://wallet-api.jashub.net'
 
 [http_service]
   internal_port = 80

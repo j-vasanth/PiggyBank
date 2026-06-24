@@ -32,4 +32,28 @@ Python 3.11+ (backend), TypeScript with React 18+ (frontend): Follow standard co
 - 001-family-banking-system: Added Python 3.11+ (backend), TypeScript with React 18+ (frontend) + FastAPI (backend API), React 18, Ionic Framework, Capacitor (mobile capabilities)
 
 <!-- MANUAL ADDITIONS START -->
+
+## Environment Configuration
+
+### Backend (`piggybank-api` on Fly.io)
+
+| Secret | Description |
+|--------|-------------|
+| `JWT_SECRET_KEY` | JWT signing secret |
+| `CORS_ORIGINS_STR` | Comma-separated list of allowed frontend origins |
+| `DATABASE_URL` | Set in `fly.toml`: `sqlite:////data/piggybank.db` |
+
+### Frontend (`piggybank-app` on Fly.io)
+
+| Build arg | Description |
+|-----------|-------------|
+| `VITE_API_BASE_URL` | Backend API URL, set in `frontend/fly.toml` under `[build.args]` — baked in at build time |
+
+### Deployed URLs
+
+| App | Fly.io URL | Custom domain |
+|-----|-----------|---------------|
+| Frontend | `piggybank-app.fly.dev` | `wallet.jashub.net` |
+| Backend | `piggybank-api.fly.dev` | `wallet-api.jashub.net` |
+
 <!-- MANUAL ADDITIONS END -->
