@@ -153,7 +153,13 @@ const ParentDashboard: React.FC = () => {
                       <span className="child-card__stat-label">Earned</span>
                     </div>
                     <div className="child-card__stat-divider" />
-                    <div className="child-card__stat">
+                    <div
+                      className="child-card__stat child-card__stat--clickable"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/parent/child/${child.id}/transactions`);
+                      }}
+                    >
                       <span className="child-card__stat-value">
                         {childStats[child.id]?.transactionCount || 0}
                       </span>

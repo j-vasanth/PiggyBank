@@ -288,6 +288,21 @@
   letter-spacing: 0.03em;
 }
 
+.child-card__stat--clickable {
+  cursor: pointer;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.child-card__stat--clickable:hover {
+  background: var(--kash-navy-700);
+}
+
+.child-card__stat--clickable:hover .child-card__stat-label {
+  color: var(--kash-gold-500);
+}
+
 .child-card__stat-divider {
   width: 1px;
   height: 32px;

@@ -95,6 +95,14 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/parent/child/:childId/transactions"
+        element={
+          <ProtectedRoute userType="parent">
+            <Transactions />
+          </ProtectedRoute>
+        }
+      />
       {/* Child Routes */}
       <Route path="/child/login" element={<ChildLogin />} />
       <Route
